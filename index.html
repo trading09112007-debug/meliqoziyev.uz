@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meliqoziyev | Achievements</title>
+    <title>Meliqoziyev | Portfolio</title>
     <style>
-        body { font-family: sans-serif; background-color: #0f172a; color: white; margin: 0; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0f172a; color: white; margin: 0; display: flex; flex-direction: column; align-items: center; padding: 20px; }
         .container { max-width: 500px; width: 100%; }
         .card { background: #1e293b; padding: 25px; border-radius: 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); margin-bottom: 20px; border: 1px solid #334155; }
         h1 { color: #38bdf8; margin: 10px 0; font-size: 28px; }
         .bio { color: #94a3b8; font-size: 14px; margin-bottom: 20px; }
         .section-title { width: 100%; text-align: left; font-size: 18px; color: #38bdf8; margin: 15px 0 10px 0; border-bottom: 1px solid #334155; padding-bottom: 5px; font-weight: bold; }
         .item-box { background: #1e293b; width: 100%; padding: 12px; border-radius: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; box-sizing: border-box; border: 1px solid #334155; }
-        .btn { display: block; background: #38bdf8; color: #0f172a; text-decoration: none; padding: 12px; border-radius: 10px; font-weight: bold; margin-top: 15px; }
+        .btn { display: block; background: #38bdf8; color: #0f172a; text-decoration: none; padding: 12px; border-radius: 10px; font-weight: bold; margin-top: 15px; transition: 0.3s; }
+        .btn:hover { background: #7dd3fc; }
         
         /* Yutuqlar galereyasi */
         .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .gallery-item { position: relative; }
-        .gallery img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 12px; border: 2px solid #1e293b; transition: 0.3s; }
-        .gallery img:hover { border-color: #38bdf8; transform: translateY(-3px); }
+        .gallery img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 12px; border: 2px solid #334155; transition: 0.3s; cursor: pointer; }
+        .gallery img:hover { border-color: #38bdf8; transform: scale(1.02); }
         
         .footer { margin-top: 30px; font-size: 11px; color: #475569; text-align: center; }
     </style>
@@ -32,19 +32,21 @@
             <a href="https://t.me/Pain_2007" class="btn">Telegram orqali bog'lanish</a>
         </div>
 
-        <div class="section-title">Mening yutuqlarim</div>
-        <div class="gallery">
-            <img src="https://picsum.photos/400/400?random=11" alt="Yutuq 1">
-            <img src="https://picsum.photos/400/400?random=12" alt="Yutuq 2">
-        </div>
-
         <div class="section-title">Bilimlarim (Skills)</div>
-        <div class="item-box"><span>HTML / CSS</span> <span>80%</span></div>
-        <div class="item-box"><span>Kiberxavfsizlik</span> <span>Tayyorlanmoqda</span></div>
+        <div class="item-box"><span>HTML / CSS</span> <span>70%</span></div>
+        <div class="item-box"><span>Kiber xavfsizlik</span> <span>Tayyorlanmoqda</span></div>
         <div class="item-box"><span>OS Linux</span> <span>O'rganilmoqda</span></div>
 
+        <div class="section-title">Mening yutuqlarim</div>
+        <div class="gallery">
+            <img src="https://picsum.photos/400/400?random=1" alt="Yutuq 1">
+            <img src="https://picsum.photos/400/400?random=2" alt="Yutuq 2">
+            <img src="https://picsum.photos/400/400?random=3" alt="Yutuq 3">
+            <img src="https://picsum.photos/400/400?random=4" alt="Yutuq 4">
+        </div>
+
         <div class="section-title">Loyihalarim</div>
-        <div class="item-box"><span>Shaxsiy Portfolio</span> <span>v1.2</span></div>
+        <div class="item-box"><span>Shaxsiy Portfolio</span> <span>v1.3</span></div>
     </div>
 
     <div class="footer">© 2026 Meliqoziyev. Barcha huquqlar himoyalangan.</div>
