@@ -3,60 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meliqoziyev.uz | Portfolio</title>
+    <title>Meliqoziyev | Portfolio</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0f172a;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            background: linear-gradient(to right, #38bdf8, #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        p {
-            font-size: 1.2rem;
-            color: #94a3b8;
-        }
-        .btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 25px;
-            background: #38bdf8;
-            color: #0f172a;
-            text-decoration: none;
-            border-radius: 10px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(56, 189, 248, 0.4);
-        }
+        body { font-family: sans-serif; background-color: #0f172a; color: white; margin: 0; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .container { max-width: 500px; width: 100%; }
+        .card { background: #1e293b; padding: 30px; border-radius: 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); margin-bottom: 20px; }
+        h1 { color: #38bdf8; margin: 10px 0; font-size: 28px; }
+        .bio { color: #94a3b8; font-size: 16px; margin-bottom: 20px; }
+        .section-title { width: 100%; text-align: left; font-size: 18px; color: #38bdf8; margin: 10px 0; border-bottom: 1px solid #334155; padding-bottom: 5px; }
+        .skill-box { background: #1e293b; width: 100%; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; box-sizing: border-box; }
+        .btn { display: block; background: #38bdf8; color: #0f172a; text-decoration: none; padding: 12px; border-radius: 10px; font-weight: bold; margin-top: 20px; }
+        .footer { margin-top: 30px; font-size: 12px; color: #475569; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>Meliqoziyev.uz</h1>
-        <p>Frontend Developer | Kelajak dasturchisi</p>
-        <a href="https://t.me/Sizning_Usernamengiz" class="btn">Telegram orqali bog'lanish</a>
+
+    <div class="container">
+        <div class="card">
+            <h1>Meliqoziyev.uz</h1>
+            <p class="bio">Cyber Security Specialist & Frontend Learner</p>
+            <a href="https://t.me/Pain_2007" class="btn">Telegram orqali bog'lanish</a>
+        </div>
+
+        <div class="section-title">Bilimlarim (Skills)</div>
+        <div class="skill-box"><span>HTML / CSS</span> <span>80%</span></div>
+        <div class="skill-box"><span>Kiberxavfsizlik</span> <span>Tayyorlanmoqda</span></div>
+        <div class="skill-box"><span>OS Linux</span> <span>O'rganilmoqda</span></div>
+
+        <div class="section-title">Loyihalarim</div>
+        <div class="skill-box"><span>Shaxsiy Portfolio</span> <span>v1.0</span></div>
     </div>
+
+    <div class="footer">© 2026 Meliqoziyev. Barcha huquqlar himoyalangan.</div>
+
 </body>
 </html>
