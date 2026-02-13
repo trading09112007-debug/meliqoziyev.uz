@@ -3,87 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meliqoziyev | Terminal</title>
+    <title>Meliqoziyev | Portfolio</title>
     <script src="https://unpkg.com/@lyket/widget@latest/dist/lyket.js?apiKey=pt_5b76c8c49e798795624"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --bg: #0f172a; --card: #1e293b; --text: #38bdf8; --dim: #94a3b8; }
-        body { font-family: 'Courier New', monospace; background-color: var(--bg); color: white; margin: 0; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        .container { max-width: 400px; width: 100%; }
-        
-        /* Yuqori ma'lumotlar paneli */
-        .system-meta { font-size: 11px; color: var(--text); display: flex; justify-content: space-between; margin-bottom: 10px; opacity: 0.8; width: 100%; }
-        
-        /* Terminal karta */
-        .card { background: var(--card); padding: 25px; border-radius: 12px; border-left: 4px solid var(--text); box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 20px; position: relative; overflow: hidden; }
-        .card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, var(--text), transparent); animation: scan 3s linear infinite; }
-        @keyframes scan { 0% { left: -100%; } 100% { left: 100%; } }
+        :root {
+            --bg: #ffffff;
+            --text-main: #1a1a1a;
+            --text-sec: #666666;
+            --accent: #007bff;
+            --grid: #e5e7eb;
+        }
 
-        h1 { font-size: 24px; margin: 0; color: var(--text); }
-        
-        /* Typing effect */
-        .typing { border-right: 2px solid var(--text); white-space: nowrap; overflow: hidden; animation: typing 3.5s steps(30, end), blink .5s step-end infinite; font-size: 14px; color: var(--dim); display: inline-block; margin-top: 5px; }
-        @keyframes typing { from { width: 0 } to { width: 100% } }
-        @keyframes blink { from, to { border-color: transparent } 50% { border-color: var(--text) } }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            /* Katakchali fon (rasmdagidek) */
+            background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 25px 25px;
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
 
-        .btn { display: block; background: var(--text); color: var(--bg); text-decoration: none; padding: 12px; border-radius: 8px; font-weight: bold; text-align: center; margin-top: 20px; transition: 0.3s; letter-spacing: 1px; }
-        .btn:hover { background: #7dd3fc; transform: scale(1.02); }
+        .container {
+            max-width: 500px;
+            width: 90%;
+            padding: 40px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-        .section-title { font-size: 13px; color: var(--text); margin: 20px 0 10px 0; font-weight: bold; text-transform: uppercase; border-bottom: 1px solid #334155; padding-bottom: 5px; }
-        .item-box { background: var(--card); padding: 12px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; border: 1px solid #334155; font-size: 13px; }
+        /* Yuqori qism: Soat va IP */
+        .header-info {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-sec);
+            margin-bottom: 50px;
+        }
 
-        .bottom-like { margin-top: 30px; padding: 15px; text-align: center; }
-        .footer { font-size: 10px; color: #475569; text-align: center; margin-top: 15px; line-height: 1.5; }
+        /* Profil rasmi uchun joy */
+        .avatar-circle {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .avatar-circle i { font-size: 50px; color: #9ca3af; }
+
+        h1 { font-size: 26px; margin: 0; font-weight: 700; letter-spacing: -0.5px; }
+        .sub-text { color: var(--accent); font-weight: 500; margin: 8px 0 25px; font-size: 15px; }
+
+        /* Ijtimoiy tugmalar */
+        .social-row { display: flex; gap: 12px; margin-bottom: 35px; }
+        .social-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .social-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+        /* Matn bo'limi */
+        .description {
+            text-align: center;
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-sec);
+            margin-bottom: 40px;
+            padding: 0 10px;
+        }
+        .highlight { background: #fffbeb; border-bottom: 2px solid #fde68a; color: #92400e; padding: 0 4px; }
+
+        /* Tugmalar */
+        .btn-group { display: flex; gap: 12px; width: 100%; max-width: 320px; }
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: 0.2s;
+        }
+        .btn-dark { background: #000; color: #fff; }
+        .btn-light { background: #fff; color: #000; border: 1px solid #e5e7eb; }
+        .btn:hover { opacity: 0.8; }
+
+        /* Pastki layk qismi */
+        .bottom-section {
+            margin-top: auto;
+            padding-top: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .footer-text { font-size: 12px; color: #9ca3af; text-align: center; }
+
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="system-meta">
-            <span id="user-ip">IP: Loading...</span>
-            <span id="live-clock">00:00:00</span>
+        <div class="header-info">
+            <span id="ip-text">IP: 0.0.0.0</span>
+            <span id="time-text">00:00:00</span>
+        </div>
+
+        <div class="avatar-circle">
+            <i class="fa-solid fa-user-ninja"></i>
         </div>
         
-        <div class="card">
-            <h1>Meliqoziyev.uz</h1>
-            <div class="typing">Cyber Security Specialist_</div>
-            <a href="https://t.me/Pain_2007" class="btn">INITIALIZE CONTACT</a>
+        <h1>Meliqoziyev</h1>
+        <div class="sub-text">Cyber Security Specialist</div>
+
+        <div class="social-row">
+            <a href="https://github.com/trading0911" class="social-btn"><i class="fa-brands fa-github"></i></a>
+            <a href="https://t.me/Pain_2007" class="social-btn"><i class="fa-brands fa-telegram-plane"></i></a>
+            <a href="#" class="social-btn"><i class="fa-solid fa-file-lines"></i></a>
         </div>
 
-        <div class="section-title">System Skills</div>
-        <div class="item-box"><span>Ethical Hacking</span> <span style="color: var(--text);">Learning</span></div>
-        <div class="item-box"><span>Linux / Bash</span> <span style="color: var(--text);">Advanced</span></div>
-        <div class="item-box"><span>Frontend Dev</span> <span style="color: var(--text);">Active</span></div>
+        <p class="description">
+            Ba'zi muammolar yillar davomida javobsiz qoladi. Men to'g'ri savol va bir nechta qator kod bilan hammasini <span class="highlight">o'zgartirishim</span> mumkin.
+        </p>
 
-        <div class="bottom-like">
-            <div data-lyket-type="like" data-lyket-id="meliqoziyev-terminal-v3" data-lyket-color-text="#94a3b8"></div>
+        <div class="btn-group">
+            <a href="https://t.me/Pain_2007" class="btn btn-dark">Bog'lanish</a>
+            <a href="#" class="btn btn-light" onclick="alert('Tez kunda yangi loyihalar!')">Loyihalarim</a>
         </div>
 
-        <div class="footer">
-            [STATUS: ENCRYPTED]<br>
-            © 2026 Meliqoziyev. Built for Security.
+        <div class="bottom-section">
+            <div 
+              data-lyket-type="like" 
+              data-lyket-id="meliqoziyev-new-style" 
+              data-lyket-color-text="#666"
+            ></div>
+
+            <div class="footer-text">
+                © 2026 meliqoziyev.uz <br>
+                Barcha huquqlar himoyalangan.
+            </div>
         </div>
     </div>
 
     <script>
-        // 1. Jonli soat funksiyasi
-        function updateClock() {
+        // Jonli soat funksiyasi
+        function updateTime() {
             const now = new Date();
-            const timeStr = now.getHours().toString().padStart(2, '0') + ":" + 
-                            now.getMinutes().toString().padStart(2, '0') + ":" + 
-                            now.getSeconds().toString().padStart(2, '0');
-            document.getElementById('live-clock').innerText = timeStr;
+            const time = now.getHours().toString().padStart(2, '0') + ":" + 
+                         now.getMinutes().toString().padStart(2, '0') + ":" + 
+                         now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('time-text').innerText = time;
         }
-        setInterval(updateClock, 1000);
-        updateClock();
+        setInterval(updateTime, 1000);
+        updateTime();
 
-        // 2. IP manzilni aniqlash
+        // IP manzilni olish
         fetch('https://api.ipify.org?format=json')
             .then(res => res.json())
             .then(data => {
-                document.getElementById('user-ip').innerText = "IP: " + data.ip;
+                document.getElementById('ip-text').innerText = "IP: " + data.ip;
             })
             .catch(() => {
-                document.getElementById('user-ip').innerText = "IP: 127.0.0.1 (Local)";
+                document.getElementById('ip-text').innerText = "IP: Protected";
             });
     </script>
 </body>
