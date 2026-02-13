@@ -4,50 +4,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meliqoziyev | Portfolio</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --bg: #ffffff; --text-main: #1a1a1a; --text-sec: #666666; --accent: #007bff; --grid: #e5e7eb; }
-        
-        body { 
-            font-family: -apple-system, system-ui, sans-serif; 
-            background-color: var(--bg); 
-            background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); 
-            background-size: 25px 25px; 
-            color: var(--text-main); 
-            margin: 0; 
-            display: flex; 
-            justify-content: center; 
-            min-height: 100vh; 
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: sans-serif;
+            background-color: #fff;
+            background-image: linear-gradient(#e5e5e5 1px, transparent 1px), 
+                              linear-gradient(90deg, #e5e5e5 1px, transparent 1px);
+            background-size: 20px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .container { max-width: 500px; width: 90%; padding: 40px 0; display: flex; flex-direction: column; align-items: center; padding-bottom: 120px; }
-        
-        .header-info { width: 100%; display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; color: var(--text-sec); margin-bottom: 40px; }
-        
-        .avatar-circle { width: 120px; height: 120px; border-radius: 50%; background: #f3f4f6; display: flex; align-items: center; justify-content: center; border: 1px solid #e5e7eb; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        
-        h1 { font-size: 28px; margin: 0; font-weight: 800; }
+        .container { width: 100%; max-width: 400px; text-align: center; }
 
-        /* Cyber Security Specialist Animatsiyasi */
-        .typing-container { margin: 5px 0 15px; height: 20px; }
-        .sub-text-anim { 
-            color: var(--accent); 
-            font-weight: 600; 
-            font-size: 16px;
-            border-right: 2px solid var(--accent);
-            white-space: nowrap;
-            overflow: hidden;
-            display: inline-block;
-            animation: typing 3.5s steps(30, end), blink 0.5s step-end infinite;
+        .header { display: flex; justify-content: space-between; font-family: monospace; font-size: 12px; color: #666; width: 100%; margin-bottom: 30px; }
+
+        .avatar { width: 100px; height: 100px; background: #f0f0f0; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 40px; border: 1px solid #ddd; }
+
+        h1 { margin: 0; font-size: 24px; color: #222; }
+        
+        #typing { color: #007bff; font-family: monospace; font-weight: bold; margin: 10px 0; min-height: 20px; }
+
+        .quote { font-size: 14px; color: #777; line-height: 1.6; margin: 20px 0; }
+        .black-box { background: #222; color: white; padding: 2px 6px; border-radius: 4px; }
+
+        .section-label { text-align: left; font-size: 11px; font-weight: bold; color: #aaa; text-transform: uppercase; margin: 20px 0 10px; width: 100%; }
+
+        .card { background: white; border: 1px solid #eee; border-radius: 15px; padding: 15px; margin-bottom: 10px; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.02); display: flex; flex-direction: column; }
+
+        .skill-top { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; font-weight: 500; }
+
+        .progress-bg { height: 6px; background: #f0f0f0; border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background: #007bff; border-radius: 10px; }
+
+        .like-btn { margin-top: 30px; background: white; border: 1px solid #ff4d4d; padding: 10px 25px; border-radius: 30px; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; transition: 0.2s; }
+        .like-btn:active { transform: scale(0.9); }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <span id="my-ip">IP: 185.213.230.25</span>
+        <span id="my-time">00:00:00</span>
+    </div>
+
+    <div class="container">
+        <div class="avatar">🥷</div>
+        <h1>meliqoziyev.uz</h1>
+        <div id="typing"></div>
+        
+        <p class="quote">
+            Ba'zilar <span style="text-decoration: underline;">muammoni</span> ko'radi, men esa uning yechimini <span class="black-box">kod bilan</span> yozaman.
+        </p>
+
+        <div class="section-label">Hamkorlik</div>
+        <div class="card" style="flex-direction: row; align-items: center; gap: 10px;">
+            <span style="color:red">▶️</span> <span>Ilk hamkorim: UzClaver Official</span>
+        </div>
+
+        <div class="section-label">Bilimlarim</div>
+        
+        <div class="card">
+            <div class="skill-top"><span>Linux Server & Termux</span> <span style="color:#007bff">Advanced</span></div>
+            <div class="progress-bg"><div class="progress-fill" style="width: 90%"></div></div>
+        </div>
+
+        <div class="card">
+            <div class="skill-top"><span>Network Security</span> <span style="color:#28a745">Active</span></div>
+            <div class="progress-bg"><div class="progress-fill" style="width: 75%; background:#28a745"></div></div>
+        </div>
+
+        <div class="like-btn" onclick="hitLike()">
+            <span style="color:#ff4d4d">❤️</span> <span id="like-num" style="font-weight:bold">350</span>
+        </div>
+
+        <p style="margin-top: 40px; font-size: 10px; color: #ccc;">© 2026 meliqoziyev.uz <br> Barcha huquqlar himoyalangan.</p>
+    </div>
+
+    <script>
+        // 1. Matn yozilishi
+        const myText = "Cyber Security Specialist_";
+        let j = 0;
+        function writeText() {
+            if (j < myText.length) {
+                document.getElementById("typing").innerHTML += myText.charAt(j);
+                j++;
+                setTimeout(writeText, 100);
+            }
         }
 
-        @keyframes typing { from { width: 0 } to { width: 100% } }
-        @keyframes blink { from, to { border-color: transparent } 50% { border-color: var(--accent) } }
+        // 2. Soat
+        setInterval(() => {
+            document.getElementById("my-time").innerText = new Date().toLocaleTimeString();
+        }, 1000);
 
-        /* Motivatsion matn */
-        .motivation-box { text-align: center; max-width: 85%; margin: 15px 0 30px; }
-        .motivation-box p { font-size: 15px; line-height: 1.6; color: #4b5563; }
-        .problem { border-bottom: 2px solid #fbbf24; color: #1f2937; font-weight: 500; }
-        .code-link { background-color: #1f2937; color: #ffffff; padding: 2px 8px; border-radius: 6px; font-weight: 500; }
-        
-        .section-title { width: 100%; text-align: left; font-size: 13px; font-weight: 700; color
+        // 3. Layk
+        let count = 350;
+        function hitLike() {
+            count++;
+            document.getElementById("like-num").innerText = count;
+        }
+
+        // 4. Haqiqiy IP (ixtiyoriy)
+        fetch('https://api.ipify.org?format=json')
+            .then(r => r.json()).then(d => document.getElementById("my-ip").innerText = "IP: " + d.ip)
+            .catch(() => {});
+
+        window.onload = writeText;
+    </script>
+</body>
+</html>
