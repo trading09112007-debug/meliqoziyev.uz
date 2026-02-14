@@ -3,173 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meliqoziyev | System Authorized</title>
+    <title>Meliqoziyev.uz | Hacker Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #000; color: #fff; font-family: 'Courier New', monospace; overflow: hidden; }
+        body { background-color: #000; color: #00ff00; font-family: 'Courier New', monospace; overflow: hidden; }
 
-        /* --- INTRO VIDEO QISMI --- */
-        #intro-container {
+        /* --- 1. VIDEO INTRO (5 SEKUND) --- */
+        #video-intro {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            z-index: 1000;
+            z-index: 9999;
+            background: #000;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #000;
-            transition: opacity 1s ease-in-out;
         }
+        #hacker-video { width: 100%; height: 100%; object-fit: cover; }
 
-        #bg-video {
-            position: absolute;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            opacity: 0.5;
-        }
-
-        .loader-overlay {
-            position: relative;
-            z-index: 1001;
-            text-align: center;
-        }
-
-        .status-text {
-            font-size: 18px;
-            letter-spacing: 4px;
-            color: #00ff00;
-            margin-bottom: 20px;
-            text-shadow: 0 0 15px #00ff00;
-            font-weight: bold;
-        }
-
-        .progress-bar {
-            width: 280px;
-            height: 3px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 0 auto;
-        }
-
-        .progress-fill {
-            width: 0%;
-            height: 100%;
-            background: #00ff00;
-            box-shadow: 0 0 20px #00ff00;
-            animation: fillProgress 5s linear forwards;
-        }
-
-        @keyframes fillProgress { to { width: 100%; } }
-
-        /* --- ASOSIY SAYT --- */
-        #main-site {
+        /* --- 2. ASOSIY SAYT --- */
+        #main-content {
+            display: none; 
             opacity: 0;
-            display: none;
+            height: 100vh;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            padding: 20px;
-            transition: opacity 1.5s ease;
-            z-index: 10;
+            transition: opacity 1.5s ease-in;
         }
 
-        /* PROFIL RASMI EFFEKTI */
-        .avatar-box { 
-            width: 130px; height: 130px; 
-            border-radius: 50%; 
-            border: 3px solid #00ff00; 
-            margin-bottom: 20px; 
+        /* MATRIX CANVAS FON */
+        #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+
+        /* HAKKERONA PROFIL RASMI */
+        .avatar-box {
+            width: 130px; height: 130px;
+            border-radius: 50%;
+            border: 2px solid #00ff00;
+            margin-bottom: 20px;
             overflow: hidden;
-            box-shadow: 0 0 25px rgba(0, 255, 0, 0.3);
-            background: #111;
+            box-shadow: 0 0 25px #00ff00;
+            background: #000;
         }
-        .avatar-box img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9) contrast(1.1); }
+        .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
 
-        h1 { font-size: 32px; letter-spacing: -1px; margin-bottom: 5px; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
-        #typing { color: #00ff00; font-size: 16px; margin-bottom: 35px; font-weight: bold; }
+        /* SEN AYTGAN YOZUV: MELIQOZIYEV.UZ */
+        h1 { font-size: 32px; letter-spacing: 5px; text-shadow: 0 0 15px #00ff00; margin-bottom: 5px; text-transform: lowercase; }
+        
+        #typing { color: #00ff00; font-size: 15px; margin-bottom: 30px; font-weight: bold; }
 
-        .card { 
-            width: 100%; max-width: 380px;
-            background: rgba(20, 20, 20, 0.95); 
-            border: 1px solid #333; 
-            border-radius: 15px; 
-            padding: 18px; margin-bottom: 15px;
-            display: flex; align-items: center; justify-content: center;
-            text-decoration: none; color: #fff; font-weight: 800; font-size: 19px; gap: 15px;
+        /* TUGMALAR (IXCHAM RAMKA) */
+        .card {
+            width: 300px;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #00ff00;
+            background: rgba(0, 40, 0, 0.2);
+            color: #00ff00;
+            text-decoration: none;
+            text-align: center;
+            font-weight: bold;
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
             transition: 0.3s;
-            backdrop-filter: blur(10px);
         }
-        .card:hover { border-color: #00ff00; transform: translateY(-3px); box-shadow: 0 5px 20px rgba(0, 255, 0, 0.1); }
+        .card:hover { background: #00ff00; color: #000; box-shadow: 0 0 20px #00ff00; }
 
-        #clock { position: fixed; top: 30px; right: 30px; font-size: 26px; font-weight: 900; transition: color 0.5s ease; }
+        #clock { position: fixed; top: 30px; right: 30px; font-size: 24px; font-weight: bold; transition: color 0.5s; }
     </style>
 </head>
 <body>
 
-    <div id="intro-container">
-        <video id="bg-video" autoplay muted loop playsinline>
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-binary-code-data-41203-large.mp4" type="video/mp4">
+    <div id="video-intro">
+        <video id="hacker-video" autoplay muted playsinline>
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-matrix-style-green-digital-binary-code-41203-large.mp4" type="video/mp4">
         </video>
-        
-        <div class="loader-overlay">
-            <div class="status-text">DECRYPTING ACCESS...</div>
-            <div class="progress-bar">
-                <div class="progress-fill"></div>
-            </div>
-            <p style="margin-top: 15px; font-size: 11px; color: #555; letter-spacing: 2px;">SECURE CONNECTION v8.2</p>
-        </div>
     </div>
 
-    <div id="main-site">
+    <canvas id="bg-canvas"></canvas>
+    <div id="main-content">
         <div id="clock">00:00:00</div>
         
         <div class="avatar-box">
-             <img src="https://img.freepik.com/premium-photo/hacker-with-hoodie-standing-front-digital-screens-with-binary-code-cyber-security-concept_1020697-39655.jpg" alt="Meliqoziyev">
+             <img src="https://i.pinimg.com/originals/8a/0b/4c/8a0b4ca2b06e93817117865f37bc449e.jpg" alt="Hacker Meliqoziyev">
         </div>
 
         <h1>meliqoziyev.uz</h1>
-        <div id="typing">> Cyber Security Specialist_</div>
+        <div id="typing">> SYSTEM_ACCESS_GRANTED_</div>
 
         <a href="https://instagram.com/ezz_mafiya" target="_blank" class="card">
-            <i class="fab fa-instagram" style="color: #e4405f; font-size: 24px;"></i> Instagram
+            <i class="fab fa-instagram"></i> INSTAGRAM
         </a>
         <a href="https://t.me/Pain_2007" target="_blank" class="card">
-            <i class="fab fa-telegram" style="color: #24A1DE; font-size: 24px;"></i> Telegram
+            <i class="fab fa-telegram"></i> TELEGRAM
         </a>
         <a href="https://youtube.com/@uzclaver_official" target="_blank" class="card">
-            <i class="fab fa-youtube" style="color: #FF0000; font-size: 24px;"></i> UzClaver
+            <i class="fab fa-youtube"></i> UZCLAVER
         </a>
     </div>
 
     <script>
-        // 5 SEKUNDDAN KEYIN AVTOMATIK KIRISH
+        // 5 SEKUNDDAN KEYIN VIDEODAN SAYTGA O'TISH
         setTimeout(() => {
-            const intro = document.getElementById('intro-container');
-            const main = document.getElementById('main-site');
-            
-            intro.style.opacity = '0';
+            const intro = document.getElementById('video-intro');
+            const main = document.getElementById('main-content');
+            intro.style.transition = "opacity 1s";
+            intro.style.opacity = "0";
             setTimeout(() => {
-                intro.style.display = 'none';
-                main.style.display = 'flex';
-                setTimeout(() => { main.style.opacity = '1'; }, 50);
+                intro.style.display = "none";
+                main.style.display = "flex";
+                setTimeout(() => { main.style.opacity = "1"; }, 50);
+                initMatrix();
                 startClock();
             }, 1000);
         }, 5000);
 
-        // SOAT (Har 5 sekundda rang o'zgarishi)
-        const colors = ['#00ff00', '#00ffff', '#ff0000', '#ffff00', '#ff00ff', '#ffffff'];
+        // SOAT (Har 5 sekundda rang almashadi)
         function startClock() {
+            const colors = ['#00ff00', '#00ffff', '#ffffff', '#ffff00'];
             setInterval(() => {
                 const now = new Date();
                 if (now.getSeconds() % 5 === 0) {
-                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                    document.getElementById('clock').style.color = randomColor;
+                    document.getElementById('clock').style.color = colors[Math.floor(Math.random() * colors.length)];
                 }
                 document.getElementById('clock').innerText = now.toLocaleTimeString();
             }, 1000);
+        }
+
+        // MATRIX YOMG'IRI
+        function initMatrix() {
+            const canvas = document.getElementById('bg-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const letters = "010101010101";
+            const fontSize = 16;
+            const columns = canvas.width / fontSize;
+            const drops = Array(Math.floor(columns)).fill(1);
+            function draw() {
+                ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = "#004400";
+                ctx.font = fontSize + "px monospace";
+                for (let i = 0; i < drops.length; i++) {
+                    const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                    drops[i]++;
+                }
+            }
+            setInterval(draw, 33);
         }
     </script>
 </body>
