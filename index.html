@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meliqoziyev.uz | Official</title>
+    <title>Meliqoziyev.uz | System Overload</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; }
+        body { background-color: #000; color: #00ff00; font-family: 'Courier New', monospace; overflow: hidden; height: 100vh; }
 
         /* 1. MATRIX INTRO VIDEO */
         #video-intro {
@@ -22,7 +22,7 @@
         }
         #intro-video-element { min-width: 100%; min-height: 100%; object-fit: cover; }
 
-        /* 2. ASOSIY SAYT */
+        /* 2. MAIN SITE */
         #main-site {
             display: none;
             opacity: 0;
@@ -30,63 +30,80 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: opacity 1.5s ease;
+            transition: opacity 1s ease;
             position: relative;
             z-index: 10;
         }
 
-        #snow-canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
+        #matrix-canvas { position: fixed; top: 0; left: 0; z-index: 1; }
 
+        /* PROFIL */
         .avatar-box {
-            width: 120px; height: 120px;
+            width: 125px; height: 125px;
             border-radius: 50%;
-            border: 2px solid #fff;
+            border: 2px solid #00ff00;
             margin-bottom: 15px;
             overflow: hidden;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.6);
+            background: #000;
         }
-        .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar-box img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.8) sepia(1) hue-rotate(80deg); }
 
-        h1 { font-size: 28px; letter-spacing: 2px; margin-bottom: 25px; text-transform: lowercase; }
+        h1 { font-size: 28px; letter-spacing: 5px; margin-bottom: 25px; text-shadow: 0 0 10px #00ff00; }
 
+        /* KIBER TUGMALAR */
         .card {
-            width: 280px;
-            padding: 12px;
-            margin-bottom: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
+            width: 290px;
+            padding: 14px;
+            margin-bottom: 15px;
+            border: 1px solid #00ff00;
+            background: rgba(0, 40, 0, 0.3);
+            color: #00ff00;
             text-decoration: none;
             text-align: center;
-            font-weight: 600;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            backdrop-filter: blur(8px);
-            transition: 0.3s;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+            transition: 0.2s;
         }
-        .card:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.03); }
+        .card:hover { background: #00ff00; color: #000; box-shadow: 0 0 30px #00ff00; }
 
-        /* SMART SOAT */
-        #clock { position: fixed; top: 25px; right: 25px; font-size: 22px; font-weight: 900; font-family: monospace; z-index: 20; transition: color 0.5s ease; }
+        /* SOAT */
+        #clock { position: fixed; top: 25px; right: 25px; font-size: 26px; font-weight: 900; z-index: 20; }
 
         /* LIKE TUGMASI */
         #like-btn {
             position: fixed;
-            bottom: 25px;
-            left: 25px;
-            font-size: 30px;
+            bottom: 30px;
+            left: 30px;
+            font-size: 40px;
             cursor: pointer;
             z-index: 100;
-            color: #fff;
-            transition: 0.3s;
+            color: #111;
+            -webkit-text-stroke: 1px #00ff00;
         }
-        .liked { color: #ff0000 !important; text-shadow: 0 0 15px #ff0000; }
+        .liked { color: #ff0000 !important; -webkit-text-stroke: 0px !important; text-shadow: 0 0 20px #ff0000; }
+
+        /* SACHRAYDIGAN YOZUVLAR */
+        .hacker-text {
+            position: absolute;
+            pointer-events: none;
+            color: #00ff00;
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 0 0 5px #00ff00;
+            z-index: 9999;
+            animation: move-up 1s linear forwards;
+        }
+
+        @keyframes move-up {
+            to { transform: translateY(-100px) translateX(var(--randX)); opacity: 0; }
+        }
     </style>
 </head>
-<body onmousedown="createBurst(event)">
+<body onmousedown="spawnHackerText(event)">
 
     <div id="video-intro">
         <video id="intro-video-element" autoplay muted playsinline>
@@ -94,7 +111,7 @@
         </video>
     </div>
 
-    <canvas id="snow-canvas"></canvas>
+    <canvas id="matrix-canvas"></canvas>
 
     <div id="main-site">
         <div id="clock">00:00:00</div>
@@ -103,113 +120,95 @@
              <img src="https://i.pinimg.com/originals/8a/0b/4c/8a0b4ca2b06e93817117865f37bc449e.jpg" alt="Meliqoziyev">
         </div>
 
-        <h1>meliqoziyev.uz</h1>
+        <h1>MELIQOZIYEV.UZ</h1>
         
-        <a href="https://instagram.com/ezz_mafiya" target="_blank" class="card">
-            <i class="fab fa-instagram" style="color: #e4405f;"></i> Instagram
-        </a>
-        <a href="https://t.me/Pain_2007" target="_blank" class="card">
-            <i class="fab fa-telegram" style="color: #24A1DE;"></i> Telegram
-        </a>
-        
-        <a href="https://www.youtube.com/@uz_pain" target="_blank" class="card">
-            <i class="fab fa-youtube" style="color: #FF0000;"></i> YouTube
-        </a>
+        <a href="https://instagram.com/ezz_mafiya" target="_blank" class="card">Instagram.sys</a>
+        <a href="https://t.me/Pain_2007" target="_blank" class="card">Telegram.exe</a>
+        <a href="https://www.youtube.com/@uz_pain" target="_blank" class="card">YouTube.sh</a>
 
-        <div id="like-btn" onclick="toggleLike(event)">
-            <i class="fas fa-heart"></i>
-        </div>
+        <div id="like-btn" onclick="toggleLike(event)"><i class="fas fa-heart"></i></div>
     </div>
 
     <script>
-        // 5 SEKUNDDAN KEYIN VIDEONI O'CHIRIB SAYTGA KIRISH
+        // INTRO 5 SEKUND
         setTimeout(() => {
             const intro = document.getElementById('video-intro');
             const main = document.getElementById('main-site');
-            intro.style.transition = "opacity 1s";
             intro.style.opacity = "0";
             setTimeout(() => {
                 intro.style.display = "none";
                 main.style.display = "flex";
                 setTimeout(() => main.style.opacity = "1", 50);
-                initSnow();
+                initMatrix();
                 startClock();
             }, 1000);
         }, 5000);
 
-        // SOAT: HAR 5 SEKUNDDA RANG O'ZGARADI
+        // SOAT RANGI
         function startClock() {
-            const colors = ['#00ff00', '#00ffff', '#ff0000', '#ffff00', '#ff00ff', '#ffffff'];
+            const colors = ['#0f0', '#0ff', '#f00', '#ff0', '#fff'];
             const clock = document.getElementById('clock');
             setInterval(() => {
                 const now = new Date();
-                if (now.getSeconds() % 5 === 0) {
-                    clock.style.color = colors[Math.floor(Math.random() * colors.length)];
-                }
+                if (now.getSeconds() % 5 === 0) clock.style.color = colors[Math.floor(Math.random() * colors.length)];
                 clock.innerText = now.toLocaleTimeString();
             }, 1000);
         }
 
-        // LIKE FUNKSIYASI
+        // MATRIX FON
+        function initMatrix() {
+            const canvas = document.getElementById('matrix-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const alphabet = "01";
+            const fontSize = 16;
+            const columns = canvas.width / fontSize;
+            const drops = Array(Math.floor(columns)).fill(1);
+
+            function draw() {
+                ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = "#0f0";
+                ctx.font = fontSize + "px monospace";
+                for (let i = 0; i < drops.length; i++) {
+                    const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                    drops[i]++;
+                }
+            }
+            setInterval(draw, 33);
+        }
+
+        // XAKERONA SACHRASH (BOSGANDA)
+        const codeWords = ["HACKED", "ERROR", "SYSTEM", "ACCESS", "010101", "PAIN", "ROOT", "SQL_INJECT"];
+
+        function spawnHackerText(e) {
+            if(document.getElementById('main-site').style.display !== "flex") return;
+            
+            for(let i=0; i<5; i++) {
+                const span = document.createElement('span');
+                span.className = 'hacker-text';
+                span.innerText = codeWords[Math.floor(Math.random() * codeWords.length)];
+                span.style.left = e.clientX + 'px';
+                span.style.top = e.clientY + 'px';
+                span.style.setProperty('--randX', (Math.random() * 100 - 50) + 'px');
+                
+                document.body.appendChild(span);
+                setTimeout(() => span.remove(), 1000);
+            }
+        }
+
         function toggleLike(e) {
-            e.stopPropagation(); 
+            e.stopPropagation();
             document.getElementById('like-btn').classList.toggle('liked');
         }
 
-        // QOR EFFEKTI VA SACHRASH
-        const canvas = document.getElementById('snow-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-
-        function initSnow() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            for (let i = 0; i < 100; i++) particles.push(new Snowflake());
-            animate();
-        }
-
-        class Snowflake {
-            constructor() { this.reset(); }
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * -canvas.height;
-                this.size = Math.random() * 3 + 1;
-                this.speed = Math.random() * 1 + 0.5;
-                this.velX = Math.random() * 0.5 - 0.25;
-            }
-            update() {
-                this.y += this.speed;
-                this.x += this.velX;
-                if (this.y > canvas.height) this.reset();
-            }
-            draw() {
-                ctx.fillStyle = "white";
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function createBurst(e) {
-            if(document.getElementById('main-site').style.display === "flex") {
-                for (let i = 0; i < 12; i++) {
-                    let p = new Snowflake();
-                    p.x = e.clientX; p.y = e.clientY;
-                    p.speed = Math.random() * 6 - 3;
-                    p.velX = Math.random() * 6 - 3;
-                    particles.push(p);
-                    setTimeout(() => particles.splice(particles.indexOf(p), 1), 1500);
-                }
-            }
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animate);
-        }
-
-        window.onresize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+        window.onresize = () => {
+            const canvas = document.getElementById('matrix-canvas');
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        };
     </script>
 </body>
 </html>
