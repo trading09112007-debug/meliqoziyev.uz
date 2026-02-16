@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>meliqoziyev.uz | Pro Edition</title>
+    <title>meliqoziyev.uz | Official</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; }
 
-        /* PROFESSIONAL KURSOR */
+        /* KURSOR */
         #cursor-pointer {
             position: fixed; width: 25px; height: 25px; pointer-events: none; z-index: 100000;
             filter: drop-shadow(0 0 8px #0f0);
@@ -17,11 +17,8 @@
             background-size: contain; background-repeat: no-repeat;
         }
 
-        /* INTRO SCREEN */
-        #intro-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 10000; display: flex; justify-content: center; align-items: center; background: #000;
-        }
+        /* MATRIX INTRO */
+        #intro-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; display: flex; justify-content: center; align-items: center; background: #000; }
         #matrix-intro-canvas { position: absolute; top: 0; left: 0; }
         .welcome-box { position: relative; z-index: 10001; text-align: center; }
         .line { display: block; font-size: 50px; font-weight: 900; letter-spacing: 15px; text-transform: uppercase; color: #fff; text-shadow: 0 0 15px #00ff00; opacity: 0; animation: appear 1.2s ease-out forwards; font-family: 'Courier New', monospace; }
@@ -29,41 +26,38 @@
         .line.bottom { animation-delay: 1.8s; font-size: 60px; color: #00ff00; }
         @keyframes appear { 0% { opacity: 0; transform: scale(0.5); filter: blur(10px); } 100% { opacity: 1; transform: scale(1); filter: blur(0); } }
 
-        /* MAIN WRAPPER & PAGES */
+        /* MAIN WRAPPER */
         #main-wrapper { display: none; opacity: 0; transition: opacity 1.5s ease; }
         .page { position: absolute; width: 100%; height: 100vh; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10; transition: 0.5s; }
         .active { display: flex; opacity: 1; }
 
-        /* NAV ARROWS (O'TKAZISH BELGISI) */
-        .nav-arrow {
-            position: fixed; right: 30px; top: 50%; transform: translateY(-50%);
-            font-size: 45px; color: #0f0; cursor: pointer; z-index: 1000;
-            text-shadow: 0 0 15px #0f0; transition: 0.3s; animation: bounce 2s infinite;
-        }
-        .back-arrow { left: 30px; right: auto; transform: translateY(-50%) rotate(180deg); display: none; }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(-50%) translateX(0); } 40% { transform: translateY(-50%) translateX(10px); } }
+        /* NAV ARROWS */
+        .nav-arrow { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 1000; text-shadow: 0 0 15px #0f0; transition: 0.3s; }
+        #nextBtn { right: 30px; animation: bounceRight 2s infinite; }
+        #prevBtn { left: 30px; animation: bounceLeft 2s infinite; display: none; }
+        @keyframes bounceRight { 0%, 20%, 50%, 80%, 100% { transform: translateY(-50%) translateX(0); } 40% { transform: translateY(-50%) translateX(10px); } }
+        @keyframes bounceLeft { 0%, 20%, 50%, 80%, 100% { transform: translateY(-50%) translateX(0); } 40% { transform: translateY(-50%) translateX(-10px); } }
 
-        /* CLOCK & SNOW */
+        /* ELEMENTS */
         #clock { position: fixed; top: 25px; left: 50%; transform: translateX(-50%); font-size: 28px; font-family: 'Courier New', monospace; font-weight: bold; letter-spacing: 3px; z-index: 100; transition: color 1s, text-shadow 1s; }
         #snow-canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
-
-        /* AVATAR & GLITCH */
         .avatar-box { width: 130px; height: 130px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 20px; overflow: hidden; box-shadow: 0 0 20px #0f0; }
-        .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
         .glitch { font-size: 38px; font-weight: 800; color: #fff; letter-spacing: 2px; position: relative; text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff, 0.025em 0.04em 0 #fffc00; animation: glitch 800ms infinite; }
         @keyframes glitch { 0% { text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff, 0.025em 0.04em 0 #fffc00; } 50% { text-shadow: -0.05em -0.025em 0 #00fffc, 0.025em 0.035em 0 #fc00ff, -0.05em -0.05em 0 #fffc00; } 100% { text-shadow: -0.025em 0 0 #00fffc, -0.025em -0.025em 0 #fc00ff, -0.025em -0.05em 0 #fffc00; } }
 
-        /* NEON CARDS (ESKI JOYYDA) */
+        /* CARDS & FORM */
         .card { width: 310px; padding: 16px; margin-bottom: 18px; background: rgba(0,0,0,0.6); color: #fff; text-decoration: none; border-radius: 12px; backdrop-filter: blur(10px); transition: 0.4s; display: flex; align-items: center; font-weight: 600; border: 1px solid transparent; }
         .insta-neon { border-color: #E1306C; box-shadow: 0 0 10px #E1306C; }
         .tg-neon { border-color: #229ED9; box-shadow: 0 0 10px #229ED9; }
         .yt-neon { border-color: #FF0000; box-shadow: 0 0 10px #FF0000; }
-        .card:hover { transform: scale(1.08); background: rgba(255, 255, 255, 0.1); }
-        .card i { font-size: 24px; margin-right: 20px; width: 30px; text-align: center; }
+
+        input, textarea { width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(0,255,0,0.05); border: 1px solid #0f0; border-radius: 8px; color: white; outline: none; font-family: inherit; }
+        button#send-msg { width: 100%; padding: 12px; background: #0f0; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; box-shadow: 0 0 15px #0f0; transition: 0.3s; }
+        button#send-msg:active { transform: scale(0.95); }
 
         #like-section { position: fixed; bottom: 30px; left: 30px; display: flex; flex-direction: column; align-items: center; z-index: 100; }
         #music-section { position: fixed; bottom: 30px; right: 30px; z-index: 100; }
-        .icon-btn { font-size: 40px; cursor: pointer; color: #fff; transition: 0.3s; }
+        .icon-btn { font-size: 40px; color: #fff; }
         .liked { color: #ff0000 !important; text-shadow: 0 0 20px #ff0000; }
     </style>
 </head>
@@ -85,29 +79,25 @@
         <div id="clock">00:00:00</div>
 
         <i class="fas fa-chevron-right nav-arrow" id="nextBtn" onclick="changePage(1)"></i>
-        <i class="fas fa-chevron-right nav-arrow back-arrow" id="prevBtn" onclick="changePage(-1)"></i>
+        <i class="fas fa-chevron-left nav-arrow" id="prevBtn" onclick="changePage(-1)"></i>
 
         <div class="page active" id="p1">
             <div class="avatar-box">
-                 <img src="https://i.pinimg.com/originals/8a/0b/4c/8a0b4ca2b06e93817117865f37bc449e.jpg" alt="Avatar">
+                 <img src="https://i.pinimg.com/originals/8a/0b/4c/8a0b4ca2b06e93817117865f37bc449e.jpg" style="width:100%">
             </div>
             <h1 class="glitch" style="margin-bottom: 35px;">meliqoziyev.uz</h1>
-            
-            <a href="https://instagram.com/ezz_mafiya" target="_blank" class="card insta-neon">
-                <i class="fab fa-instagram" style="color: #E1306C;"></i> Instagram
-            </a>
-            <a href="https://t.me/Pain_2007" target="_blank" class="card tg-neon">
-                <i class="fab fa-telegram" style="color: #229ED9;"></i> Telegram
-            </a>
-            <a href="https://www.youtube.com/@uz_pain" target="_blank" class="card yt-neon">
-                <i class="fab fa-youtube" style="color: #FF0000;"></i> YouTube
-            </a>
+            <a href="https://instagram.com/ezz_mafiya" target="_blank" class="card insta-neon"><i class="fab fa-instagram" style="margin-right:20px; color:#E1306C;"></i> Instagram</a>
+            <a href="https://t.me/Pain_2007" target="_blank" class="card tg-neon"><i class="fab fa-telegram" style="margin-right:20px; color:#229ED9;"></i> Telegram</a>
+            <a href="https://www.youtube.com/@uz_pain" target="_blank" class="card yt-neon"><i class="fab fa-youtube" style="margin-right:20px; color:#FF0000;"></i> YouTube</a>
         </div>
 
         <div class="page" id="p2">
-            <div style="width:80%; max-width:450px; text-align:center; background:rgba(255,255,255,0.05); padding:30px; border-radius:20px; border:1px solid #0f0; backdrop-filter:blur(15px);">
-                <h2 style="color:#0f0; margin-bottom:15px;">Ma'lumot</h2>
-                <p>Bu mening yangi sahifam. Bu yerga istalgan qo'shimcha ma'lumotlaringizni yozishingiz mumkin!</p>
+            <div style="width:90%; max-width:400px; background:rgba(0,0,0,0.8); padding:30px; border-radius:20px; border:1px solid #0f0; backdrop-filter:blur(15px); box-shadow: 0 0 20px rgba(0,255,0,0.1);">
+                <h2 style="color:#0f0; margin-bottom:20px; text-align:center; text-shadow: 0 0 10px #0f0;">Fikr bildirish</h2>
+                <input type="text" id="userName" placeholder="Ismingiz" required>
+                <textarea id="userMsg" rows="4" placeholder="Fikringizni yozing..." required></textarea>
+                <button id="send-msg" onclick="sendToTelegram()">Xabarni yuborish</button>
+                <p id="status" style="color:#0f0; text-align:center; margin-top:15px; display:none; font-weight:bold;"></p>
             </div>
         </div>
 
@@ -115,7 +105,6 @@
             <i class="fas fa-heart icon-btn" id="like-btn" onclick="handleLike()"></i>
             <span id="like-count" style="margin-top:5px; font-weight:bold;">1.5k</span>
         </div>
-
         <div id="music-section">
             <i class="fas fa-volume-mute icon-btn" id="music-btn" onclick="toggleMusic()"></i>
         </div>
@@ -124,11 +113,9 @@
     <audio id="bg-music" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3"></audio>
 
     <script>
+        // Kursor va Matrix Intro (Eski holatda)
         const cursor = document.getElementById('cursor-pointer');
-        window.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
+        window.addEventListener('mousemove', (e) => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
 
         const mCanvas = document.getElementById('matrix-intro-canvas');
         const mCtx = mCanvas.getContext('2d');
@@ -150,15 +137,13 @@
             document.getElementById('intro-screen').style.opacity = "0";
             setTimeout(() => {
                 document.getElementById('intro-screen').style.display = "none";
-                const wrapper = document.getElementById('main-wrapper');
-                wrapper.style.display = "block";
-                setTimeout(() => wrapper.style.opacity = "1", 50);
-                initSnow();
-                startClock();
+                document.getElementById('main-wrapper').style.display = "block";
+                setTimeout(() => document.getElementById('main-wrapper').style.opacity = "1", 50);
+                initSnow(); startClock();
             }, 1000);
         }, 7000);
 
-        // SAHIFANI ALMASHTIRISH
+        // Sahifa almashinuvi
         let currentPage = 1;
         function changePage(dir) {
             document.getElementById('p'+currentPage).classList.remove('active');
@@ -168,57 +153,53 @@
             document.getElementById('nextBtn').style.display = (currentPage === 2) ? 'none' : 'block';
         }
 
+        // TELEGRAMGA YUBORISH (Shu yerga ma'lumotlarni yozing)
+        function sendToTelegram() {
+            const token = "7867041796:AAHndYFk6FInH3f_95e9zNq60W9mS03_A8s"; // Tokenni buni o'rniga qo'ying
+            const chat_id = "6064746416"; // Chat ID ni buni o'rniga qo'ying
+            const name = document.getElementById('userName').value;
+            const msg = document.getElementById('userMsg').value;
+            const status = document.getElementById('status');
+
+            if(!name || !msg) { alert("Iltimos, hamma joyni to'ldiring!"); return; }
+
+            const text = `🚀 *Yangi xabar!*\n\n👤 *Kimdan:* ${name}\n💬 *Fikr:* ${msg}`;
+            const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
+
+            fetch(url).then(res => {
+                if(res.ok) {
+                    status.innerText = "Xabaringiz yuborildi! ✅";
+                    status.style.display = "block";
+                    document.getElementById('userName').value = "";
+                    document.getElementById('userMsg').value = "";
+                    setTimeout(() => { status.style.display = "none"; }, 3000);
+                }
+            }).catch(() => { alert("Xatolik yuz berdi!"); });
+        }
+
+        // Boshqa barcha funksiyalar (Soat, Qor, Like) saqlandi
         function startClock() {
-            const clockEl = document.getElementById('clock');
+            const clk = document.getElementById('clock');
             const colors = ['#0f0', '#00f', '#f0f', '#ff0', '#0ff'];
-            let colorIndex = 0;
-            setInterval(() => { clockEl.innerText = new Date().toLocaleTimeString(); }, 1000);
-            setInterval(() => {
-                colorIndex = (colorIndex + 1) % colors.length;
-                clockEl.style.color = colors[colorIndex];
-                clockEl.style.textShadow = `0 0 20px ${colors[colorIndex]}`;
-            }, 5000);
+            let ci = 0;
+            setInterval(() => { clk.innerText = new Date().toLocaleTimeString(); }, 1000);
+            setInterval(() => { ci = (ci + 1) % colors.length; clk.style.color = colors[ci]; clk.style.textShadow = `0 0 20px ${colors[ci]}`; }, 5000);
         }
 
         const sCanvas = document.getElementById('snow-canvas');
         const sCtx = sCanvas.getContext('2d');
         let snowP = [];
-        function initSnow() {
-            sCanvas.width = window.innerWidth; sCanvas.height = window.innerHeight;
-            for(let i=0; i<100; i++) snowP.push(new Snowflake());
-            animate();
-        }
+        function initSnow() { sCanvas.width = window.innerWidth; sCanvas.height = window.innerHeight; for(let i=0; i<100; i++) snowP.push(new Snowflake()); animate(); }
         class Snowflake {
             constructor() { this.reset(); }
             reset() { this.x = Math.random()*sCanvas.width; this.y = Math.random()*-sCanvas.height; this.size = Math.random()*3+1; this.speed = Math.random()*1+0.5; this.opacity = Math.random(); this.vx = 0; }
             update() { this.y += this.speed; if(this.y > sCanvas.height) this.reset(); }
             draw() { sCtx.fillStyle = `rgba(255,255,255,${this.opacity})`; sCtx.beginPath(); sCtx.arc(this.x,this.y,this.size,0,Math.PI*2); sCtx.fill(); }
         }
-        function spawnSnowBurst(e) {
-            for(let i=0; i<20; i++) {
-                let p = new Snowflake(); p.x = e.clientX; p.y = e.clientY; p.speed = Math.random()*6-3; p.vx = Math.random()*6-3;
-                snowP.push(p); setTimeout(() => snowP.splice(snowP.indexOf(p), 1), 1000);
-            }
-        }
-        function animate() {
-            sCtx.clearRect(0,0,sCanvas.width,sCanvas.height);
-            snowP.forEach(p => { p.update(); if(p.vx) p.x += p.vx; p.draw(); });
-            requestAnimationFrame(animate);
-        }
-
-        function handleLike() {
-            const btn = document.getElementById('like-btn');
-            if(!btn.classList.contains('liked')) {
-                btn.classList.add('liked');
-                document.getElementById('like-count').innerText = "1.6k";
-            }
-        }
-        function toggleMusic() {
-            const audio = document.getElementById('bg-music');
-            const btn = document.getElementById('music-btn');
-            if(audio.paused) { audio.play(); btn.className = "fas fa-volume-up icon-btn"; }
-            else { audio.pause(); btn.className = "fas fa-volume-mute icon-btn"; }
-        }
+        function spawnSnowBurst(e) { for(let i=0; i<20; i++) { let p = new Snowflake(); p.x = e.clientX; p.y = e.clientY; p.speed = Math.random()*6-3; p.vx = Math.random()*6-3; snowP.push(p); setTimeout(() => snowP.splice(snowP.indexOf(p), 1), 1000); } }
+        function animate() { sCtx.clearRect(0,0,sCanvas.width,sCanvas.height); snowP.forEach(p => { p.update(); if(p.vx) p.x += p.vx; p.draw(); }); requestAnimationFrame(animate); }
+        function handleLike() { const b = document.getElementById('like-btn'); if(!b.classList.contains('liked')) { b.classList.add('liked'); document.getElementById('like-count').innerText = "1.6k"; } }
+        function toggleMusic() { const a = document.getElementById('bg-music'); const b = document.getElementById('music-btn'); if(a.paused) { a.play(); b.className = "fas fa-volume-up icon-btn"; } else { a.pause(); b.className = "fas fa-volume-mute icon-btn"; } }
     </script>
 </body>
 </html>
