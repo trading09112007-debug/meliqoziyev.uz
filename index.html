@@ -3,20 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>meliqoziyev.uz | Pro Neon Edition</title>
+    <title>meliqoziyev.uz | Ultimate Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; }
 
-        /* HAQIQIY KOMPYUTER SICHQONCHASI SHAKLI (SVG) */
+        /* KURSON */
         #cursor-pointer {
-            position: fixed; width: 25px; height: 25px;
-            pointer-events: none; z-index: 100000;
+            position: fixed; width: 25px; height: 25px; pointer-events: none; z-index: 100000;
             filter: drop-shadow(0 0 8px #0f0);
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='white' stroke='black' stroke-width='1'%3E%3Cpath d='M5.5 3.21V20.8l4.64-4.47 2.9 6.27 2.41-1.12-2.9-6.27 6.44-.04L5.5 3.21z'/%3E%3C/svg%3E");
-            background-size: contain;
-            background-repeat: no-repeat;
+            background-size: contain; background-repeat: no-repeat;
         }
 
         /* INTRO SCREEN */
@@ -31,39 +29,45 @@
         .line.bottom { animation-delay: 1.8s; font-size: 60px; color: #00ff00; }
         @keyframes appear { 0% { opacity: 0; transform: scale(0.5); filter: blur(10px); } 100% { opacity: 1; transform: scale(1); filter: blur(0); } }
 
-        /* MAIN SITE */
-        #main-site { display: none; opacity: 0; height: 100vh; flex-direction: column; align-items: center; justify-content: center; transition: opacity 1.5s ease; position: relative; z-index: 10; }
+        /* MAIN SITE & PAGES */
+        #main-wrapper { display: none; opacity: 0; transition: opacity 1.5s ease; }
+        .page {
+            position: absolute; width: 100%; height: 100vh;
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 10;
+        }
+        .active { display: flex; }
+
+        /* NAV ARROWS */
+        .nav-arrow {
+            position: fixed; right: 30px; top: 50%; transform: translateY(-50%);
+            font-size: 45px; color: #0f0; cursor: pointer; z-index: 1000;
+            text-shadow: 0 0 15px #0f0; transition: 0.3s; animation: bounce 2s infinite;
+        }
+        .back-arrow { left: 30px; right: auto; transform: translateY(-50%) rotate(180deg); }
+        .back-arrow:hover { transform: translateY(-50%) rotate(180deg) scale(1.2); }
+        .nav-arrow:hover { transform: translateY(-50%) scale(1.2); color: #fff; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(-50%) translateX(0); } 40% { transform: translateY(-50%) translateX(10px); } }
+
+        /* CLOCK & SNOW */
+        #clock { position: fixed; top: 25px; left: 50%; transform: translateX(-50%); font-size: 28px; font-family: 'Courier New', monospace; font-weight: bold; letter-spacing: 3px; z-index: 100; transition: color 1s, text-shadow 1s; }
         #snow-canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
 
-        /* NEON SOAT - HAR 5 SEKUNDDA RANG O'ZGARADI */
-        #clock {
-            position: fixed; top: 25px; left: 50%; transform: translateX(-50%);
-            font-size: 28px; font-family: 'Courier New', monospace; font-weight: bold;
-            letter-spacing: 3px; transition: color 1s, text-shadow 1s;
-        }
-
+        /* AVATAR & GLITCH */
         .avatar-box { width: 130px; height: 130px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 20px; overflow: hidden; box-shadow: 0 0 20px #0f0; }
         .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
-
         .glitch { font-size: 38px; font-weight: 800; color: #fff; letter-spacing: 2px; position: relative; text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff, 0.025em 0.04em 0 #fffc00; animation: glitch 800ms infinite; }
         @keyframes glitch { 0% { text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff, 0.025em 0.04em 0 #fffc00; } 50% { text-shadow: -0.05em -0.025em 0 #00fffc, 0.025em 0.035em 0 #fc00ff, -0.05em -0.05em 0 #fffc00; } 100% { text-shadow: -0.025em 0 0 #00fffc, -0.025em -0.025em 0 #fc00ff, -0.025em -0.05em 0 #fffc00; } }
 
-        /* NEON TUGMALAR */
-        .card {
-            width: 310px; padding: 16px; margin-bottom: 18px;
-            background: rgba(0, 0, 0, 0.6); color: #fff; text-decoration: none; border-radius: 12px; 
-            backdrop-filter: blur(10px); transition: 0.4s; display: flex; align-items: center; font-weight: 600;
-            border: 1px solid transparent;
-        }
+        /* NEON CARDS */
+        .card { width: 310px; padding: 16px; margin-bottom: 18px; background: rgba(0,0,0,0.6); color: #fff; text-decoration: none; border-radius: 12px; backdrop-filter: blur(10px); transition: 0.4s; display: flex; align-items: center; font-weight: 600; border: 1px solid transparent; }
         .insta-neon { border-color: #E1306C; box-shadow: 0 0 10px #E1306C; }
         .tg-neon { border-color: #229ED9; box-shadow: 0 0 10px #229ED9; }
-        .yt-neon { border-color: #FF0000; box-shadow: 0 0 10px #FF0000; }
-
         .card:hover { transform: scale(1.08); background: rgba(255, 255, 255, 0.1); }
         .card i { font-size: 24px; margin-right: 20px; width: 30px; text-align: center; }
 
-        #like-section { position: fixed; bottom: 30px; left: 30px; display: flex; flex-direction: column; align-items: center; }
-        #music-section { position: fixed; bottom: 30px; right: 30px; }
+        #like-section { position: fixed; bottom: 30px; left: 30px; display: flex; flex-direction: column; align-items: center; z-index: 100; }
+        #music-section { position: fixed; bottom: 30px; right: 30px; z-index: 100; }
         .icon-btn { font-size: 40px; cursor: pointer; color: #fff; transition: 0.3s; }
         .liked { color: #ff0000 !important; text-shadow: 0 0 20px #ff0000; }
     </style>
@@ -82,24 +86,29 @@
 
     <canvas id="snow-canvas"></canvas>
 
-    <div id="main-site">
+    <div id="main-wrapper">
         <div id="clock">00:00:00</div>
-        
-        <div class="avatar-box">
-             <img src="https://i.pinimg.com/originals/8a/0b/4c/8a0b4ca2b06e93817117865f37bc449e.jpg" alt="Avatar">
+
+        <i class="fas fa-chevron-right nav-arrow" id="nextBtn" onclick="changePage(1)"></i>
+        <i class="fas fa-chevron-right nav-arrow back-arrow" id="prevBtn" style="display:none;" onclick="changePage(-1)"></i>
+
+        <div class="page active" id="p1">
+            <div class="avatar-box">
+                 <img src="https://i.pinimg.com/originals/8a/0b/4c/8a0b4ca2b06e93817117865f37bc449e.jpg" alt="Avatar">
+            </div>
+            <h1 class="glitch">meliqoziyev.uz</h1>
+            <p style="color:#0f0; margin-top:10px; font-family:monospace;">Dasturchi Portfoliosi</p>
         </div>
-        
-        <h1 class="glitch" style="margin-bottom: 35px;">meliqoziyev.uz</h1>
-        
-        <a href="https://instagram.com/ezz_mafiya" target="_blank" class="card insta-neon">
-            <i class="fab fa-instagram" style="color: #E1306C;"></i> Instagram
-        </a>
-        <a href="https://t.me/Pain_2007" target="_blank" class="card tg-neon">
-            <i class="fab fa-telegram" style="color: #229ED9;"></i> Telegram
-        </a>
-        <a href="https://www.youtube.com/@uz_pain" target="_blank" class="card yt-neon">
-            <i class="fab fa-youtube" style="color: #FF0000;"></i> YouTube
-        </a>
+
+        <div class="page" id="p2">
+            <h2 style="margin-bottom:30px; color:#0f0; text-shadow:0 0 10px #0f0;">Ijtimoiy Tarmoqlar</h2>
+            <a href="https://instagram.com/ezz_mafiya" target="_blank" class="card insta-neon">
+                <i class="fab fa-instagram" style="color: #E1306C;"></i> Instagram
+            </a>
+            <a href="https://t.me/Pain_2007" target="_blank" class="card tg-neon">
+                <i class="fab fa-telegram" style="color: #229ED9;"></i> Telegram
+            </a>
+        </div>
 
         <div id="like-section">
             <i class="fas fa-heart icon-btn" id="like-btn" onclick="handleLike()"></i>
@@ -114,12 +123,14 @@
     <audio id="bg-music" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3"></audio>
 
     <script>
+        // KURSOR
         const cursor = document.getElementById('cursor-pointer');
         window.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
 
+        // MATRIX INTRO
         const mCanvas = document.getElementById('matrix-intro-canvas');
         const mCtx = mCanvas.getContext('2d');
         mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight;
@@ -135,19 +146,32 @@
         }
         let mInterval = setInterval(drawMatrix, 35);
 
+        // INTRO TUGASHI
         setTimeout(() => {
             clearInterval(mInterval);
             document.getElementById('intro-screen').style.opacity = "0";
             setTimeout(() => {
                 document.getElementById('intro-screen').style.display = "none";
-                const main = document.getElementById('main-site');
-                main.style.display = "flex";
-                setTimeout(() => main.style.opacity = "1", 50);
+                const wrapper = document.getElementById('main-wrapper');
+                wrapper.style.display = "block";
+                setTimeout(() => wrapper.style.opacity = "1", 50);
                 initSnow();
                 startClock();
             }, 1000);
         }, 7000);
 
+        // SAHIFALARNI BOSHQARISH
+        let currentPage = 1;
+        function changePage(dir) {
+            document.getElementById('p'+currentPage).classList.remove('active');
+            currentPage += dir;
+            document.getElementById('p'+currentPage).classList.add('active');
+            
+            document.getElementById('prevBtn').style.display = (currentPage === 1) ? 'none' : 'block';
+            document.getElementById('nextBtn').style.display = (currentPage === 2) ? 'none' : 'block';
+        }
+
+        // SOAT (RANG O'ZGARISHI BILAN)
         function startClock() {
             const clockEl = document.getElementById('clock');
             const colors = ['#0f0', '#00f', '#f0f', '#ff0', '#0ff'];
@@ -160,6 +184,7 @@
             }, 5000);
         }
 
+        // QOR EFFEKTI
         const sCanvas = document.getElementById('snow-canvas');
         const sCtx = sCanvas.getContext('2d');
         let snowP = [];
@@ -175,7 +200,6 @@
             draw() { sCtx.fillStyle = `rgba(255,255,255,${this.opacity})`; sCtx.beginPath(); sCtx.arc(this.x,this.y,this.size,0,Math.PI*2); sCtx.fill(); }
         }
         function spawnSnowBurst(e) {
-            if(document.getElementById('main-site').style.display !== "flex") return;
             for(let i=0; i<20; i++) {
                 let p = new Snowflake(); p.x = e.clientX; p.y = e.clientY; p.speed = Math.random()*6-3; p.vx = Math.random()*6-3;
                 snowP.push(p); setTimeout(() => snowP.splice(snowP.indexOf(p), 1), 1000);
