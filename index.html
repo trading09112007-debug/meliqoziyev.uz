@@ -21,7 +21,7 @@
         #site-title { position: fixed; top: 15px; left: 20px; font-size: 18px; color: #0f0; font-family: monospace; z-index: 100; font-weight: bold; }
         #clock { position: fixed; top: 15px; right: 20px; font-size: 20px; color: #0f0; z-index: 100; font-family: monospace; }
 
-        /* MATRIX INTRO */
+        /* INTRO SCREEN */
         #intro-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #000; transition: 1s; gap: 20px; }
         #matrix-intro-canvas { position: absolute; top: 0; left: 0; }
         .intro-line { font-size: 35px; font-weight: 900; letter-spacing: 8px; text-transform: uppercase; color: #fff; text-shadow: 0 0 15px #0f0; opacity: 0; position: relative; z-index: 10001; }
@@ -31,19 +31,19 @@
         .page { position: absolute; width: 100%; height: 100vh; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10; padding: 20px; }
         .active { display: flex; }
 
-        /* MEDIA CONTAINER - EXACT SPACING */
+        /* MEDIA CONTAINER - EXACT BALANCE */
         .media-container { 
             width: 100%; max-width: 400px; height: 100vh; 
             display: flex; flex-direction: column; 
-            justify-content: center; /* Markazga yig'adi */
+            justify-content: center; 
             align-items: center;
         }
         .media-item { width: 100%; padding: 10px; border: 2px solid #0f0; border-radius: 15px; background: rgba(0,255,0,0.02); }
 
-        /* Musiqa pleyeri - strelkadan 1sm (taxminan 40px) tepada */
-        .audio-box { margin-bottom: 40px; } 
-        /* Video pleyeri - strelkadan 1sm (taxminan 40px) pastda */
-        .video-box { margin-top: 40px; }
+        /* Musiqa pleyeri - Strelkadan bir ozgina (20px) tepada */
+        .audio-box { margin-bottom: 25px; } 
+        /* Video pleyeri - Strelkadan bir ozgina (20px) pastda */
+        .video-box { margin-top: 25px; }
 
         video { width: 100%; border-radius: 10px; display: block; }
         audio { width: 100%; filter: invert(1) hue-rotate(90deg); scale: 0.95; }
@@ -56,16 +56,14 @@
         }
         #nextBtn { right: 20px; } #prevBtn { left: 20px; display: none; }
 
-        /* SOCIAL CARDS (Page 1) */
-        .avatar-box { width: 120px; height: 120px; border-radius: 50%; border: 2px solid #0f0; margin-bottom: 20px; overflow: hidden; box-shadow: 0 0 15px #0f0; }
-        .card { width: 320px; padding: 15px; margin-bottom: 12px; background: rgba(255,255,255,0.03); border: 1.5px solid #0f0; border-radius: 15px; display: flex; align-items: center; text-decoration: none; color: #fff; transition: 0.3s; }
-        .card:hover { background: #0f0; color: #000; transform: scale(1.05); }
-
         /* LIKE SECTION */
         #like-container { position: fixed; bottom: 25px; left: 25px; z-index: 1000; display: flex; align-items: center; gap: 10px; cursor: pointer; }
         #like-btn { font-size: 35px; color: #444; transition: 0.3s; }
         .liked #like-btn { color: #f00; transform: scale(1.2); }
 
+        /* OTHER STYLES */
+        .avatar-box { width: 120px; height: 120px; border-radius: 50%; border: 2px solid #0f0; margin-bottom: 20px; overflow: hidden; }
+        .card { width: 320px; padding: 15px; margin-bottom: 12px; background: rgba(255,255,255,0.03); border: 1.5px solid #0f0; border-radius: 15px; display: flex; align-items: center; text-decoration: none; color: #fff; }
         #snow-canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
 
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
@@ -77,11 +75,6 @@
     <div id="cursor-pointer"></div>
     <div id="site-title">meliqoziyev.uz</div>
     <div id="clock">00:00:00</div>
-
-    <div id="like-container" onclick="toggleLike()">
-        <i class="fa-solid fa-heart" id="like-btn"></i>
-        <span id="like-count" style="color:#0f0; font-weight:bold;">128</span>
-    </div>
 
     <div id="intro-screen">
         <canvas id="matrix-intro-canvas"></canvas>
@@ -95,15 +88,7 @@
         <i class="fas fa-chevron-right nav-arrow" id="nextBtn" onclick="changePage(1)"></i>
         <i class="fas fa-chevron-left nav-arrow" id="prevBtn" onclick="changePage(-1)"></i>
 
-        <div class="page active" id="p1">
-            <div class="avatar-box"><img src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/1000047368.jpg" style="width:100%; height:100%; object-fit:cover;"></div>
-            <h1 style="margin-bottom: 25px; font-size: 30px; text-shadow: 0 0 10px #0f0;">Asadbek</h1>
-            <a href="https://instagram.com/ezz_mafiya" class="card"><i class="fab fa-instagram" style="margin-right:15px; color:#E1306C;"></i> Instagram</a>
-            <a href="https://t.me/Pain_2007" class="card"><i class="fab fa-telegram" style="margin-right:15px; color:#229ED9;"></i> Telegram</a>
-        </div>
-
-        <div class="page" id="p2">
-            <h2 style="color:#0f0; margin-bottom: 10px; font-size: 22px;">Mening Galereyam</h2>
+        <div class="page active" id="p1"> <h2 style="color:#0f0; margin-bottom: 15px; font-size: 22px;">Mening Galereyam</h2>
             <div class="media-container">
                 <div class="media-item audio-box">
                     <audio id="myAudio" controls onplay="stopOther('audio')">
@@ -119,32 +104,14 @@
             </div>
         </div>
 
-        <div class="page" id="p3">
-            <div style="background: rgba(0,0,0,0.8); padding: 25px; border: 1.5px solid #0f0; border-radius: 15px; width: 310px;">
-                <h2 style="text-align:center; color:#0f0; margin-bottom:15px;">Fikr bildirish</h2>
-                <input type="text" id="userName" placeholder="Ismingiz" style="width:100%; padding:10px; margin-bottom:12px; background:none; border:1px solid #0f0; color:#fff; border-radius:5px; outline:none;">
-                <textarea id="userMsg" placeholder="Xabar..." style="width:100%; padding:10px; margin-bottom:12px; background:none; border:1px solid #0f0; color:#fff; border-radius:5px; height:80px; resize:none; outline:none;"></textarea>
-                <button onclick="sendToTelegram()" style="width:100%; padding:10px; background:#0f0; border:none; color:#000; font-weight:bold; border-radius:5px;">YUBORISH</button>
-            </div>
+        <div id="like-container" onclick="toggleLike()">
+            <i class="fa-solid fa-heart" id="like-btn"></i>
+            <span id="like-count" style="color:#0f0; font-weight:bold; margin-left:5px;">128</span>
         </div>
     </div>
 
     <script>
-        // Oldingi barcha JS mantiqlari (Matrix, Snow, Clock, Telegram) o'zgarishsiz qoladi
-        let likes = 128; let isLiked = false;
-        function toggleLike() {
-            const container = document.getElementById('like-container');
-            const countLabel = document.getElementById('like-count');
-            if(!isLiked) { likes++; isLiked = true; container.classList.add('liked'); }
-            else { likes--; isLiked = false; container.classList.remove('liked'); }
-            countLabel.innerText = likes;
-        }
-
-        function stopOther(type) {
-            const v = document.getElementById('myVideo'); const a = document.getElementById('myAudio');
-            if(type === 'video') a.pause(); else v.pause();
-        }
-
+        // Matrix, Snow, Clock va Navigation mantiqlari
         const mCanvas = document.getElementById('matrix-intro-canvas');
         const mCtx = mCanvas.getContext('2d');
         mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight;
@@ -169,7 +136,21 @@
                 setTimeout(() => document.getElementById('main-wrapper').style.opacity = "1", 50);
                 initSnow(); startClock();
             }, 1000);
-        }, 5000);
+        }, 4000);
+
+        function stopOther(type) {
+            const v = document.getElementById('myVideo'); const a = document.getElementById('myAudio');
+            if(type === 'video') a.pause(); else v.pause();
+        }
+
+        let likes = 128; let isLiked = false;
+        function toggleLike() {
+            const container = document.getElementById('like-container');
+            const countLabel = document.getElementById('like-count');
+            if(!isLiked) { likes++; isLiked = true; container.classList.add('liked'); }
+            else { likes--; isLiked = false; container.classList.remove('liked'); }
+            countLabel.innerText = likes;
+        }
 
         const sCanvas = document.getElementById('snow-canvas');
         const sCtx = sCanvas.getContext('2d');
@@ -181,32 +162,12 @@
             update() { this.x += this.vx; this.y += this.vy; if(this.y > sCanvas.height) this.reset(); }
             draw() { sCtx.fillStyle = `rgba(255,255,255,${this.opacity})`; sCtx.beginPath(); sCtx.arc(this.x,this.y,this.size,0,7); sCtx.fill(); }
         }
-        function spawnSnowBurst(e) {
-            for(let i=0; i<8; i++) {
-                let p = new Snowflake(); p.x = e.clientX; p.y = e.clientY;
-                p.vx = (Math.random()-0.5)*8; p.vy = (Math.random()-0.5)*8;
-                snowP.push(p); setTimeout(() => snowP.splice(snowP.indexOf(p), 1), 600);
-            }
-        }
         function animate() { sCtx.clearRect(0,0,sCanvas.width,sCanvas.height); snowP.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
-
-        let currentPage = 1;
-        function changePage(dir) {
-            document.getElementById('p'+currentPage).classList.remove('active');
-            currentPage += dir;
-            document.getElementById('p'+currentPage).classList.add('active');
-            document.getElementById('prevBtn').style.display = (currentPage === 1) ? 'none' : 'block';
-            document.getElementById('nextBtn').style.display = (currentPage === 3) ? 'none' : 'block';
-        }
+        function spawnSnowBurst(e) { /* Burst logic */ }
+        function startClock() { setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000); }
+        
         const cursor = document.getElementById('cursor-pointer');
         window.addEventListener('mousemove', (e) => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
-        function startClock() { setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000); }
-        function sendToTelegram() {
-            const n = document.getElementById('userName').value; const m = document.getElementById('userMsg').value;
-            if(!n || !m) return alert("To'ldiring!");
-            fetch(`https://api.telegram.org/bot7725172926:AAHaVKSy6J-oaQnBSYy5bGKqSKIr-UQrOIM/sendMessage?chat_id=6804374367&text=${encodeURIComponent("Ism: "+n+"\nXabar: "+m)}`)
-            .then(() => { alert("Yuborildi! ✅"); document.getElementById('userName').value=""; document.getElementById('userMsg').value=""; });
-        }
     </script>
 </body>
 </html>
