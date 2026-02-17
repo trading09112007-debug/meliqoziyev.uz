@@ -26,20 +26,20 @@
         /* 1-PAGE PROFILE */
         .avatar { width: 100px; height: 100px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 15px; box-shadow: 0 0 20px #0f0; }
         .card { width: 280px; padding: 12px; margin: 6px 0; border-radius: 12px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
-        .card i { margin-right: 15px; font-size: 22px; }
 
-        /* 2-PAGE: SPLIT MEDIA ZONE */
-        .virtual-clock-header { color: #0f0; font-size: 18px; font-weight: bold; letter-spacing: 3px; margin-bottom: 10px; }
-        #big-time { font-size: 22px; color: #0f0; font-family: monospace; text-shadow: 0 0 10px #0f0; margin-bottom: 15px; }
+        /* 2-PAGE: ALL VIDEOS IN ONE BOX */
+        .virtual-clock-header { color: #0f0; font-size: 18px; font-weight: bold; letter-spacing: 3px; margin-bottom: 5px; }
+        #big-time { font-size: 20px; color: #0f0; font-family: monospace; margin-bottom: 10px; }
 
-        .media-container { width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 15px; }
+        .media-scroll-box { width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; max-height: 70vh; padding: 10px; scrollbar-width: none; }
+        .media-scroll-box::-webkit-scrollbar { display: none; }
 
-        /* ALOHIDA RAMKALAR */
-        .cyber-panel { border: 1px solid #0f0; background: rgba(0, 255, 0, 0.03); padding: 12px; border-radius: 8px; position: relative; box-shadow: inset 0 0 15px rgba(0, 255, 0, 0.05); }
-        .cyber-panel::before { content: attr(data-label); position: absolute; top: -10px; left: 10px; background: #000; color: #0f0; font-size: 10px; padding: 0 5px; letter-spacing: 2px; border: 1px solid #0f0; }
+        .cyber-panel { border: 1px solid #0f0; background: rgba(0, 255, 0, 0.03); padding: 12px; border-radius: 10px; position: relative; width: 100%; }
+        .cyber-panel::before { content: attr(data-label); position: absolute; top: -10px; left: 10px; background: #000; color: #0f0; font-size: 9px; padding: 0 5px; letter-spacing: 2px; border: 1px solid #0f0; }
 
+        .video-group { display: flex; flex-direction: column; gap: 10px; }
+        video { width: 100%; border: 1px solid rgba(0,255,0,0.4); border-radius: 5px; }
         audio { width: 100%; height: 35px; filter: invert(100%) hue-rotate(90deg) brightness(1.5); }
-        video { width: 100%; border: 1px solid rgba(0,255,0,0.5); border-radius: 4px; display: block; }
 
         /* 3-PAGE CONTACT */
         .contact-box { width: 310px; padding: 25px; background: rgba(0,0,0,0.8); border-radius: 20px; border: 1.5px solid #0f0; }
@@ -77,25 +77,29 @@
             <div class="virtual-clock-header">SYSTEM TIME</div>
             <div id="big-time">00:00:00</div>
 
-            <div class="media-container">
-                <div class="cyber-panel" data-label="AUDIO_STREAM" id="a-panel">
+            <div class="media-scroll-box">
+                <div class="cyber-panel" data-label="AUDIO_STREAM" id="a-box">
                     <audio id="myAudio" controls>
                         <source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3" type="audio/mpeg">
                     </audio>
                 </div>
 
-                <div class="cyber-panel" data-label="VIDEO_FEED" id="v-panel">
-                    <video id="myVideo" controls>
-                        <source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4">
-                    </video>
+                <div class="cyber-panel" data-label="VIDEO_DATABASE" id="v-box">
+                    <div class="video-group">
+                        <video id="v1" controls>
+                            <source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4">
+                        </video>
+                        <video id="v2" controls>
+                            <source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_211420_755.mp4" type="video/mp4">
+                        </video>
+                    </div>
                 </div>
             </div>
-            <p style="color:#0f0; font-size:9px; margin-top:10px; letter-spacing:2px; opacity:0.5;">SECURE CONNECTION ESTABLISHED</p>
         </div>
 
         <div class="page" id="p3">
             <div class="contact-box">
-                <h3 style="color:#0f0; margin-bottom:15px; text-transform:uppercase;">Aloqa</h3>
+                <h3 style="color:#0f0; margin-bottom:15px; letter-spacing:2px;">ALOQA</h3>
                 <input type="text" id="uName" placeholder="Ismingiz">
                 <textarea id="uMsg" rows="4" placeholder="Xabaringiz..."></textarea>
                 <button id="send-btn" onclick="sendTele()">Yuborish</button>
@@ -105,14 +109,16 @@
 
     <script>
         const audio = document.getElementById('myAudio');
-        const video = document.getElementById('myVideo');
-        const aPanel = document.getElementById('a-panel');
-        const vPanel = document.getElementById('v-panel');
+        const v1 = document.getElementById('v1');
+        const v2 = document.getElementById('v2');
+        const aBox = document.getElementById('a-box');
+        const vBox = document.getElementById('v-box');
 
-        audio.onplay = () => { video.pause(); aPanel.classList.add('glitch-active'); };
-        audio.onpause = () => { aPanel.classList.remove('glitch-active'); };
-        video.onplay = () => { audio.pause(); vPanel.classList.add('glitch-active'); };
-        video.onpause = () => { vPanel.classList.remove('glitch-active'); };
+        function stopAll() { v1.pause(); v2.pause(); audio.pause(); aBox.classList.remove('glitch-active'); vBox.classList.remove('glitch-active'); }
+
+        audio.onplay = () => { v1.pause(); v2.pause(); aBox.classList.add('glitch-active'); vBox.classList.remove('glitch-active'); };
+        v1.onplay = () => { audio.pause(); v2.pause(); vBox.classList.add('glitch-active'); aBox.classList.remove('glitch-active'); };
+        v2.onplay = () => { audio.pause(); v1.pause(); vBox.classList.add('glitch-active'); aBox.classList.remove('glitch-active'); };
 
         // Matrix Background
         const mCanvas = document.getElementById('matrix-canvas');
@@ -147,23 +153,15 @@
             document.getElementById('p'+curr).style.display = 'flex';
             document.getElementById('prevBtn').style.display = (curr==1)?'none':'block';
             document.getElementById('nextBtn').style.display = (curr==3)?'none':'block';
-            audio.pause(); video.pause();
+            stopAll();
         }
 
         function sendTele() {
             const nameField = document.getElementById('uName');
             const msgField = document.getElementById('uMsg');
-            const n = nameField.value;
-            const m = msgField.value;
-
-            if(n === "" || m === "") { alert("To'ldiring!"); return; }
-
-            fetch(`https://api.telegram.org/bot7725172926:AAHaVKSy6J-oaQnBSYy5bGKqSKIr-UQrOIM/sendMessage?chat_id=6804374367&text=User: ${n}%0AMessage: ${m}`)
-            .then(() => {
-                alert("Yuborildi!");
-                nameField.value = ""; 
-                msgField.value = "";
-            });
+            if(nameField.value === "" || msgField.value === "") return;
+            fetch(`https://api.telegram.org/bot7725172926:AAHaVKSy6J-oaQnBSYy5bGKqSKIr-UQrOIM/sendMessage?chat_id=6804374367&text=User: ${nameField.value}%0AMessage: ${msgField.value}`)
+            .then(() => { alert("Yuborildi!"); nameField.value = ""; msgField.value = ""; });
         }
     </script>
 </body>
