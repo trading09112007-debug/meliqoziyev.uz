@@ -9,7 +9,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; user-select: none; }
 
-        /* INTRO: ASSALOMU ALAYKUM SEKIN PAYDO BO'LISHI */
+        /* INTRO: ASSALOMU ALAYKUM KETMA-KET */
         #intro-screen { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: #000; z-index: 10000; display: flex; flex-direction: column; 
@@ -17,202 +17,42 @@
         }
         #matrix-canvas { position: absolute; top: 0; left: 0; z-index: 1; }
         .intro-content { position: relative; z-index: 2; text-align: center; }
-        .t1, .t2 { 
-            font-size: 35px; font-weight: bold; color: #0f0; 
-            text-transform: uppercase; letter-spacing: 5px; 
-            text-shadow: 0 0 20px #0f0; opacity: 0;
-        }
-        .t1 { animation: fadeIn 2s forwards 1s; margin-bottom: 10px; }
+        .t1, .t2 { font-size: 35px; font-weight: bold; color: #0f0; text-transform: uppercase; letter-spacing: 5px; text-shadow: 0 0 20px #0f0; opacity: 0; }
+        .t1 { animation: fadeIn 2s forwards 1s; margin-bottom: 20px; }
         .t2 { animation: fadeIn 2s forwards 3s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ASOSIY SAHIFALAR */
         #main-content { display: none; opacity: 0; transition: 1.5s; height: 100vh; width: 100%; position: relative; z-index: 10; }
         .page { position: absolute; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
         .active { display: flex; }
 
+        /* 1-SAHIFA ELEMENTLARI */
         .avatar { width: 120px; height: 120px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 15px; box-shadow: 0 0 20px #0f0; }
-        
-        /* 1-SAHIFA KARTALARI */
-        .card { width: 300px; padding: 15px; margin: 8px 0; background: rgba(0, 255, 0, 0.1); border: 2px solid #0f0; border-radius: 12px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; transition: 0.3s; }
+        .card { width: 280px; padding: 14px; margin: 8px 0; background: rgba(0, 255, 0, 0.1); border: 2px solid #0f0; border-radius: 12px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; transition: 0.3s; }
         .card i { margin-right: 15px; font-size: 22px; color: #0f0; }
         .card.yt i { color: #ff0000; }
+        .like-section { margin-top: 15px; cursor: pointer; display: flex; align-items: center; }
+        .like-section i { font-size: 30px; color: #ff0000; filter: drop-shadow(0 0 5px #ff0000); }
+        .like-count { font-weight: bold; color: #0f0; margin-left: 10px; font-size: 20px; }
 
-        /* LIKE TUGMASI */
-        .like-section { margin-top: 15px; cursor: pointer; transition: 0.3s; }
-        .like-section i { font-size: 30px; color: #ff0000; text-shadow: 0 0 10px #ff0000; }
-        .like-count { font-weight: bold; color: #0f0; margin-left: 8px; font-size: 20px; }
-
-        /* 2-SAHIFA: MUSIQA VA VIDEO (STRELKAGA XALAQIT BERMAYDIGAN) */
-        .media-box { 
-            width: 280px; /* Eni kichraytirildi strelkalar uchun */
-            background: rgba(0, 255, 0, 0.05); 
-            border: 2px solid #0f0; 
-            border-radius: 15px; 
-            padding: 15px; 
-            margin: 10px 0; 
+        /* 2-SAHIFA: YANGI GALEREYA DIZAYNI */
+        .cyber-box { 
+            width: 290px; 
+            background: linear-gradient(135deg, rgba(0,255,0,0.05), rgba(0,0,0,0.8));
+            border-left: 4px solid #0f0; 
+            border-right: 4px solid #0f0;
+            border-top: 1px solid #0f0;
+            border-bottom: 1px solid #0f0;
+            border-radius: 20px; 
+            padding: 20px; 
+            margin: 15px 0; 
+            position: relative;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
         }
-        video { width: 100%; border-radius: 10px; }
-        audio { width: 100%; height: 35px; }
+        .cyber-box::before { content: 'SYSTEM ACTIVE'; position: absolute; top: -10px; left: 20px; background: #000; color: #0f0; font-size: 8px; padding: 0 5px; }
+        video { width: 100%; border-radius: 10px; border: 1px solid rgba(0,255,0,0.5); }
+        audio { width: 100%; height: 40px; filter: hue-rotate(90deg) brightness(1.5); }
         
-        /* NAVIGATSIYA STRELKALARI */
-        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 40px; color: #0f0; cursor: pointer; z-index: 5000; text-shadow: 0 0 15px #0f0; padding: 10px; }
-        #nextBtn { right: 10px; } #prevBtn { left: 10px; display: none; }
-
-        /* BOSHQA ELEMENTLAR */
-        input, textarea { width: 100%; padding: 12px; margin: 8px 0; background: #111; border: 1px solid #0f0; color: #fff; border-radius: 8px; outline: none; }
-        button { width: 100%; padding: 12px; background: #0f0; border: none; font-weight: bold; cursor: pointer; border-radius: 8px; color: #000; }
-        #clock { position: fixed; top: 15px; right: 20px; color: #0f0; font-family: monospace; font-size: 16px; z-index: 100; }
-        #site-name { position: fixed; top: 15px; left: 20px; color: #0f0; font-size: 14px; font-weight: bold; z-index: 100; }
-        #bg-snow { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 5; }
-        
-        /* QOR SACHRASH EFFEKTI UCHUN */
-        .click-snow { position: absolute; background: #fff; border-radius: 50%; pointer-events: none; z-index: 9999; animation: particle 1s ease-out forwards; }
-        @keyframes particle { to { transform: translate(var(--x), var(--y)); opacity: 0; } }
-    </style>
-</head>
-<body onclick="createSnowParticles(event)">
-
-    <div id="site-name">meliqoziyev.uz</div>
-    <div id="clock">00:00:00</div>
-
-    <div id="intro-screen">
-        <canvas id="matrix-canvas"></canvas>
-        <div class="intro-content">
-            <div class="t1">Assalomu</div>
-            <div class="t2">Alaykum</div>
-        </div>
-    </div>
-
-    <canvas id="bg-snow"></canvas>
-
-    <div id="main-content">
-        <i class="fas fa-chevron-left nav-btn" id="prevBtn" onclick="movePage(-1)"></i>
-        <i class="fas fa-chevron-right nav-btn" id="nextBtn" onclick="movePage(1)"></i>
-
-        <div class="page active" id="p1">
-            <img src="https://img.freepik.com/free-vector/hacker-operating-laptop-cartoon-icon-illustration_138676-2387.jpg" class="avatar">
-            <h2 style="color:#0f0; margin-bottom: 10px;">Asadbek</h2>
-            
-            <a href="https://instagram.com/ezz_mafiya" target="_blank" class="card"><i class="fab fa-instagram"></i> Instagram</a>
-            <a href="https://t.me/Pain_2007" target="_blank" class="card"><i class="fab fa-telegram"></i> Telegram</a>
-            <a href="https://youtube.com/@meliqoziyev" target="_blank" class="card yt"><i class="fab fa-youtube"></i> YouTube</a>
-
-            <div class="like-section" onclick="addLike(event)">
-                <i class="fas fa-heart"></i>
-                <span class="like-count" id="count">145</span>
-            </div>
-        </div>
-
-        <div class="page" id="p2">
-            <div class="media-box">
-                <p style="font-size:12px; color:#0f0; margin-bottom:5px;">Musiqa</p>
-                <audio controls><source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3" type="audio/mpeg"></audio>
-            </div>
-
-            <div class="media-box">
-                <p style="font-size:12px; color:#0f0; margin-bottom:5px;">Video</p>
-                <video controls><source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4"></video>
-            </div>
-        </div>
-
-        <div class="page" id="p3">
-            <div class="media-box" style="width:320px">
-                <h3 style="color:#0f0; margin-bottom:15px;">Fikr bildirish</h3>
-                <input type="text" id="uName" placeholder="Ismingiz">
-                <textarea id="uMsg" rows="4" placeholder="Xabaringiz..."></textarea>
-                <button onclick="sendTele()">Yuborish</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // MATRIX ANIMATSIYASI
-        const mCanvas = document.getElementById('matrix-canvas');
-        const mCtx = mCanvas.getContext('2d');
-        mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight;
-        const columns = Math.floor(mCanvas.width / 20);
-        const drops = new Array(columns).fill(1);
-        function drawMatrix() {
-            mCtx.fillStyle = 'rgba(0, 0, 0, 0.05)'; mCtx.fillRect(0, 0, mCanvas.width, mCanvas.height);
-            mCtx.fillStyle = '#0f0'; mCtx.font = '20px monospace';
-            drops.forEach((y, i) => {
-                mCtx.fillText(Math.floor(Math.random()*2), i*20, y*20);
-                if(y*20 > mCanvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
-            });
-        }
-        let mInt = setInterval(drawMatrix, 50);
-
-        setTimeout(() => {
-            clearInterval(mInt);
-            document.getElementById('intro-screen').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('intro-screen').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-                setTimeout(() => document.getElementById('main-content').style.opacity = '1', 50);
-                initSnow();
-            }, 1500);
-        }, 7000);
-
-        // NAVIGATION
-        let curr = 1;
-        function movePage(s) {
-            document.getElementById('p'+curr).classList.remove('active');
-            curr += s;
-            document.getElementById('p'+curr).classList.add('active');
-            document.getElementById('prevBtn').style.display = (curr==1)?'none':'block';
-            document.getElementById('nextBtn').style.display = (curr==3)?'none':'block';
-        }
-
-        // LIKE TUGMASI (1 MARTA BOSILADI)
-        let liked = false;
-        function addLike(e) {
-            if(!liked) {
-                let c = document.getElementById('count');
-                c.innerText = parseInt(c.innerText) + 1;
-                liked = true;
-                e.currentTarget.style.transform = "scale(1.2)";
-                setTimeout(() => e.currentTarget.style.transform = "scale(1)", 200);
-            }
-        }
-
-        // EKRANNI BOSGANDA QOR SACHRASH EFFEKTI
-        function createSnowParticles(e) {
-            for(let i=0; i<8; i++) {
-                const p = document.createElement('div');
-                p.className = 'click-snow';
-                p.style.left = e.clientX + 'px'; p.style.top = e.clientY + 'px';
-                p.style.width = p.style.height = Math.random()*5+2 + 'px';
-                p.style.setProperty('--x', (Math.random()-0.5)*100 + 'px');
-                p.style.setProperty('--y', (Math.random()-0.5)*100 + 'px');
-                document.body.appendChild(p);
-                setTimeout(() => p.remove(), 1000);
-            }
-        }
-
-        // TELEGRAMGA XABAR
-        function sendTele() {
-            const n = document.getElementById('uName'); const m = document.getElementById('uMsg');
-            if(!n.value || !m.value) return;
-            const token = "7725172926:AAHaVKSy6J-oaQnBSYy5bGKqSKIr-UQrOIM"; 
-            const cid = "6804374367";
-            fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${cid}&text=${encodeURIComponent("👤 Ism: "+n.value+"\n💬 Xabar: "+m.value)}`)
-            .then(() => { alert("Yuborildi!"); n.value=""; m.value=""; });
-        }
-
-        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
-        function initSnow() {
-            const c = document.getElementById('bg-snow'); const ctx = c.getContext('2d');
-            c.width = window.innerWidth; c.height = window.innerHeight;
-            let f = []; for(let i=0; i<60; i++) f.push({x:Math.random()*c.width, y:Math.random()*c.height, r:Math.random()*2+1, d:Math.random()+0.3});
-            function draw() {
-                ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle="#fff"; ctx.beginPath();
-                f.forEach(p => { ctx.moveTo(p.x, p.y); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); p.y+=p.d; if(p.y>c.height) p.y=-5; });
-                ctx.fill(); requestAnimationFrame(draw);
-            }
-            draw();
-        }
-    </script>
-</body>
-</html>
+        /* NAVIGATSIYA */
+        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-
