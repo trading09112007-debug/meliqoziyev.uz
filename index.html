@@ -7,64 +7,57 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: #000; color: #0f0; font-family: 'Courier New', monospace; overflow: hidden; height: 100vh; }
+        body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; }
 
         /* MATRIX INTRO */
         #intro-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         #matrix-canvas { position: absolute; top: 0; left: 0; z-index: 1; }
         .intro-content { position: relative; z-index: 2; text-align: center; }
+        .t1, .t2 { font-size: 35px; font-weight: bold; color: #0f0; text-transform: uppercase; letter-spacing: 5px; text-shadow: 0 0 20px #0f0; opacity: 0; }
+        .t1 { animation: fadeIn 2s forwards 1s; }
+        .t2 { animation: fadeIn 2s forwards 3s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         /* MAIN */
         #main-content { display: none; opacity: 0; transition: 1s; height: 100vh; width: 100%; position: relative; z-index: 100; }
-        .page { position: absolute; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+        .page { position: absolute; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
         .active { display: flex; }
 
-        /* VIRTUAL CLOCK (2-PAGE) */
-        .v-clock { text-align: center; margin-bottom: 20px; animation: glitch 2s infinite; }
-        .clock-img { width: 180px; height: 180px; border: 2px solid #0f0; border-radius: 50%; box-shadow: 0 0 20px #0f0; display: flex; align-items: center; justify-content: center; position: relative; background: rgba(0,255,0,0.05); }
-        .clock-img::before { content: ""; position: absolute; width: 110%; height: 110%; border: 1px dashed #0f0; border-radius: 50%; animation: rot 15s linear infinite; }
-        #big-time { font-size: 28px; font-weight: bold; text-shadow: 0 0 10px #0f0; }
-
-        /* CYBER PANELS (MEDIA ZONE) */
-        .media-zone { width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 15px; }
-        .cyber-panel { border: 2px solid #0f0; background: rgba(0, 255, 0, 0.03); padding: 10px; border-radius: 5px; position: relative; box-shadow: inset 0 0 15px rgba(0, 255, 0, 0.1); }
-        .cyber-panel::before { content: "◢"; position: absolute; top: -5px; left: -5px; color: #0f0; font-size: 15px; }
-        .cyber-panel::after { content: "◣"; position: absolute; bottom: -5px; right: -5px; color: #0f0; font-size: 15px; }
-        
-        .panel-title { font-size: 12px; margin-bottom: 8px; letter-spacing: 2px; border-bottom: 1px solid #0f0; display: inline-block; }
-        
-        audio { width: 100%; height: 30px; filter: invert(100%) hue-rotate(90deg) brightness(1.5); }
-        video { width: 100%; border: 1px solid #0f0; border-radius: 3px; }
-
-        /* TITRASH (GLITCH) */
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
-        }
-        @keyframes rot { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
         /* 1-PAGE PROFILE */
-        .avatar { width: 100px; height: 100px; border: 2px solid #0f0; margin-bottom: 15px; box-shadow: 0 0 15px #0f0; }
-        .card { width: 280px; padding: 12px; margin: 5px; border: 1px solid #0f0; text-decoration: none; color: #0f0; font-weight: bold; display: flex; align-items: center; transition: 0.3s; }
-        .card:hover { background: #0f0; color: #000; box-shadow: 0 0 20px #0f0; }
-        .card i { margin-right: 15px; }
+        .avatar { width: 110px; height: 110px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 15px; box-shadow: 0 0 20px #0f0; }
+        .card { width: 280px; padding: 14px; margin: 6px 0; border-radius: 12px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
+        .card i { margin-right: 15px; font-size: 24px; }
+
+        /* 2-PAGE: CYBER HUD (CHIROYLI HOLATI) */
+        .hud-container { position: relative; width: 300px; height: 300px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+        .hud-ring { position: absolute; width: 100%; height: 100%; border: 2px solid #0f0; border-radius: 50%; border-top-color: transparent; animation: rot 4s linear infinite; }
+        .hud-ring-inner { position: absolute; width: 85%; height: 85%; border: 1px dashed #0f0; border-radius: 50%; animation: rot 10s linear infinite reverse; opacity: 0.5; }
+        .hud-content { z-index: 10; width: 100%; }
+        #big-time { font-size: 32px; font-weight: bold; color: #0f0; text-shadow: 0 0 15px #0f0; font-family: monospace; margin-bottom: 15px; }
+        
+        .media-ui { width: 260px; background: rgba(0, 255, 0, 0.05); border-left: 3px solid #0f0; padding: 10px; backdrop-filter: blur(5px); }
+        audio { width: 100%; height: 30px; filter: invert(100%) hue-rotate(90deg); }
+        video { width: 100%; border-radius: 5px; border: 1px solid #0f0; margin-top: 10px; }
+
+        /* 3-PAGE CONTACT */
+        .contact-box { width: 310px; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 15px; border: 1px solid #0f0; }
+        input, textarea { width: 100%; padding: 12px; margin: 8px 0; background: #111; border: 1px solid #0f0; color: #fff; border-radius: 8px; outline: none; }
+        button { width: 100%; padding: 12px; background: #0f0; border: none; font-weight: bold; cursor: pointer; border-radius: 8px; color: #000; }
 
         /* NAV */
-        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 40px; color: #0f0; cursor: pointer; z-index: 5000; text-shadow: 0 0 10px #0f0; }
-        #nextBtn { right: 10px; } #prevBtn { left: 10px; display: none; }
+        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 5000; opacity: 0.6; }
+        #nextBtn { right: 5px; } #prevBtn { left: 5px; display: none; }
+
+        @keyframes rot { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .shake-active { animation: shake 0.2s infinite; }
+        @keyframes shake { 0% { transform: translate(1px, 1px); } 50% { transform: translate(-1px, -1px); } 100% { transform: translate(0); } }
     </style>
 </head>
 <body>
 
     <div id="intro-screen">
         <canvas id="matrix-canvas"></canvas>
-        <div class="intro-content">
-            <h1 style="color:#0f0; font-size: 20px; letter-spacing: 10px; animation: glitch 1s infinite;">INITIALIZING...</h1>
-        </div>
+        <div class="intro-content"><div class="t1">Assalomu</div><div class="t2">Alaykum</div></div>
     </div>
 
     <div id="main-content">
@@ -73,40 +66,33 @@
 
         <div class="page active" id="p1">
             <img src="https://img.freepik.com/free-vector/hacker-operating-laptop-cartoon-icon-illustration_138676-2387.jpg" class="avatar">
-            <h2 style="margin-bottom: 20px; letter-spacing: 5px;">ASADBEK</h2>
-            <a href="https://instagram.com/ezz_mafiya" class="card"><i class="fab fa-instagram"></i> INSTAGRAM</a>
-            <a href="https://t.me/Pain_2007" class="card"><i class="fab fa-telegram"></i> TELEGRAM</a>
-            <a href="https://youtube.com/@meliqoziyev" class="card"><i class="fab fa-youtube"></i> YOUTUBE</a>
+            <h2 style="color:#0f0; margin-bottom: 15px;">Asadbek</h2>
+            <a href="https://instagram.com/ezz_mafiya" class="card"><i class="fab fa-instagram" style="color:#E1306C"></i> Instagram</a>
+            <a href="https://t.me/Pain_2007" class="card"><i class="fab fa-telegram" style="color:#0088cc"></i> Telegram</a>
+            <a href="https://youtube.com/@meliqoziyev" class="card"><i class="fab fa-youtube" style="color:#FF0000"></i> YouTube</a>
         </div>
 
         <div class="page" id="p2">
-            <div class="v-clock">
-                <span style="font-size: 10px; letter-spacing: 5px;">VIRTUAL CLOCK</span>
-                <div class="clock-img">
+            <div class="hud-container" id="hud">
+                <div class="hud-ring"></div>
+                <div class="hud-ring-inner"></div>
+                <div class="hud-content">
                     <div id="big-time">00:00:00</div>
+                    <div class="media-ui">
+                        <audio id="myAudio" controls><source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3" type="audio/mpeg"></audio>
+                        <video id="myVideo" controls><source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4"></video>
+                    </div>
                 </div>
             </div>
-
-            <div class="media-zone">
-                <div class="cyber-panel">
-                    <span class="panel-title">AUDIO STREAM</span>
-                    <audio id="myAudio" controls><source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3" type="audio/mpeg"></audio>
-                </div>
-
-                <div class="cyber-panel" id="video-p">
-                    <span class="panel-title">VIDEO FEED</span>
-                    <video id="myVideo" controls><source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4"></video>
-                    <div style="font-size: 8px; margin-top: 5px; color: #f00;">WARNING: GLITCH DETECTED</div>
-                </div>
-            </div>
+            <p style="color:#0f0; font-size: 10px; letter-spacing: 3px; opacity: 0.7;">CYBERNETIC INTERFACE V.2</p>
         </div>
 
         <div class="page" id="p3">
-            <div class="cyber-panel" style="width: 300px;">
-                <span class="panel-title">SECURE MESSAGE</span>
-                <input type="text" id="uName" placeholder="USER_ID" style="width:100%; background:none; border:1px solid #0f0; color:#0f0; padding:10px; margin: 10px 0;">
-                <textarea id="uMsg" placeholder="DATA_CONTENT" style="width:100%; background:none; border:1px solid #0f0; color:#0f0; padding:10px; margin-bottom:10px;"></textarea>
-                <button onclick="sendTele()" style="width:100%; padding:10px; background:#0f0; color:#000; border:none; font-weight:bold; cursor:pointer;">EXECUTE SEND</button>
+            <div class="contact-box">
+                <h3 style="color:#0f0; margin-bottom:15px;">ALOQA</h3>
+                <input type="text" id="uName" placeholder="Ismingiz">
+                <textarea id="uMsg" rows="4" placeholder="Xabaringiz..."></textarea>
+                <button onclick="sendTele()">YUBORISH</button>
             </div>
         </div>
     </div>
@@ -114,11 +100,12 @@
     <script>
         const audio = document.getElementById('myAudio');
         const video = document.getElementById('myVideo');
-        const videoPanel = document.getElementById('video-p');
+        const hud = document.getElementById('hud');
 
-        audio.onplay = () => { video.pause(); videoPanel.style.animation = "glitch 0.2s infinite"; };
-        audio.onpause = () => { videoPanel.style.animation = "none"; };
-        video.onplay = () => { audio.pause(); videoPanel.style.animation = "glitch 0.1s infinite"; };
+        audio.onplay = () => { video.pause(); hud.classList.add('shake-active'); };
+        audio.onpause = () => { hud.classList.remove('shake-active'); };
+        video.onplay = () => { audio.pause(); hud.classList.add('shake-active'); };
+        video.onpause = () => { hud.classList.remove('shake-active'); };
 
         // Matrix
         const mCanvas = document.getElementById('matrix-canvas');
@@ -134,20 +121,17 @@
                 drops[i]++;
             });
         }
-        let mInt = setInterval(drawMatrix, 50);
+        setInterval(drawMatrix, 50);
 
         setTimeout(() => {
-            clearInterval(mInt);
             document.getElementById('intro-screen').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
             setTimeout(() => { document.getElementById('main-content').style.opacity = '1'; }, 50);
         }, 5000);
 
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('big-time').innerText = now.toLocaleTimeString();
-        }
-        setInterval(updateClock, 1000);
+        setInterval(() => {
+            document.getElementById('big-time').innerText = new Date().toLocaleTimeString();
+        }, 1000);
 
         let curr = 1;
         function movePage(s) {
@@ -163,7 +147,7 @@
             const n = document.getElementById('uName').value;
             const m = document.getElementById('uMsg').value;
             fetch(`https://api.telegram.org/bot7725172926:AAHaVKSy6J-oaQnBSYy5bGKqSKIr-UQrOIM/sendMessage?chat_id=6804374367&text=User: ${n}%0AMessage: ${m}`)
-            .then(() => alert("SIGNAL SENT"));
+            .then(() => alert("Yuborildi!"));
         }
     </script>
 </body>
