@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asadbek | Official</title>
+    <title>Asadbek | meliqoziyev.uz</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
@@ -18,23 +18,18 @@
         }
 
         /* MATRIX INTRO */
-        #intro-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; display: flex; justify-content: center; align-items: center; background: #000; transition: 1s; }
+        #intro-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #000; transition: 1s; gap: 20px; }
         #matrix-intro-canvas { position: absolute; top: 0; left: 0; }
-        .welcome-box { position: relative; z-index: 10001; text-align: center; }
-        
-        /* TYPING EFFECT */
-        #typing-text { 
-            font-size: 40px; font-weight: 900; letter-spacing: 5px; 
-            text-transform: uppercase; color: #fff; 
-            text-shadow: 0 0 20px #00ff00; border-right: 3px solid #0f0;
-            white-space: nowrap; overflow: hidden;
-            width: 0; /* JS orqali o'zgaradi */
-        }
+        .intro-line { font-size: 35px; font-weight: 900; letter-spacing: 8px; text-transform: uppercase; color: #fff; text-shadow: 0 0 15px #0f0; opacity: 0; position: relative; z-index: 10001; }
 
         /* MAIN UI */
         #main-wrapper { display: none; opacity: 0; transition: 1.5s; }
         .page { position: absolute; width: 100%; height: 100vh; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10; padding: 20px; }
         .active { display: flex; }
+
+        /* TOP TITLES */
+        #site-title { position: fixed; top: 15px; left: 20px; font-size: 18px; color: #0f0; font-family: monospace; z-index: 100; text-shadow: 0 0 10px #0f0; }
+        #clock { position: fixed; top: 15px; right: 20px; font-size: 20px; color: #0f0; z-index: 100; font-family: monospace; }
 
         /* SOCIAL CARDS */
         .card { 
@@ -46,31 +41,42 @@
         .card i { font-size: 22px; margin-right: 15px; }
         .card:hover { transform: scale(1.05); box-shadow: 0 0 15px #0f0; background: #0f0; color: #000; }
 
-        /* MEDIA BOXES */
-        .media-container { width: 100%; max-width: 400px; display: flex; flex-direction: column; height: 72vh; justify-content: space-between; }
-        .media-item { width: 100%; padding: 12px; border: 1.5px solid #0f0; border-radius: 15px; background: rgba(0,255,0,0.02); }
-        .video-box { margin-top: auto; margin-bottom: 30px; border-width: 2px; box-shadow: 0 0 20px rgba(0,255,0,0.15); }
+        /* MEDIA CONTAINER - JOYLASHTIRUV */
+        .media-container { width: 100%; max-width: 400px; height: 75vh; display: flex; flex-direction: column; justify-content: space-between; padding: 10px 0; }
+        .media-item { width: 100%; padding: 10px; border: 2px solid #0f0; border-radius: 15px; background: rgba(0,255,0,0.02); box-shadow: 0 0 15px rgba(0,255,0,0.1); }
+        
+        /* Strelkalardan uzoqlashtirish uchun marginlar */
+        .audio-box { margin-top: 40px; } 
+        .video-box { margin-bottom: 40px; }
+
         video { width: 100%; border-radius: 10px; display: block; }
-        audio { width: 100%; filter: invert(1) hue-rotate(90deg); scale: 0.9; }
+        audio { width: 100%; filter: invert(1) hue-rotate(90deg); scale: 0.95; }
 
         /* LIKE SECTION */
-        #like-container { position: fixed; bottom: 25px; left: 25px; z-index: 1000; display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        #like-container { position: fixed; bottom: 25px; left: 25px; z-index: 1000; display: flex; align-items: center; gap: 10px; cursor: pointer; }
         #like-btn { font-size: 35px; color: #444; transition: 0.3s; }
         #like-count { font-size: 20px; color: #0f0; font-weight: bold; }
         .liked #like-btn { color: #f00; text-shadow: 0 0 15px #f00; transform: scale(1.2); }
 
         /* NAVIGATSIYA */
-        .nav-arrow { position: fixed; top: 50%; transform: translateY(-50%); font-size: 40px; color: #0f0; cursor: pointer; z-index: 1000; opacity: 0.6; }
-        #nextBtn { right: 20px; } #prevBtn { left: 20px; display: none; }
+        .nav-arrow { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 1000; opacity: 0.7; transition: 0.3s; }
+        .nav-arrow:hover { opacity: 1; scale: 1.2; }
+        #nextBtn { right: 25px; } #prevBtn { left: 25px; display: none; }
 
-        #clock { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); font-size: 24px; color: #0f0; z-index: 100; font-family: monospace; }
         .avatar-box { width: 120px; height: 120px; border-radius: 50%; border: 2px solid #0f0; margin-bottom: 20px; overflow: hidden; box-shadow: 0 0 15px #0f0; }
         #snow-canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
+
+        /* ANIMATSIYALAR */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body onmousedown="spawnSnowBurst(event)">
 
     <div id="cursor-pointer"></div>
+
+    <div id="site-title">meliqoziyev.uz</div>
+    <div id="clock">00:00:00</div>
 
     <div id="like-container" onclick="toggleLike()">
         <i class="fa-solid fa-heart" id="like-btn"></i>
@@ -79,16 +85,13 @@
 
     <div id="intro-screen">
         <canvas id="matrix-intro-canvas"></canvas>
-        <div class="welcome-box">
-            <div id="typing-text"></div>
-        </div>
+        <div class="intro-line" id="line1" style="animation: fadeInDown 1.5s forwards;">Assalomu</div>
+        <div class="intro-line" id="line2" style="animation: fadeInUp 1.5s forwards; animation-delay: 1s;">Alaykum</div>
     </div>
 
     <canvas id="snow-canvas"></canvas>
 
     <div id="main-wrapper">
-        <div id="clock">00:00:00</div>
-
         <i class="fas fa-chevron-right nav-arrow" id="nextBtn" onclick="changePage(1)"></i>
         <i class="fas fa-chevron-left nav-arrow" id="prevBtn" onclick="changePage(-1)"></i>
 
@@ -103,14 +106,13 @@
         </div>
 
         <div class="page" id="p2">
-            <h2 style="color:#0f0; margin-bottom: 20px; font-size: 22px;">Media Galereya</h2>
             <div class="media-container">
-                <div class="media-item">
-                    <p style="color:#0f0; font-size:12px; margin-bottom:8px;"><i class="fas fa-music"></i> Audio Trek</p>
+                <div class="media-item audio-box">
                     <audio id="myAudio" controls onplay="stopOther('audio')">
                         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
                     </audio>
                 </div>
+
                 <div class="media-item video-box">
                     <video id="myVideo" controls onplay="stopOther('video')">
                         <source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4">
@@ -120,7 +122,7 @@
         </div>
 
         <div class="page" id="p3">
-            <div style="background: rgba(0,0,0,0.8); padding: 25px; border: 1.5px solid #0f0; border-radius: 15px; width: 310px;">
+            <div style="background: rgba(0,0,0,0.85); padding: 25px; border: 1.5px solid #0f0; border-radius: 15px; width: 310px;">
                 <h2 style="text-align:center; color:#0f0; margin-bottom:15px; font-size: 20px;">Fikr bildirish</h2>
                 <input type="text" id="userName" placeholder="Ismingiz" style="width:100%; padding:10px; margin-bottom:12px; background:none; border:1px solid #0f0; color:#fff; border-radius:5px; outline:none;">
                 <textarea id="userMsg" placeholder="Xabar..." style="width:100%; padding:10px; margin-bottom:12px; background:none; border:1px solid #0f0; color:#fff; border-radius:5px; height:80px; resize:none; outline:none;"></textarea>
@@ -130,51 +132,6 @@
     </div>
 
     <script>
-        // TYPING EFFECT FUNKSIYASI
-        const text = "Assalomu Alaykum";
-        const typingElement = document.getElementById("typing-text");
-        let charIndex = 0;
-
-        function type() {
-            if (charIndex < text.length) {
-                typingElement.innerHTML += text.charAt(charIndex);
-                charIndex++;
-                typingElement.style.width = "auto";
-                setTimeout(type, 150);
-            }
-        }
-
-        // MATRIX & INTRO CONTROL
-        const mCanvas = document.getElementById('matrix-intro-canvas');
-        const mCtx = mCanvas.getContext('2d');
-        mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight;
-        const drops = Array.from({ length: Math.floor(mCanvas.width / 16) }).fill(1);
-        function drawMatrix() {
-            mCtx.fillStyle = "rgba(0, 0, 0, 0.05)"; mCtx.fillRect(0, 0, mCanvas.width, mCanvas.height);
-            mCtx.fillStyle = "#0f0"; mCtx.font = "16px monospace";
-            drops.forEach((y, i) => {
-                mCtx.fillText(Math.floor(Math.random()*2), i*16, y*16);
-                if(y*16 > mCanvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
-            });
-        }
-        let mInterval = setInterval(drawMatrix, 35);
-        
-        // Intro boshlangandan 1 sekunda keyin yozishni boshlaydi
-        setTimeout(type, 1000);
-
-        setTimeout(() => {
-            clearInterval(mInterval);
-            document.getElementById('intro-screen').style.opacity = "0";
-            setTimeout(() => {
-                document.getElementById('intro-screen').style.display = "none";
-                document.getElementById('main-wrapper').style.display = "block";
-                setTimeout(() => document.getElementById('main-wrapper').style.opacity = "1", 50);
-                initSnow(); startClock();
-            }, 1000);
-        }, 6000); // 6 sekunddan keyin asosiy sahifa chiqadi
-
-        // LIKE & OTHER TOOLS
         let likes = 128; let isLiked = false;
         function toggleLike() {
             const container = document.getElementById('like-container');
@@ -189,6 +146,35 @@
             if(type === 'video') a.pause(); else v.pause();
         }
 
+        // MATRIX EFFECT
+        const mCanvas = document.getElementById('matrix-intro-canvas');
+        const mCtx = mCanvas.getContext('2d');
+        mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight;
+        const drops = Array.from({ length: Math.floor(mCanvas.width / 16) }).fill(1);
+        function drawMatrix() {
+            mCtx.fillStyle = "rgba(0, 0, 0, 0.05)"; mCtx.fillRect(0, 0, mCanvas.width, mCanvas.height);
+            mCtx.fillStyle = "#0f0"; mCtx.font = "16px monospace";
+            drops.forEach((y, i) => {
+                mCtx.fillText(Math.floor(Math.random()*2), i*16, y*16);
+                if(y*16 > mCanvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            });
+        }
+        let mInterval = setInterval(drawMatrix, 35);
+
+        // Intro closing
+        setTimeout(() => {
+            clearInterval(mInterval);
+            document.getElementById('intro-screen').style.opacity = "0";
+            setTimeout(() => {
+                document.getElementById('intro-screen').style.display = "none";
+                document.getElementById('main-wrapper').style.display = "block";
+                setTimeout(() => document.getElementById('main-wrapper').style.opacity = "1", 50);
+                initSnow(); startClock();
+            }, 1000);
+        }, 5000);
+
+        // SNOW & TOOLS
         const sCanvas = document.getElementById('snow-canvas');
         const sCtx = sCanvas.getContext('2d');
         let snowP = [];
