@@ -13,8 +13,8 @@
         #site-title { position: fixed; top: 15px; left: 20px; font-size: 16px; color: #0f0; font-family: monospace; z-index: 100; font-weight: bold; }
         #clock { position: fixed; top: 15px; right: 20px; font-size: 18px; color: #0f0; z-index: 100; font-family: monospace; }
 
-        /* INTRO QISMINI ESKI HOLATIGA QAYTARISH */
-        #intro-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #000; transition: 1s; }
+        /* INTRO QISMI (7 SEKUNDLIK) */
+        #intro-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #000; transition: 1.5s ease-in-out; }
         #matrix-intro-canvas { position: absolute; top: 0; left: 0; }
         .intro-line { font-size: 30px; font-weight: 900; letter-spacing: 5px; text-transform: uppercase; color: #fff; text-shadow: 0 0 15px #0f0; opacity: 0; position: relative; z-index: 10001; margin: 10px 0; }
 
@@ -22,27 +22,25 @@
         .page { position: absolute; width: 100%; height: 100vh; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10; padding: 20px; }
         .active { display: flex; }
 
-        /* 1-SAHIFA: PROFIL */
+        /* PROFIL */
         .avatar-box { width: 140px; height: 140px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 20px; overflow: hidden; box-shadow: 0 0 20px #0f0; }
         .card { width: 320px; padding: 18px; margin-bottom: 15px; background: rgba(255,255,255,0.05); border: 2px solid #0f0; border-radius: 15px; display: flex; align-items: center; text-decoration: none; color: #fff; font-size: 18px; font-weight: bold; transition: 0.3s; }
         .card i { font-size: 24px; margin-right: 20px; }
 
-        /* 2-SAHIFA: MEDIA VA PLEYER */
+        /* MEDIA KONTEYNER */
         .media-container { display: flex; flex-direction: column; height: 100vh; width: 100%; max-width: 380px; position: relative; }
         .media-item { width: 100%; padding: 15px; border: 2px solid #0f0; border-radius: 15px; background: rgba(0,255,0,0.05); position: absolute; left: 50%; transform: translateX(-50%); }
-        
-        /* Musiqani sal tepaga ko'tardik */
         .audio-box { bottom: 62%; text-align: center; }
         .video-box { top: 58%; }
         
-        video, audio { width: 100%; border-radius: 10px; outline: none; }
-        audio { filter: invert(1) hue-rotate(90deg); margin-top: 5px; }
+        video { width: 100%; border-radius: 10px; outline: none; }
 
-        /* MUSIQA BOSHQARUVI - TUGMALARNI TO'G'RILASH */
+        /* MUSIQA CHIZIG'I VA BOSHQARUVI */
         .track-info { color: #0f0; font-size: 14px; font-family: monospace; margin-bottom: 8px; }
-        .controls { display: flex; justify-content: center; align-items: center; gap: 25px; margin-top: 10px; }
+        #seek-bar { width: 100%; height: 5px; cursor: pointer !important; accent-color: #0f0; margin: 10px 0; }
+        .controls { display: flex; justify-content: center; align-items: center; gap: 30px; margin-top: 5px; }
         .controls i { color: #0f0; font-size: 24px; cursor: pointer !important; }
-        .play-btn { font-size: 32px !important; } /* O'rtadagi tugmani kattaroq qildik */
+        .play-btn { font-size: 35px !important; }
 
         .nav-arrow { position: fixed; top: 50%; transform: translateY(-50%); font-size: 50px; color: #0f0; cursor: pointer !important; z-index: 2000; }
         #nextBtn { right: 15px; } #prevBtn { left: 15px; display: none; }
@@ -64,8 +62,8 @@
 
     <div id="intro-screen">
         <canvas id="matrix-intro-canvas"></canvas>
-        <div class="intro-line" style="animation: fd 1s forwards;">Assalomu</div>
-        <div class="intro-line" style="animation: fu 1s forwards; animation-delay: 0.8s;">Alaykum</div>
+        <div class="intro-line" style="animation: fd 1.5s forwards; animation-delay: 0.5s;">Assalomu</div>
+        <div class="intro-line" style="animation: fu 1.5s forwards; animation-delay: 1.5s;">Alaykum</div>
     </div>
 
     <canvas id="snow-canvas"></canvas>
@@ -87,10 +85,14 @@
             <h2 style="color:#0f0; position: absolute; top: 15%; font-size: 22px;">Mening Galereyam</h2>
             <div class="media-container">
                 <div class="media-item audio-box">
-                    <div class="track-info" id="track-title">Yuklanmoqda...</div>
-                    <audio id="myAudio" onplay="updatePlayBtn(true)" onpause="updatePlayBtn(false)">
-                        <source id="audio-source" src="" type="audio/mpeg">
+                    <div class="track-info" id="track-title">Musiqa yuklanmoqda...</div>
+                    
+                    <input type="range" id="seek-bar" value="0" step="1" min="0">
+                    
+                    <audio id="myAudio">
+                        <source id="audio-source" src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3" type="audio/mpeg">
                     </audio>
+
                     <div class="controls">
                         <i class="fas fa-step-backward" onclick="prevTrack()"></i>
                         <i class="fas fa-play play-btn" id="play-icon" onclick="togglePlay()"></i>
@@ -122,37 +124,30 @@
     </div>
 
     <script>
-        const songs = [
-            { title: "Elvin Mirzəzadə - Düşün Məni", url: "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3" }
-        ];
-
-        let songIdx = 0;
         const audio = document.getElementById('myAudio');
-        const source = document.getElementById('audio-source');
-        const title = document.getElementById('track-title');
+        const seekBar = document.getElementById('seek-bar');
         const playIcon = document.getElementById('play-icon');
+        const trackTitle = document.getElementById('track-title');
 
-        function loadSong(idx) {
-            source.src = songs[idx].url;
-            title.innerText = songs[idx].title;
-            audio.load();
-        }
+        // MUSIQA LOGIKASI
+        trackTitle.innerText = "Elvin Mirzəzadə - Düşün Məni";
 
         function togglePlay() {
-            if (audio.paused) { audio.play(); stopOther('audio'); }
-            else { audio.pause(); }
+            if (audio.paused) { audio.play(); stopOther('audio'); playIcon.className = "fas fa-pause play-btn"; }
+            else { audio.pause(); playIcon.className = "fas fa-play play-btn"; }
         }
 
-        function updatePlayBtn(isPlaying) {
-            playIcon.className = isPlaying ? "fas fa-pause play-btn" : "fas fa-play play-btn";
-        }
+        audio.ontimeupdate = () => {
+            seekBar.max = audio.duration;
+            seekBar.value = audio.currentTime;
+        };
 
-        function nextTrack() { songIdx = (songIdx + 1) % songs.length; loadSong(songIdx); audio.play(); }
-        function prevTrack() { songIdx = (songIdx - 1 + songs.length) % songs.length; loadSong(songIdx); audio.play(); }
-        
-        loadSong(songIdx);
+        seekBar.oninput = () => { audio.currentTime = seekBar.value; };
 
-        // MATRIX VA INTRO LOGIKASI
+        function nextTrack() { alert("Keyingi qo'shiq yo'q"); }
+        function prevTrack() { audio.currentTime = 0; }
+
+        // INTRO (7 SEKUND)
         const mCanvas = document.getElementById('matrix-intro-canvas');
         const mCtx = mCanvas.getContext('2d');
         mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight;
@@ -167,6 +162,8 @@
             });
         }
         let mInterval = setInterval(drawMatrix, 35);
+
+        // 7 sekunddan keyin intro yo'qoladi
         setTimeout(() => {
             clearInterval(mInterval);
             document.getElementById('intro-screen').style.opacity = "0";
@@ -175,9 +172,10 @@
                 document.getElementById('main-wrapper').style.display = "block";
                 setTimeout(() => document.getElementById('main-wrapper').style.opacity = "1", 50);
                 initSnow(); startClock();
-            }, 1000);
-        }, 2500);
+            }, 1500);
+        }, 7000);
 
+        // NAVIGATSIYA
         let currentPage = 1;
         function changePage(dir) {
             document.getElementById('p'+currentPage).classList.remove('active');
@@ -187,6 +185,7 @@
             document.getElementById('nextBtn').style.display = (currentPage === 3) ? 'none' : 'block';
         }
 
+        // QIR SACHRASH
         const bCanvas = document.getElementById('burst-canvas');
         const bCtx = bCanvas.getContext('2d');
         bCanvas.width = window.innerWidth; bCanvas.height = window.innerHeight;
@@ -232,7 +231,7 @@
             anim();
         }
         function startClock() { setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000); }
-        function stopOther(t) { if(t==='audio') document.getElementById('myVideo').pause(); else audio.pause(); }
+        function stopOther(t) { if(t==='audio') document.getElementById('myVideo').pause(); else audio.pause(); playIcon.className = "fas fa-play play-btn"; }
         function sendToTelegram() { alert("Yuborildi!"); }
     </script>
 </body>
