@@ -25,14 +25,27 @@
 
         /* 1-PAGE: PROFILE */
         .avatar { width: 120px; height: 120px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 15px; box-shadow: 0 0 20px #0f0; }
-        .card { width: 280px; padding: 14px; margin: 8px 0; background: rgba(0, 255, 0, 0.1); border: 2px solid #0f0; border-radius: 12px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; transition: 0.3s; }
-        .card i { margin-right: 15px; font-size: 22px; color: #0f0; }
-        .card.yt i { color: #ff0000; }
-        .like-section { margin-top: 15px; cursor: pointer; display: flex; align-items: center; background: rgba(255,0,0,0.1); padding: 10px 20px; border-radius: 30px; border: 1px solid #ff0000; }
-        .like-count { font-weight: bold; color: #fff; margin-left: 10px; font-size: 18px; }
+        
+        /* TUGMALAR RANGI */
+        .card { width: 280px; padding: 14px; margin: 8px 0; border-radius: 12px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; transition: 0.3s; border: 2px solid transparent; }
+        .card i { margin-right: 15px; font-size: 22px; color: #fff; }
+        
+        .insta { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); border-color: #d6249f; }
+        .tele { background: #0088cc; border-color: #0088cc; }
+        .yt { background: #ff0000; border-color: #ff0000; }
+
+        /* LIKE CHAP BURCHAKDA */
+        .like-section { 
+            position: absolute; bottom: 30px; left: 20px; 
+            cursor: pointer; display: flex; align-items: center; 
+            background: rgba(255,255,255,0.1); padding: 8px 15px; 
+            border-radius: 20px; border: 1px solid #ff0000; transition: 0.3s; 
+        }
+        .like-section i { font-size: 22px; color: #ff0000; }
+        .like-count { font-weight: bold; color: #fff; margin-left: 8px; font-size: 16px; }
 
         /* 2-PAGE: GALEREYA */
-        .music-cyber { width: 300px; padding: 15px; background: rgba(0, 255, 0, 0.05); border: 2px solid #0f0; border-radius: 50px 5px; margin-bottom: 20px; box-shadow: 0 0 15px #0f03; }
+        .music-cyber { width: 300px; padding: 15px; background: rgba(0, 255, 0, 0.05); border: 2px solid #0f0; border-radius: 50px 5px; margin-bottom: 20px; }
         audio { width: 100%; height: 35px; filter: invert(100%) hue-rotate(90deg) brightness(1.5); }
         .video-cyber { width: 95%; max-width: 360px; background: #000; border: 3px solid #0f0; border-radius: 15px; padding: 5px; box-shadow: 0 0 25px #0f06; }
         video { width: 100%; border-radius: 10px; display: block; }
@@ -73,10 +86,12 @@
 
         <div class="page active" id="p1">
             <img src="https://img.freepik.com/free-vector/hacker-operating-laptop-cartoon-icon-illustration_138676-2387.jpg" class="avatar">
-            <h2 style="color:#0f0; margin-bottom: 10px;">Asadbek</h2>
-            <a href="https://instagram.com/ezz_mafiya" target="_blank" class="card"><i class="fab fa-instagram"></i> Instagram</a>
-            <a href="https://t.me/Pain_2007" target="_blank" class="card"><i class="fab fa-telegram"></i> Telegram</a>
+            <h2 style="color:#0f0; margin-bottom: 15px;">Asadbek</h2>
+            
+            <a href="https://instagram.com/ezz_mafiya" target="_blank" class="card insta"><i class="fab fa-instagram"></i> Instagram</a>
+            <a href="https://t.me/Pain_2007" target="_blank" class="card tele"><i class="fab fa-telegram"></i> Telegram</a>
             <a href="https://youtube.com/@meliqoziyev" target="_blank" class="card yt"><i class="fab fa-youtube"></i> YouTube</a>
+            
             <div class="like-section" onclick="addLike(event)">
                 <i class="fas fa-heart"></i> <span class="like-count" id="count">145</span>
             </div>
@@ -106,7 +121,6 @@
         const audio = document.getElementById('myAudio');
         const video = document.getElementById('myVideo');
 
-        // IKKALASI BIR VAQTDA ISHLAMASLIGI UCHUN:
         audio.onplay = () => { video.pause(); };
         video.onplay = () => { audio.pause(); };
 
@@ -141,7 +155,6 @@
             document.getElementById('p'+curr).style.display = 'flex';
             document.getElementById('prevBtn').style.display = (curr==1)?'none':'block';
             document.getElementById('nextBtn').style.display = (curr==3)?'none':'block';
-            // Sahifa almashganda hammani o'chirish
             audio.pause(); video.pause();
         }
 
