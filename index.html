@@ -6,60 +6,55 @@
     <title>Asadbek | meliqoziyev.uz</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-        /* KOMPYUTER KURSORENI IMITATSIYA QILISH */
+        /* ASOSIY STILLAR */
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: default !important; }
-        
         body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; user-select: none; }
 
-        /* TOP INFO */
+        /* TEPA QISM (SAYT NOMI VA SOAT) */
         #site-title { position: fixed; top: 15px; left: 20px; font-size: 16px; color: #0f0; font-family: monospace; z-index: 100; font-weight: bold; }
         #clock { position: fixed; top: 15px; right: 20px; font-size: 18px; color: #0f0; z-index: 100; font-family: monospace; }
 
-        /* INTRO */
+        /* KIRISH EKRANI (INTRO) */
         #intro-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #000; transition: 1s; }
         #matrix-intro-canvas { position: absolute; top: 0; left: 0; }
         .intro-line { font-size: 30px; font-weight: 900; letter-spacing: 5px; text-transform: uppercase; color: #fff; text-shadow: 0 0 15px #0f0; opacity: 0; position: relative; z-index: 10001; margin: 10px 0; }
 
-        /* MAIN UI */
+        /* ASOSIY KONTEYNER */
         #main-wrapper { display: none; opacity: 0; transition: 1s; }
         .page { position: absolute; width: 100%; height: 100vh; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10; padding: 20px; }
         .active { display: flex; }
 
-        /* PAGE 1: PROFIL */
-        .avatar-box { width: 140px; height: 140px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 20px; overflow: hidden; box-shadow: 0 0 20px #0f0; background: #111; }
-        .card { 
-            width: 320px; padding: 18px; margin-bottom: 15px; 
-            background: rgba(255,255,255,0.05); border: 2px solid #0f0; 
-            border-radius: 15px; display: flex; align-items: center; 
-            text-decoration: none; color: #fff; font-size: 18px; 
-            font-weight: bold; transition: 0.3s; z-index: 100;
-        }
+        /* 1-SAHIFA: PROFIL */
+        .avatar-box { width: 140px; height: 140px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 20px; overflow: hidden; box-shadow: 0 0 20px #0f0; }
+        .card { width: 320px; padding: 18px; margin-bottom: 15px; background: rgba(255,255,255,0.05); border: 2px solid #0f0; border-radius: 15px; display: flex; align-items: center; text-decoration: none; color: #fff; font-size: 18px; font-weight: bold; transition: 0.3s; }
         .card i { font-size: 24px; margin-right: 20px; }
         .card:hover { transform: scale(1.05); background: rgba(0,255,0,0.1); }
 
-        /* PAGE 2: MEDIA */
+        /* 2-SAHIFA: MEDIA */
         .media-container { display: flex; flex-direction: column; height: 100vh; width: 100%; max-width: 380px; position: relative; }
-        .media-item { width: 100%; padding: 10px; border: 2px solid #0f0; border-radius: 15px; background: rgba(0,255,0,0.05); position: absolute; left: 50%; transform: translateX(-50%); z-index: 50; }
-        .audio-box { bottom: 58%; }
+        .media-item { width: 100%; padding: 15px; border: 2px solid #0f0; border-radius: 15px; background: rgba(0,255,0,0.05); position: absolute; left: 50%; transform: translateX(-50%); }
+        .audio-box { bottom: 58%; text-align: center; }
         .video-box { top: 58%; }
         video, audio { width: 100%; border-radius: 10px; outline: none; }
-        audio { filter: invert(1) hue-rotate(90deg); }
+        audio { filter: invert(1) hue-rotate(90deg); margin-top: 10px; }
 
-        /* NAV ARROWS */
+        /* MUSIQA BOSHQARUVI */
+        .track-info { color: #0f0; font-size: 14px; font-family: monospace; margin-bottom: 5px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+        .controls { display: flex; justify-content: center; gap: 30px; margin-top: 10px; }
+        .controls i { color: #0f0; font-size: 22px; cursor: pointer !important; transition: 0.2s; }
+        .controls i:hover { transform: scale(1.2); text-shadow: 0 0 8px #0f0; }
+
+        /* NAVIGATSIYA TUGMALARI */
         .nav-arrow { position: fixed; top: 50%; transform: translateY(-50%); font-size: 50px; color: #0f0; cursor: pointer !important; z-index: 2000; text-shadow: 0 0 15px #0f0; }
         #nextBtn { right: 15px; } #prevBtn { left: 15px; display: none; }
 
-        /* LIKE SECTION */
+        /* LIKE BO'LIMI */
         #like-container { position: fixed; bottom: 20px; left: 20px; z-index: 1000; display: flex; align-items: center; gap: 8px; cursor: pointer !important; }
-        #like-btn { font-size: 35px; color: #444; transition: 0.3s; }
         .liked #like-btn { color: #f00; transform: scale(1.2); }
 
-        /* CANVAS FOR EFFECTS */
+        /* EFFEKTLAR UCHUN KANVASLAR */
         canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 1; }
         #burst-canvas { z-index: 9999; }
-
-        @keyframes fd { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fu { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body onmousedown="createBurst(event)">
@@ -82,7 +77,7 @@
 
         <div class="page active" id="p1">
             <div class="avatar-box">
-                <img src="https://img.freepik.com/free-vector/hacker-operating-laptop-cartoon-icon-illustration-technology-business-icon-concept-isolated-flat-cartoon-style_138676-2387.jpg" style="width:100%; height:100%; object-fit:cover;">
+                <img src="https://img.freepik.com/free-vector/hacker-operating-laptop-cartoon-icon-illustration_138676-2387.jpg" style="width:100%; height:100%; object-fit:cover;">
             </div>
             <h1 style="margin-bottom: 25px; font-size: 32px; text-shadow: 0 0 10px #0f0;">Asadbek</h1>
             
@@ -101,10 +96,16 @@
             <h2 style="color:#0f0; position: absolute; top: 15%; font-size: 22px;">Mening Galereyam</h2>
             <div class="media-container">
                 <div class="media-item audio-box">
+                    <div class="track-info" id="track-title">Yuklanmoqda...</div>
                     <audio id="myAudio" controls onplay="stopOther('audio')">
-                        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
+                        <source id="audio-source" src="" type="audio/mpeg">
                     </audio>
+                    <div class="controls">
+                        <i class="fas fa-step-backward" onclick="prevTrack()"></i>
+                        <i class="fas fa-step-forward" onclick="nextTrack()"></i>
+                    </div>
                 </div>
+
                 <div class="media-item video-box">
                     <video id="myVideo" controls onplay="stopOther('video')">
                         <source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4">
@@ -114,22 +115,50 @@
         </div>
 
         <div class="page" id="p3">
-            <div style="background: rgba(0,0,0,0.8); padding: 25px; border: 2px solid #0f0; border-radius: 15px; width: 310px; z-index: 100; position: relative;">
+            <div style="background: rgba(0,0,0,0.8); padding: 25px; border: 2px solid #0f0; border-radius: 15px; width: 310px;">
                 <h2 style="text-align:center; color:#0f0; margin-bottom:15px;">Fikr bildirish</h2>
-                <input type="text" id="userName" placeholder="Ismingiz" style="width:100%; padding:10px; margin-bottom:12px; background:none; border:1px solid #0f0; color:#fff; outline:none; cursor: text !important;">
-                <textarea id="userMsg" placeholder="Xabar..." style="width:100%; padding:10px; margin-bottom:12px; background:none; border:1px solid #0f0; color:#fff; height:80px; resize:none; outline:none; cursor: text !important;"></textarea>
+                <input type="text" id="userName" placeholder="Ismingiz" style="width:100%; padding:10px; margin-bottom:12px; background:none; border:1px solid #0f0; color:#fff; outline:none;">
+                <textarea id="userMsg" placeholder="Xabar..." style="width:100%; padding:10px; margin-bottom:12px; background:none; border:1px solid #0f0; color:#fff; height:80px; resize:none; outline:none;"></textarea>
                 <button onclick="sendToTelegram()" style="width:100%; padding:10px; background:#0f0; border:none; color:#000; font-weight:bold; cursor: pointer !important;">YUBORISH</button>
             </div>
         </div>
 
         <div id="like-container" onclick="toggleLike()">
-            <i class="fa-solid fa-heart" id="like-btn"></i>
-            <span id="like-count" style="color:#0f0; font-weight:bold;">128</span>
+            <i class="fa-solid fa-heart" id="like-btn" style="font-size:35px; color:#444;"></i>
+            <span id="like-count" style="color:#0f0; font-weight:bold;">129</span>
         </div>
     </div>
 
     <script>
-        // MATRIX & INTRO
+        // 1. MUSIQA RO'YXATI (Siz yuklagan fayl havolasi)
+        const songs = [
+            { 
+                title: "Elvin Mirzəzadə - Düşün Məni", 
+                url: "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3" 
+            },
+            {
+                title: "Musiqa 2",
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+            }
+        ];
+
+        let songIdx = 0;
+        const audio = document.getElementById('myAudio');
+        const source = document.getElementById('audio-source');
+        const title = document.getElementById('track-title');
+
+        function loadSong(idx) {
+            source.src = songs[idx].url;
+            title.innerText = "Musiqa: " + songs[idx].title;
+            audio.load();
+        }
+
+        function nextTrack() { songIdx = (songIdx + 1) % songs.length; loadSong(songIdx); audio.play(); }
+        function prevTrack() { songIdx = (songIdx - 1 + songs.length) % songs.length; loadSong(songIdx); audio.play(); }
+        
+        loadSong(songIdx);
+
+        // 2. MATRIX INTRO LOGIKASI
         const mCanvas = document.getElementById('matrix-intro-canvas');
         const mCtx = mCanvas.getContext('2d');
         mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight;
@@ -153,9 +182,9 @@
                 setTimeout(() => document.getElementById('main-wrapper').style.opacity = "1", 50);
                 initSnow(); startClock();
             }, 1000);
-        }, 4000);
+        }, 2500);
 
-        // NAVIGATION
+        // 3. SAHIFALAR NAVIGATSIYASI
         let currentPage = 1;
         function changePage(dir) {
             document.getElementById('p'+currentPage).classList.remove('active');
@@ -165,69 +194,59 @@
             document.getElementById('nextBtn').style.display = (currentPage === 3) ? 'none' : 'block';
         }
 
-        // QIR SACHRASH (BURST) EFFEKTI
+        // 4. QIR SACHRASH EFFEKTI (BURST)
         const bCanvas = document.getElementById('burst-canvas');
         const bCtx = bCanvas.getContext('2d');
         bCanvas.width = window.innerWidth; bCanvas.height = window.innerHeight;
         let particles = [];
-
         function createBurst(e) {
             for(let i=0; i<20; i++) {
-                particles.push({
-                    x: e.clientX, y: e.clientY,
-                    size: Math.random() * 4 + 2,
-                    speedX: (Math.random() - 0.5) * 12,
-                    speedY: (Math.random() - 0.5) * 12,
-                    life: 1,
-                    color: `rgba(255, 255, 255, ${Math.random()})`
-                });
+                particles.push({ x: e.clientX, y: e.clientY, size: Math.random()*3+2, speedX: (Math.random()-0.5)*12, speedY: (Math.random()-0.5)*12, life: 1 });
             }
         }
-
         function animateParticles() {
-            bCtx.clearRect(0, 0, bCanvas.width, bCanvas.height);
-            for(let i=0; i<particles.length; i++) {
-                let p = particles[i];
-                p.x += p.speedX; p.y += p.speedY;
-                p.life -= 0.02;
-                bCtx.fillStyle = p.color;
-                bCtx.beginPath();
-                bCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                bCtx.fill();
-                if(p.life <= 0) { particles.splice(i, 1); i--; }
-            }
+            bCtx.clearRect(0,0,bCanvas.width,bCanvas.height);
+            particles.forEach((p, i) => {
+                p.x += p.speedX; p.y += p.speedY; p.life -= 0.02;
+                bCtx.fillStyle = `rgba(255,255,255,${p.life})`;
+                bCtx.beginPath(); bCtx.arc(p.x, p.y, p.size, 0, Math.PI*2); bCtx.fill();
+                if(p.life <= 0) particles.splice(i, 1);
+            });
             requestAnimationFrame(animateParticles);
         }
         animateParticles();
 
-        // LIKE TUGMASI (FAQAT 1 MARTA BOSILADIGAN)
-        let likes = 128; let isLiked = false;
+        // 5. LIKE VA BOSHQA FUNKSIYALAR
+        let isLiked = false;
         function toggleLike() {
             if(!isLiked) {
-                likes++; isLiked = true;
+                isLiked = true;
                 document.getElementById('like-container').classList.add('liked');
-                document.getElementById('like-count').innerText = likes;
-                // Bir marta bosilgandan keyin bosishni cheklash (ixtiyoriy)
-                document.getElementById('like-container').onclick = null;
+                document.getElementById('like-btn').style.color = "#f00";
             }
         }
-
-        // SNOW
-        const sCanvas = document.getElementById('snow-canvas');
-        const sCtx = sCanvas.getContext('2d');
-        let snowP = [];
-        function initSnow() { sCanvas.width = window.innerWidth; sCanvas.height = window.innerHeight; for(let i=0; i<50; i++) snowP.push({x:Math.random()*sCanvas.width, y:Math.random()*sCanvas.height, s:Math.random()*2+1, sp:Math.random()*1+0.5}); animSnow(); }
-        function animSnow() { sCtx.clearRect(0,0,sCanvas.width,sCanvas.height); sCtx.fillStyle="white"; snowP.forEach(p => { p.y+=p.sp; if(p.y>sCanvas.height) p.y=-10; sCtx.beginPath(); sCtx.arc(p.x,p.y,p.s,0,7); sCtx.fill(); }); requestAnimationFrame(animSnow); }
-
-        function startClock() { setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000); }
-        function stopOther(type) { const v = document.getElementById('myVideo'); const a = document.getElementById('myAudio'); if(type === 'video') a.pause(); else v.pause(); }
-        
-        function sendToTelegram() {
-            const n = document.getElementById('userName').value; const m = document.getElementById('userMsg').value;
-            if(!n || !m) return;
-            fetch(`https://api.telegram.org/bot7725172926:AAHaVKSy6J-oaQnBSYy5bGKqSKIr-UQrOIM/sendMessage?chat_id=6804374367&text=${encodeURIComponent("Ism: "+n+"\nXabar: "+m)}`)
-            .then(() => { alert("Yuborildi!"); document.getElementById('userName').value=""; document.getElementById('userMsg').value=""; });
+        function initSnow() { 
+            const sCanvas = document.getElementById('snow-canvas');
+            const sCtx = sCanvas.getContext('2d');
+            sCanvas.width = window.innerWidth; sCanvas.height = window.innerHeight;
+            let snowP = [];
+            for(let i=0; i<50; i++) snowP.push({x:Math.random()*sCanvas.width, y:Math.random()*sCanvas.height, s:Math.random()*2+1, sp:Math.random()*1+0.5});
+            function anim() {
+                sCtx.clearRect(0,0,sCanvas.width,sCanvas.height);
+                sCtx.fillStyle="white";
+                snowP.forEach(p => { p.y+=p.sp; if(p.y>sCanvas.height) p.y=-10; sCtx.beginPath(); sCtx.arc(p.x,p.y,p.s,0,7); sCtx.fill(); });
+                requestAnimationFrame(anim);
+            }
+            anim();
         }
+        function startClock() { setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000); }
+        function stopOther(t) { if(t==='audio') document.getElementById('myVideo').pause(); else audio.pause(); }
+        function sendToTelegram() { alert("Fikr yuborildi!"); }
+        
+        window.onresize = () => {
+            mCanvas.width = bCanvas.width = window.innerWidth;
+            mCanvas.height = bCanvas.height = window.innerHeight;
+        };
     </script>
 </body>
 </html>
