@@ -6,15 +6,14 @@
     <title>Asadbek | meliqoziyev.uz</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-        /* ASOSIY STILLAR */
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: default !important; }
         body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; user-select: none; }
 
         #site-title { position: fixed; top: 15px; left: 20px; font-size: 16px; color: #0f0; font-family: monospace; z-index: 100; font-weight: bold; }
         #clock { position: fixed; top: 15px; right: 20px; font-size: 18px; color: #0f0; z-index: 100; font-family: monospace; }
 
-        /* INTRO QISMI (7 SEKUNDLIK) */
-        #intro-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #000; transition: 1.5s ease-in-out; }
+        /* INTRO 7 SEKUND */
+        #intro-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #000; transition: 1.5s; }
         #matrix-intro-canvas { position: absolute; top: 0; left: 0; }
         .intro-line { font-size: 30px; font-weight: 900; letter-spacing: 5px; text-transform: uppercase; color: #fff; text-shadow: 0 0 15px #0f0; opacity: 0; position: relative; z-index: 10001; margin: 10px 0; }
 
@@ -22,20 +21,18 @@
         .page { position: absolute; width: 100%; height: 100vh; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10; padding: 20px; }
         .active { display: flex; }
 
-        /* PROFIL */
         .avatar-box { width: 140px; height: 140px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 20px; overflow: hidden; box-shadow: 0 0 20px #0f0; }
         .card { width: 320px; padding: 18px; margin-bottom: 15px; background: rgba(255,255,255,0.05); border: 2px solid #0f0; border-radius: 15px; display: flex; align-items: center; text-decoration: none; color: #fff; font-size: 18px; font-weight: bold; transition: 0.3s; }
         .card i { font-size: 24px; margin-right: 20px; }
 
-        /* MEDIA KONTEYNER */
+        /* MEDIA */
         .media-container { display: flex; flex-direction: column; height: 100vh; width: 100%; max-width: 380px; position: relative; }
         .media-item { width: 100%; padding: 15px; border: 2px solid #0f0; border-radius: 15px; background: rgba(0,255,0,0.05); position: absolute; left: 50%; transform: translateX(-50%); }
         .audio-box { bottom: 62%; text-align: center; }
         .video-box { top: 58%; }
-        
         video { width: 100%; border-radius: 10px; outline: none; }
 
-        /* MUSIQA CHIZIG'I VA BOSHQARUVI */
+        /* MUSIQA PROGRESS BAR */
         .track-info { color: #0f0; font-size: 14px; font-family: monospace; margin-bottom: 8px; }
         #seek-bar { width: 100%; height: 5px; cursor: pointer !important; accent-color: #0f0; margin: 10px 0; }
         .controls { display: flex; justify-content: center; align-items: center; gap: 30px; margin-top: 5px; }
@@ -45,12 +42,16 @@
         .nav-arrow { position: fixed; top: 50%; transform: translateY(-50%); font-size: 50px; color: #0f0; cursor: pointer !important; z-index: 2000; }
         #nextBtn { right: 15px; } #prevBtn { left: 15px; display: none; }
 
+        /* FIKR BILDIRISH */
+        .feedback-box { background: rgba(0,0,0,0.8); padding: 25px; border: 2px solid #0f0; border-radius: 15px; width: 310px; text-align: center; }
+        .feedback-box h2 { color: #0f0; margin-bottom: 20px; }
+        .feedback-box input, .feedback-box textarea { width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(255,255,255,0.05); border: 1px solid #0f0; color: #fff; outline: none; border-radius: 8px; }
+        .feedback-box button { width: 100%; padding: 12px; background: #0f0; border: none; color: #000; font-weight: bold; border-radius: 8px; cursor: pointer !important; }
+
         #like-container { position: fixed; bottom: 20px; left: 20px; z-index: 1000; display: flex; align-items: center; gap: 8px; cursor: pointer !important; }
         .liked #like-btn { color: #f00; }
 
         canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 1; }
-        #burst-canvas { z-index: 9999; }
-
         @keyframes fd { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fu { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -76,32 +77,25 @@
         <div class="page active" id="p1">
             <div class="avatar-box"><img src="https://img.freepik.com/free-vector/hacker-operating-laptop-cartoon-icon-illustration_138676-2387.jpg" style="width:100%; height:100%; object-fit:cover;"></div>
             <h1 style="margin-bottom: 25px; font-size: 32px;">Asadbek</h1>
-            <a href="https://instagram.com/ezz_mafiya" class="card"><i class="fab fa-instagram" style="color: #E1306C;"></i> Instagram</a>
-            <a href="https://t.me/Pain_2007" class="card"><i class="fab fa-telegram" style="color: #229ED9;"></i> Telegram</a>
-            <a href="https://youtube.com/@meliqoziyevuz" class="card"><i class="fab fa-youtube" style="color: #FF0000;"></i> YouTube</a>
+            <a href="https://instagram.com/ezz_mafiya" target="_blank" class="card"><i class="fab fa-instagram" style="color: #E1306C;"></i> Instagram</a>
+            <a href="https://t.me/Pain_2007" target="_blank" class="card"><i class="fab fa-telegram" style="color: #229ED9;"></i> Telegram</a>
+            <a href="https://youtube.com/@meliqoziyevuz" target="_blank" class="card"><i class="fab fa-youtube" style="color: #FF0000;"></i> YouTube</a>
         </div>
 
         <div class="page" id="p2">
-            <h2 style="color:#0f0; position: absolute; top: 15%; font-size: 22px;">Mening Galereyam</h2>
             <div class="media-container">
                 <div class="media-item audio-box">
-                    <div class="track-info" id="track-title">Musiqa yuklanmoqda...</div>
-                    
+                    <div class="track-info" id="track-title">Elvin Mirzəzadə - Düşün Məni</div>
                     <input type="range" id="seek-bar" value="0" step="1" min="0">
-                    
-                    <audio id="myAudio">
-                        <source id="audio-source" src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3" type="audio/mpeg">
-                    </audio>
-
+                    <audio id="myAudio"><source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3" type="audio/mpeg"></audio>
                     <div class="controls">
-                        <i class="fas fa-step-backward" onclick="prevTrack()"></i>
+                        <i class="fas fa-step-backward" onclick="audio.currentTime=0"></i>
                         <i class="fas fa-play play-btn" id="play-icon" onclick="togglePlay()"></i>
-                        <i class="fas fa-step-forward" onclick="nextTrack()"></i>
+                        <i class="fas fa-step-forward" onclick="alert('Oxiri')"></i>
                     </div>
                 </div>
-
                 <div class="media-item video-box">
-                    <video id="myVideo" controls onplay="stopOther('video')">
+                    <video id="myVideo" controls onplay="audio.pause(); playIcon.className='fas fa-play play-btn';">
                         <source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4">
                     </video>
                 </div>
@@ -109,11 +103,11 @@
         </div>
 
         <div class="page" id="p3">
-            <div style="background: rgba(0,0,0,0.8); padding: 25px; border: 2px solid #0f0; border-radius: 15px; width: 310px;">
-                <h2 style="text-align:center; color:#0f0; margin-bottom:15px;">Fikr bildirish</h2>
-                <input type="text" id="userName" placeholder="Ismingiz" style="width:100%; padding:10px; margin-bottom:12px; background:none; border:1px solid #0f0; color:#fff; outline:none;">
-                <textarea id="userMsg" placeholder="Xabar..." style="width:100%; padding:10px; margin-bottom:12px; background:none; border:1px solid #0f0; color:#fff; height:80px; resize:none; outline:none;"></textarea>
-                <button onclick="sendToTelegram()" style="width:100%; padding:10px; background:#0f0; border:none; color:#000; font-weight:bold;">YUBORISH</button>
+            <div class="feedback-box">
+                <h2>Fikr bildirish</h2>
+                <input type="text" id="userName" placeholder="Ismingiz">
+                <textarea id="userMsg" placeholder="Xabaringiz..."></textarea>
+                <button id="sendBtn" onclick="sendToTelegram()">YUBORISH</button>
             </div>
         </div>
 
@@ -127,27 +121,31 @@
         const audio = document.getElementById('myAudio');
         const seekBar = document.getElementById('seek-bar');
         const playIcon = document.getElementById('play-icon');
-        const trackTitle = document.getElementById('track-title');
-
-        // MUSIQA LOGIKASI
-        trackTitle.innerText = "Elvin Mirzəzadə - Düşün Məni";
 
         function togglePlay() {
-            if (audio.paused) { audio.play(); stopOther('audio'); playIcon.className = "fas fa-pause play-btn"; }
+            if (audio.paused) { audio.play(); document.getElementById('myVideo').pause(); playIcon.className = "fas fa-pause play-btn"; }
             else { audio.pause(); playIcon.className = "fas fa-play play-btn"; }
         }
-
-        audio.ontimeupdate = () => {
-            seekBar.max = audio.duration;
-            seekBar.value = audio.currentTime;
-        };
-
+        audio.ontimeupdate = () => { seekBar.max = audio.duration; seekBar.value = audio.currentTime; };
         seekBar.oninput = () => { audio.currentTime = seekBar.value; };
 
-        function nextTrack() { alert("Keyingi qo'shiq yo'q"); }
-        function prevTrack() { audio.currentTime = 0; }
+        function sendToTelegram() {
+            const name = document.getElementById('userName').value;
+            const msg = document.getElementById('userMsg').value;
+            if (!name || !msg) { alert("To'ldiring!"); return; }
+            
+            const btn = document.getElementById('sendBtn');
+            btn.innerText = "Yuborilmoqda...";
+            
+            const token = "7547926121:AAEf2M9l56Xh-D0eQyI8wB9sK7u-vL_qX4M";
+            const chat_id = "6171891041";
+            const fullMsg = `👤 Ism: ${name}\n💬 Xabar: ${msg}`;
+            
+            fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(fullMsg)}`)
+            .then(() => { alert("Yuborildi! ✅"); document.getElementById('userName').value=""; document.getElementById('userMsg').value=""; })
+            .finally(() => btn.innerText = "YUBORISH");
+        }
 
-        // INTRO (7 SEKUND)
         const mCanvas = document.getElementById('matrix-intro-canvas');
         const mCtx = mCanvas.getContext('2d');
         mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight;
@@ -155,27 +153,15 @@
         function drawMatrix() {
             mCtx.fillStyle = "rgba(0, 0, 0, 0.05)"; mCtx.fillRect(0, 0, mCanvas.width, mCanvas.height);
             mCtx.fillStyle = "#0f0"; mCtx.font = "16px monospace";
-            drops.forEach((y, i) => {
-                mCtx.fillText(Math.floor(Math.random()*2), i*16, y*16);
-                if(y*16 > mCanvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
-            });
+            drops.forEach((y, i) => { mCtx.fillText(Math.floor(Math.random()*2), i*16, y*16); if(y*16 > mCanvas.height && Math.random() > 0.975) drops[i] = 0; drops[i]++; });
         }
         let mInterval = setInterval(drawMatrix, 35);
-
-        // 7 sekunddan keyin intro yo'qoladi
         setTimeout(() => {
             clearInterval(mInterval);
             document.getElementById('intro-screen').style.opacity = "0";
-            setTimeout(() => {
-                document.getElementById('intro-screen').style.display = "none";
-                document.getElementById('main-wrapper').style.display = "block";
-                setTimeout(() => document.getElementById('main-wrapper').style.opacity = "1", 50);
-                initSnow(); startClock();
-            }, 1500);
+            setTimeout(() => { document.getElementById('intro-screen').style.display = "none"; document.getElementById('main-wrapper').style.display = "block"; setTimeout(() => document.getElementById('main-wrapper').style.opacity = "1", 50); initSnow(); startClock(); }, 1500);
         }, 7000);
 
-        // NAVIGATSIYA
         let currentPage = 1;
         function changePage(dir) {
             document.getElementById('p'+currentPage).classList.remove('active');
@@ -185,54 +171,23 @@
             document.getElementById('nextBtn').style.display = (currentPage === 3) ? 'none' : 'block';
         }
 
-        // QIR SACHRASH
         const bCanvas = document.getElementById('burst-canvas');
         const bCtx = bCanvas.getContext('2d');
         bCanvas.width = window.innerWidth; bCanvas.height = window.innerHeight;
         let particles = [];
-        function createBurst(e) {
-            for(let i=0; i<15; i++) {
-                particles.push({ x: e.clientX, y: e.clientY, size: Math.random()*3+2, speedX: (Math.random()-0.5)*10, speedY: (Math.random()-0.5)*10, life: 1 });
-            }
-        }
-        function animateParticles() {
-            bCtx.clearRect(0,0,bCanvas.width,bCanvas.height);
-            particles.forEach((p, i) => {
-                p.x += p.speedX; p.y += p.speedY; p.life -= 0.02;
-                bCtx.fillStyle = `rgba(255,255,255,${p.life})`;
-                bCtx.beginPath(); bCtx.arc(p.x, p.y, p.size, 0, Math.PI*2); bCtx.fill();
-                if(p.life <= 0) particles.splice(i, 1);
-            });
-            requestAnimationFrame(animateParticles);
-        }
+        function createBurst(e) { for(let i=0; i<15; i++) particles.push({ x: e.clientX, y: e.clientY, size: Math.random()*3+2, speedX: (Math.random()-0.5)*10, speedY: (Math.random()-0.5)*10, life: 1 }); }
+        function animateParticles() { bCtx.clearRect(0,0,bCanvas.width,bCanvas.height); particles.forEach((p, i) => { p.x += p.speedX; p.y += p.speedY; p.life -= 0.02; bCtx.fillStyle = `rgba(255,255,255,${p.life})`; bCtx.beginPath(); bCtx.arc(p.x, p.y, p.size, 0, Math.PI*2); bCtx.fill(); if(p.life <= 0) particles.splice(i, 1); }); requestAnimationFrame(animateParticles); }
         animateParticles();
 
         let isLiked = false;
-        function toggleLike() {
-            if(!isLiked) {
-                isLiked = true;
-                document.getElementById('like-container').classList.add('liked');
-                document.getElementById('like-btn').style.color = "#f00";
-            }
-        }
-
+        function toggleLike() { if(!isLiked) { isLiked = true; document.getElementById('like-btn').style.color = "#f00"; } }
         function initSnow() { 
-            const sCanvas = document.getElementById('snow-canvas');
-            const sCtx = sCanvas.getContext('2d');
-            sCanvas.width = window.innerWidth; sCanvas.height = window.innerHeight;
-            let snowP = [];
-            for(let i=0; i<50; i++) snowP.push({x:Math.random()*sCanvas.width, y:Math.random()*sCanvas.height, s:Math.random()*2+1, sp:Math.random()*1+0.5});
-            function anim() {
-                sCtx.clearRect(0,0,sCanvas.width,sCanvas.height);
-                sCtx.fillStyle="white";
-                snowP.forEach(p => { p.y+=p.sp; if(p.y>sCanvas.height) p.y=-10; sCtx.beginPath(); sCtx.arc(p.x,p.y,p.s,0,7); sCtx.fill(); });
-                requestAnimationFrame(anim);
-            }
+            const sCanvas = document.getElementById('snow-canvas'); const sCtx = sCanvas.getContext('2d'); sCanvas.width = window.innerWidth; sCanvas.height = window.innerHeight;
+            let snowP = []; for(let i=0; i<50; i++) snowP.push({x:Math.random()*sCanvas.width, y:Math.random()*sCanvas.height, s:Math.random()*2+1, sp:Math.random()*1+0.5});
+            function anim() { sCtx.clearRect(0,0,sCanvas.width,sCanvas.height); sCtx.fillStyle="white"; snowP.forEach(p => { p.y+=p.sp; if(p.y>sCanvas.height) p.y=-10; sCtx.beginPath(); sCtx.arc(p.x,p.y,p.s,0,7); sCtx.fill(); }); requestAnimationFrame(anim); }
             anim();
         }
         function startClock() { setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000); }
-        function stopOther(t) { if(t==='audio') document.getElementById('myVideo').pause(); else audio.pause(); playIcon.className = "fas fa-play play-btn"; }
-        function sendToTelegram() { alert("Yuborildi!"); }
     </script>
 </body>
 </html>
