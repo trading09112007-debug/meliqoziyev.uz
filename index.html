@@ -6,6 +6,7 @@
     <title>Asadbek | meliqoziyev.uz</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
+        /* ASOSIY STILLAR */
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: default !important; }
         body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; user-select: none; }
 
@@ -17,13 +18,16 @@
         #matrix-intro-canvas { position: absolute; top: 0; left: 0; }
         .intro-line { font-size: 30px; font-weight: 900; letter-spacing: 5px; text-transform: uppercase; color: #fff; text-shadow: 0 0 15px #0f0; opacity: 0; position: relative; z-index: 10001; margin: 10px 0; }
 
+        /* ASOSIY KONTEYNER */
         #main-wrapper { display: none; opacity: 0; transition: 1s; }
         .page { position: absolute; width: 100%; height: 100vh; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10; padding: 20px; }
         .active { display: flex; }
 
+        /* KARTALAR VA AVATAR */
         .avatar-box { width: 140px; height: 140px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 20px; overflow: hidden; box-shadow: 0 0 20px #0f0; }
         .card { width: 320px; padding: 18px; margin-bottom: 15px; background: rgba(255,255,255,0.05); border: 2px solid #0f0; border-radius: 15px; display: flex; align-items: center; text-decoration: none; color: #fff; font-size: 18px; font-weight: bold; transition: 0.3s; }
         .card i { font-size: 24px; margin-right: 20px; }
+        .card:hover { background: rgba(0, 255, 0, 0.1); transform: scale(1.02); }
 
         /* MEDIA QISMI */
         .media-container { display: flex; flex-direction: column; height: 100vh; width: 100%; max-width: 380px; position: relative; }
@@ -36,14 +40,18 @@
         .controls { display: flex; justify-content: center; align-items: center; gap: 30px; margin-top: 5px; }
         .controls i { color: #0f0; font-size: 24px; cursor: pointer !important; }
 
-        .nav-arrow { position: fixed; top: 50%; transform: translateY(-50%); font-size: 50px; color: #0f0; cursor: pointer !important; z-index: 2000; }
+        /* NAVIGATSIYA */
+        .nav-arrow { position: fixed; top: 50%; transform: translateY(-50%); font-size: 50px; color: #0f0; cursor: pointer !important; z-index: 2000; opacity: 0.6; }
+        .nav-arrow:hover { opacity: 1; }
         #nextBtn { right: 15px; } #prevBtn { left: 15px; display: none; }
 
-        /* FIKR BILDIRISH */
+        /* FORM */
         .feedback-box { background: rgba(0,0,0,0.8); padding: 25px; border: 2px solid #0f0; border-radius: 15px; width: 310px; text-align: center; }
         .feedback-box input, .feedback-box textarea { width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(255,255,255,0.05); border: 1px solid #0f0; color: #fff; outline: none; border-radius: 8px; }
         .feedback-box button { width: 100%; padding: 12px; background: #0f0; border: none; color: #000; font-weight: bold; border-radius: 8px; cursor: pointer !important; }
 
+        #like-container { position: fixed; bottom: 20px; left: 20px; z-index: 1000; display: flex; align-items: center; gap: 8px; cursor: pointer !important; }
+        
         canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 1; }
         @keyframes fd { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fu { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -68,26 +76,32 @@
         <i class="fas fa-chevron-left nav-arrow" id="prevBtn" onclick="changePage(-1)"></i>
 
         <div class="page active" id="p1">
-            <div class="avatar-box"><img src="https://img.freepik.com/free-vector/hacker-operating-laptop-cartoon-icon-illustration_138676-2387.jpg" style="width:100%; height:100%; object-fit:cover;"></div>
-            <h1 style="margin-bottom: 25px; font-size: 32px;">Asadbek</h1>
+            <div class="avatar-box">
+                <img src="https://img.freepik.com/free-vector/hacker-operating-laptop-cartoon-icon-illustration_138676-2387.jpg" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <h1 style="margin-bottom: 25px; font-size: 32px; text-shadow: 0 0 10px #0f0;">Asadbek</h1>
             <a href="https://instagram.com/ezz_mafiya" target="_blank" class="card"><i class="fab fa-instagram" style="color: #E1306C;"></i> Instagram</a>
             <a href="https://t.me/Pain_2007" target="_blank" class="card"><i class="fab fa-telegram" style="color: #229ED9;"></i> Telegram</a>
+            <a href="https://youtube.com/@meliqoziyevuz" target="_blank" class="card"><i class="fab fa-youtube" style="color: #FF0000;"></i> YouTube</a>
         </div>
 
         <div class="page" id="p2">
+            <h2 style="color:#0f0; margin-bottom: 20px;">Mening Galereyam</h2>
             <div class="media-container">
                 <div class="media-item audio-box">
                     <div style="color:#0f0; font-family:monospace; margin-bottom:8px;">Elvin Mirzəzadə - Düşün Məni</div>
                     <input type="range" id="seek-bar" value="0" step="1" min="0">
-                    <audio id="myAudio"><source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3" type="audio/mpeg"></audio>
+                    <audio id="myAudio">
+                        <source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3" type="audio/mpeg">
+                    </audio>
                     <div class="controls">
                         <i class="fas fa-step-backward" onclick="audio.currentTime=0"></i>
                         <i class="fas fa-play" id="play-icon" onclick="togglePlay()" style="font-size:35px;"></i>
-                        <i class="fas fa-step-forward" onclick="alert('Ro\'yxat tugadi')"></i>
+                        <i class="fas fa-step-forward" onclick="alert('Playlist tugadi')"></i>
                     </div>
                 </div>
                 <div class="media-item video-box">
-                    <video id="myVideo" controls style="width:100%; border-radius:10px;" onplay="audio.pause(); document.getElementById('play-icon').className='fas fa-play';">
+                    <video id="myVideo" controls style="width:100%; border-radius:10px;" onplay="pauseAudio()">
                         <source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4">
                     </video>
                 </div>
@@ -98,53 +112,70 @@
             <div class="feedback-box">
                 <h2 style="color:#0f0; margin-bottom:20px;">Fikr bildirish</h2>
                 <input type="text" id="userName" placeholder="Ismingiz">
-                <textarea id="userMsg" placeholder="Xabaringiz..."></textarea>
+                <textarea id="userMsg" rows="4" placeholder="Xabaringiz..."></textarea>
                 <button id="sendBtn" onclick="sendToTelegram()">YUBORISH</button>
             </div>
+        </div>
+
+        <div id="like-container" onclick="toggleLike()">
+            <i class="fa-solid fa-heart" id="like-btn" style="font-size:35px; color:#444; transition: 0.3s;"></i>
+            <span id="like-count" style="color:#0f0; font-weight:bold;">129</span>
         </div>
     </div>
 
     <script>
+        // MUSIQA SOZLAMALARI
         const audio = document.getElementById('myAudio');
         const seekBar = document.getElementById('seek-bar');
         const playIcon = document.getElementById('play-icon');
 
         function togglePlay() {
-            if (audio.paused) { audio.play(); document.getElementById('myVideo').pause(); playIcon.className = "fas fa-pause"; }
-            else { audio.pause(); playIcon.className = "fas fa-play"; }
+            if (audio.paused) { 
+                audio.play(); 
+                document.getElementById('myVideo').pause(); 
+                playIcon.className = "fas fa-pause"; 
+            } else { 
+                audio.pause(); 
+                playIcon.className = "fas fa-play"; 
+            }
         }
+        function pauseAudio() { audio.pause(); playIcon.className = "fas fa-play"; }
         audio.ontimeupdate = () => { seekBar.max = audio.duration; seekBar.value = audio.currentTime; };
         seekBar.oninput = () => { audio.currentTime = seekBar.value; };
 
-        // TELEGRAMGA XABAR YUBORISH
+        // TELEGRAMGA XABAR YUBORISH (TO'G'RILANGAN)
         function sendToTelegram() {
             const name = document.getElementById('userName').value;
             const msg = document.getElementById('userMsg').value;
-            if (!name || !msg) { alert("Ism va xabarni yozing!"); return; }
+            if (!name || !msg) { alert("Iltimos, barcha maydonlarni to'ldiring!"); return; }
             
             const btn = document.getElementById('sendBtn');
             btn.innerText = "Yuborilmoqda...";
+            btn.disabled = true;
             
             const token = "7547926121:AAEf2M9l56Xh-D0eQyI8wB9sK7u-vL_qX4M";
-            // Skrinshotingizdagi yangi ID ni qo'ydim:
-            const chat_id = "6804374367"; 
-            const fullMsg = `🚀 Yangi xabar!\n👤 Ism: ${name}\n💬 Xabar: ${msg}`;
+            const chat_id = "6804374367"; // Skrinshotingizdagi aniq ID
+            const fullMsg = `🚀 *Yangi xabar!*\n\n👤 *Ism:* ${name}\n💬 *Xabar:* ${msg}`;
             
-            fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(fullMsg)}`)
+            fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: chat_id, text: fullMsg, parse_mode: "Markdown" })
+            })
             .then(res => {
                 if(res.ok) {
-                    alert("Xabar yuborildi! ✅");
+                    alert("Xabaringiz Asadbekka yuborildi! ✅");
                     document.getElementById('userName').value="";
                     document.getElementById('userMsg').value="";
                 } else {
                     alert("Xato! Botga kirib /start tugmasini bosing.");
                 }
             })
-            .catch(() => alert("Internet bilan muammo!"))
-            .finally(() => btn.innerText = "YUBORISH");
+            .catch(() => alert("Internet ulanishini tekshiring!"))
+            .finally(() => { btn.innerText = "YUBORISH"; btn.disabled = false; });
         }
 
-        // MATRIX INTRO (7 SEKUND)
+        // MATRIX INTRO EFFEKTI
         const mCanvas = document.getElementById('matrix-intro-canvas');
         const mCtx = mCanvas.getContext('2d');
         mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight;
@@ -152,9 +183,15 @@
         function drawMatrix() {
             mCtx.fillStyle = "rgba(0, 0, 0, 0.05)"; mCtx.fillRect(0, 0, mCanvas.width, mCanvas.height);
             mCtx.fillStyle = "#0f0"; mCtx.font = "16px monospace";
-            drops.forEach((y, i) => { mCtx.fillText(Math.floor(Math.random()*2), i*16, y*16); if(y*16 > mCanvas.height && Math.random() > 0.975) drops[i] = 0; drops[i]++; });
+            drops.forEach((y, i) => { 
+                mCtx.fillText(Math.floor(Math.random()*2), i*16, y*16); 
+                if(y*16 > mCanvas.height && Math.random() > 0.975) drops[i] = 0; 
+                drops[i]++; 
+            });
         }
         let mInterval = setInterval(drawMatrix, 35);
+
+        // 7 SEKUNDDAN KEYIN SAYTNI OCHISH
         setTimeout(() => {
             clearInterval(mInterval);
             document.getElementById('intro-screen').style.opacity = "0";
@@ -166,6 +203,7 @@
             }, 1500);
         }, 7000);
 
+        // SAHIFALARNI BOSHQARISH
         let currentPage = 1;
         function changePage(dir) {
             document.getElementById('p'+currentPage).classList.remove('active');
@@ -175,20 +213,42 @@
             document.getElementById('nextBtn').style.display = (currentPage === 3) ? 'none' : 'block';
         }
 
+        // BURST EFFEKTI (BOSGANDA)
         const bCanvas = document.getElementById('burst-canvas');
         const bCtx = bCanvas.getContext('2d');
         bCanvas.width = window.innerWidth; bCanvas.height = window.innerHeight;
         let particles = [];
-        function createBurst(e) { for(let i=0; i<15; i++) particles.push({ x: e.clientX, y: e.clientY, size: Math.random()*3+2, speedX: (Math.random()-0.5)*10, speedY: (Math.random()-0.5)*10, life: 1 }); }
-        function animateParticles() { bCtx.clearRect(0,0,bCanvas.width,bCanvas.height); particles.forEach((p, i) => { p.x += p.speedX; p.y += p.speedY; p.life -= 0.02; bCtx.fillStyle = `rgba(255,255,255,${p.life})`; bCtx.beginPath(); bCtx.arc(p.x, p.y, p.size, 0, Math.PI*2); bCtx.fill(); if(p.life <= 0) particles.splice(i, 1); }); requestAnimationFrame(animateParticles); }
+        function createBurst(e) { 
+            for(let i=0; i<15; i++) {
+                particles.push({ x: e.clientX, y: e.clientY, size: Math.random()*3+2, speedX: (Math.random()-0.5)*10, speedY: (Math.random()-0.5)*10, life: 1 });
+            }
+        }
+        function animateParticles() { 
+            bCtx.clearRect(0,0,bCanvas.width,bCanvas.height); 
+            particles.forEach((p, i) => { 
+                p.x += p.speedX; p.y += p.speedY; p.life -= 0.02; 
+                bCtx.fillStyle = `rgba(0,255,0,${p.life})`; 
+                bCtx.beginPath(); bCtx.arc(p.x, p.y, p.size, 0, Math.PI*2); bCtx.fill(); 
+                if(p.life <= 0) particles.splice(i, 1); 
+            }); 
+            requestAnimationFrame(animateParticles); 
+        }
         animateParticles();
 
+        // QOR EFFEKTI
         function initSnow() { 
-            const sCanvas = document.getElementById('snow-canvas'); const sCtx = sCanvas.getContext('2d'); sCanvas.width = window.innerWidth; sCanvas.height = window.innerHeight;
+            const sCanvas = document.getElementById('snow-canvas'); const sCtx = sCanvas.getContext('2d');
+            sCanvas.width = window.innerWidth; sCanvas.height = window.innerHeight;
             let snowP = []; for(let i=0; i<50; i++) snowP.push({x:Math.random()*sCanvas.width, y:Math.random()*sCanvas.height, s:Math.random()*2+1, sp:Math.random()*1+0.5});
-            function anim() { sCtx.clearRect(0,0,sCanvas.width,sCanvas.height); sCtx.fillStyle="white"; snowP.forEach(p => { p.y+=p.sp; if(p.y>sCanvas.height) p.y=-10; sCtx.beginPath(); sCtx.arc(p.x,p.y,p.s,0,7); sCtx.fill(); }); requestAnimationFrame(anim); }
+            function anim() { 
+                sCtx.clearRect(0,0,sCanvas.width,sCanvas.height); sCtx.fillStyle="white"; 
+                snowP.forEach(p => { p.y+=p.sp; if(p.y>sCanvas.height) p.y=-10; sCtx.beginPath(); sCtx.arc(p.x,p.y,p.s,0,7); sCtx.fill(); }); 
+                requestAnimationFrame(anim); 
+            }
             anim();
         }
+
+        function toggleLike() { document.getElementById('like-btn').style.color = "#f00"; }
         function startClock() { setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000); }
     </script>
 </body>
