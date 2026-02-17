@@ -6,70 +6,64 @@
     <title>Asadbek | meliqoziyev.uz</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-        body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; }
-
-        /* KURSOR */
-        #cursor-pointer {
-            position: fixed; width: 25px; height: 25px; pointer-events: none; z-index: 100000;
-            filter: drop-shadow(0 0 8px #0f0);
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='white' stroke='black' stroke-width='1'%3E%3Cpath d='M5.5 3.21V20.8l4.64-4.47 2.9 6.27 2.41-1.12-2.9-6.27 6.44-.04L5.5 3.21z'/%3E%3C/svg%3E");
-            background-size: contain; background-repeat: no-repeat;
-        }
+        /* KOMPYUTER KURSORENI IMITATSIYA QILISH */
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: default !important; }
+        
+        body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; user-select: none; }
 
         /* TOP INFO */
         #site-title { position: fixed; top: 15px; left: 20px; font-size: 16px; color: #0f0; font-family: monospace; z-index: 100; font-weight: bold; }
         #clock { position: fixed; top: 15px; right: 20px; font-size: 18px; color: #0f0; z-index: 100; font-family: monospace; }
 
-        /* INTRO SCREEN */
+        /* INTRO */
         #intro-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #000; transition: 1s; }
         #matrix-intro-canvas { position: absolute; top: 0; left: 0; }
         .intro-line { font-size: 30px; font-weight: 900; letter-spacing: 5px; text-transform: uppercase; color: #fff; text-shadow: 0 0 15px #0f0; opacity: 0; position: relative; z-index: 10001; margin: 10px 0; }
 
-        /* MAIN WRAPPER */
+        /* MAIN UI */
         #main-wrapper { display: none; opacity: 0; transition: 1s; }
         .page { position: absolute; width: 100%; height: 100vh; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10; padding: 20px; }
         .active { display: flex; }
 
         /* PAGE 1: PROFIL */
-        .avatar-box { width: 140px; height: 140px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 20px; overflow: hidden; box-shadow: 0 0 20px #0f0; }
+        .avatar-box { width: 140px; height: 140px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 20px; overflow: hidden; box-shadow: 0 0 20px #0f0; background: #111; }
         .card { 
             width: 320px; padding: 18px; margin-bottom: 15px; 
             background: rgba(255,255,255,0.05); border: 2px solid #0f0; 
             border-radius: 15px; display: flex; align-items: center; 
             text-decoration: none; color: #fff; font-size: 18px; 
-            font-weight: bold; transition: 0.3s; 
+            font-weight: bold; transition: 0.3s; z-index: 100;
         }
         .card i { font-size: 24px; margin-right: 20px; }
         .card:hover { transform: scale(1.05); background: rgba(0,255,0,0.1); }
 
-        /* PAGE 2: MEDIA (O'ZGARMADI) */
+        /* PAGE 2: MEDIA */
         .media-container { display: flex; flex-direction: column; height: 100vh; width: 100%; max-width: 380px; position: relative; }
-        .media-item { width: 100%; padding: 10px; border: 2px solid #0f0; border-radius: 15px; background: rgba(0,255,0,0.05); position: absolute; left: 50%; transform: translateX(-50%); }
+        .media-item { width: 100%; padding: 10px; border: 2px solid #0f0; border-radius: 15px; background: rgba(0,255,0,0.05); position: absolute; left: 50%; transform: translateX(-50%); z-index: 50; }
         .audio-box { bottom: 58%; }
         .video-box { top: 58%; }
-        video { width: 100%; border-radius: 10px; display: block; }
-        audio { width: 100%; filter: invert(1) hue-rotate(90deg); }
+        video, audio { width: 100%; border-radius: 10px; outline: none; }
+        audio { filter: invert(1) hue-rotate(90deg); }
 
         /* NAV ARROWS */
-        .nav-arrow { position: fixed; top: 50%; transform: translateY(-50%); font-size: 50px; color: #0f0; cursor: pointer; z-index: 2000; text-shadow: 0 0 15px #0f0; }
+        .nav-arrow { position: fixed; top: 50%; transform: translateY(-50%); font-size: 50px; color: #0f0; cursor: pointer !important; z-index: 2000; text-shadow: 0 0 15px #0f0; }
         #nextBtn { right: 15px; } #prevBtn { left: 15px; display: none; }
 
         /* LIKE SECTION */
-        #like-container { position: fixed; bottom: 20px; left: 20px; z-index: 1000; display: flex; align-items: center; gap: 8px; cursor: pointer; }
-        #like-btn { font-size: 35px; color: #444; }
-        .liked #like-btn { color: #f00; }
+        #like-container { position: fixed; bottom: 20px; left: 20px; z-index: 1000; display: flex; align-items: center; gap: 8px; cursor: pointer !important; }
+        #like-btn { font-size: 35px; color: #444; transition: 0.3s; }
+        .liked #like-btn { color: #f00; transform: scale(1.2); }
 
-        /* SNOW & BURST */
-        #snow-canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
+        /* CANVAS FOR EFFECTS */
+        canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 1; }
+        #burst-canvas { z-index: 9999; }
 
         @keyframes fd { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fu { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body onmousedown="spawnBurst(event)">
+<body onmousedown="createBurst(event)">
 
-    <div id="cursor-pointer"></div>
     <div id="site-title">meliqoziyev.uz</div>
     <div id="clock">00:00:00</div>
 
@@ -80,6 +74,7 @@
     </div>
 
     <canvas id="snow-canvas"></canvas>
+    <canvas id="burst-canvas"></canvas>
 
     <div id="main-wrapper">
         <i class="fas fa-chevron-right nav-arrow" id="nextBtn" onclick="changePage(1)"></i>
@@ -119,11 +114,11 @@
         </div>
 
         <div class="page" id="p3">
-            <div style="background: rgba(0,0,0,0.8); padding: 25px; border: 2px solid #0f0; border-radius: 15px; width: 310px;">
+            <div style="background: rgba(0,0,0,0.8); padding: 25px; border: 2px solid #0f0; border-radius: 15px; width: 310px; z-index: 100; position: relative;">
                 <h2 style="text-align:center; color:#0f0; margin-bottom:15px;">Fikr bildirish</h2>
-                <input type="text" id="userName" placeholder="Ismingiz" style="width:100%; padding:10px; margin-bottom:12px; background:none; border:1px solid #0f0; color:#fff; outline:none;">
-                <textarea id="userMsg" placeholder="Xabar..." style="width:100%; padding:10px; margin-bottom:12px; background:none; border:1px solid #0f0; color:#fff; height:80px; resize:none; outline:none;"></textarea>
-                <button onclick="sendToTelegram()" style="width:100%; padding:10px; background:#0f0; border:none; color:#000; font-weight:bold;">YUBORISH</button>
+                <input type="text" id="userName" placeholder="Ismingiz" style="width:100%; padding:10px; margin-bottom:12px; background:none; border:1px solid #0f0; color:#fff; outline:none; cursor: text !important;">
+                <textarea id="userMsg" placeholder="Xabar..." style="width:100%; padding:10px; margin-bottom:12px; background:none; border:1px solid #0f0; color:#fff; height:80px; resize:none; outline:none; cursor: text !important;"></textarea>
+                <button onclick="sendToTelegram()" style="width:100%; padding:10px; background:#0f0; border:none; color:#000; font-weight:bold; cursor: pointer !important;">YUBORISH</button>
             </div>
         </div>
 
@@ -170,39 +165,63 @@
             document.getElementById('nextBtn').style.display = (currentPage === 3) ? 'none' : 'block';
         }
 
-        // SNOW & BURST (QIR SACHRAYDIGAN EFFEKT)
-        const sCanvas = document.getElementById('snow-canvas');
-        const sCtx = sCanvas.getContext('2d');
-        let snowP = [];
-        function initSnow() { sCanvas.width = window.innerWidth; sCanvas.height = window.innerHeight; for(let i=0; i<60; i++) snowP.push({x:Math.random()*sCanvas.width, y:Math.random()*sCanvas.height, s:Math.random()*2+1, sp:Math.random()*1+0.5, op:Math.random()}); animSnow(); }
-        function animSnow() { sCtx.clearRect(0,0,sCanvas.width,sCanvas.height); snowP.forEach(p => { p.y+=p.sp; if(p.y>sCanvas.height) p.y=-10; sCtx.fillStyle=`rgba(255,255,255,${p.op})`; sCtx.beginPath(); sCtx.arc(p.x,p.y,p.s,0,7); sCtx.fill(); }); requestAnimationFrame(animSnow); }
-        
-        function spawnBurst(e) {
-            for(let i=0; i<15; i++) {
-                let part = { x: e.clientX, y: e.clientY, s: Math.random()*3+1, vx: (Math.random()-0.5)*10, vy: (Math.random()-0.5)*10, sp: 0, op: 1 };
-                snowP.push(part);
-                setTimeout(() => {
-                    let idx = snowP.indexOf(part);
-                    if(idx > -1) snowP.splice(idx, 1);
-                }, 800);
+        // QIR SACHRASH (BURST) EFFEKTI
+        const bCanvas = document.getElementById('burst-canvas');
+        const bCtx = bCanvas.getContext('2d');
+        bCanvas.width = window.innerWidth; bCanvas.height = window.innerHeight;
+        let particles = [];
+
+        function createBurst(e) {
+            for(let i=0; i<20; i++) {
+                particles.push({
+                    x: e.clientX, y: e.clientY,
+                    size: Math.random() * 4 + 2,
+                    speedX: (Math.random() - 0.5) * 12,
+                    speedY: (Math.random() - 0.5) * 12,
+                    life: 1,
+                    color: `rgba(255, 255, 255, ${Math.random()})`
+                });
             }
         }
 
-        // OTHER LOGIC
-        function stopOther(type) {
-            const v = document.getElementById('myVideo'); const a = document.getElementById('myAudio');
-            if(type === 'video') a.pause(); else v.pause();
+        function animateParticles() {
+            bCtx.clearRect(0, 0, bCanvas.width, bCanvas.height);
+            for(let i=0; i<particles.length; i++) {
+                let p = particles[i];
+                p.x += p.speedX; p.y += p.speedY;
+                p.life -= 0.02;
+                bCtx.fillStyle = p.color;
+                bCtx.beginPath();
+                bCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                bCtx.fill();
+                if(p.life <= 0) { particles.splice(i, 1); i--; }
+            }
+            requestAnimationFrame(animateParticles);
         }
+        animateParticles();
+
+        // LIKE TUGMASI (FAQAT 1 MARTA BOSILADIGAN)
         let likes = 128; let isLiked = false;
         function toggleLike() {
-            isLiked = !isLiked; likes += isLiked ? 1 : -1;
-            document.getElementById('like-container').classList.toggle('liked', isLiked);
-            document.getElementById('like-count').innerText = likes;
+            if(!isLiked) {
+                likes++; isLiked = true;
+                document.getElementById('like-container').classList.add('liked');
+                document.getElementById('like-count').innerText = likes;
+                // Bir marta bosilgandan keyin bosishni cheklash (ixtiyoriy)
+                document.getElementById('like-container').onclick = null;
+            }
         }
-        function startClock() { setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000); }
-        const cursor = document.getElementById('cursor-pointer');
-        window.addEventListener('mousemove', (e) => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
 
+        // SNOW
+        const sCanvas = document.getElementById('snow-canvas');
+        const sCtx = sCanvas.getContext('2d');
+        let snowP = [];
+        function initSnow() { sCanvas.width = window.innerWidth; sCanvas.height = window.innerHeight; for(let i=0; i<50; i++) snowP.push({x:Math.random()*sCanvas.width, y:Math.random()*sCanvas.height, s:Math.random()*2+1, sp:Math.random()*1+0.5}); animSnow(); }
+        function animSnow() { sCtx.clearRect(0,0,sCanvas.width,sCanvas.height); sCtx.fillStyle="white"; snowP.forEach(p => { p.y+=p.sp; if(p.y>sCanvas.height) p.y=-10; sCtx.beginPath(); sCtx.arc(p.x,p.y,p.s,0,7); sCtx.fill(); }); requestAnimationFrame(animSnow); }
+
+        function startClock() { setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000); }
+        function stopOther(type) { const v = document.getElementById('myVideo'); const a = document.getElementById('myAudio'); if(type === 'video') a.pause(); else v.pause(); }
+        
         function sendToTelegram() {
             const n = document.getElementById('userName').value; const m = document.getElementById('userMsg').value;
             if(!n || !m) return;
