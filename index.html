@@ -31,23 +31,21 @@
         .page { position: absolute; width: 100%; height: 100vh; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10; padding: 20px; }
         .active { display: flex; }
 
-        /* MEDIA SECTION - POZITSIYA TO'G'IRLANDI */
+        /* MEDIA SECTION - EXACT POSITIONING */
         .media-container { 
             display: flex; flex-direction: column; 
-            justify-content: space-between; 
-            height: 75vh; /* Bo'shliqni kengaytirish uchun */
+            height: 100vh; 
             width: 100%; max-width: 380px;
+            position: relative;
         }
-        .media-item { width: 100%; padding: 10px; border: 2px solid #0f0; border-radius: 15px; background: rgba(0,255,0,0.05); }
         
-        /* Musiqa o'z joyida qoladi */
-        .audio-box { margin-top: 10px; }
+        .media-item { width: 100%; padding: 10px; border: 2px solid #0f0; border-radius: 15px; background: rgba(0,255,0,0.05); position: absolute; left: 50%; transform: translateX(-50%); }
+        
+        /* Musiqa: Markazdan (strelkadan) tepada */
+        .audio-box { bottom: 58%; }
 
-        /* Strelkalar uchun juda katta bo'shliq */
-        .nav-gap { height: 150px; width: 100%; } 
-
-        /* Video ancha pastga tushirildi */
-        .video-box { margin-bottom: 20px; }
+        /* Video: Markaz (strelka) va Like orasida */
+        .video-box { top: 58%; }
 
         video { width: 100%; border-radius: 10px; display: block; outline: none; }
         audio { width: 100%; filter: invert(1) hue-rotate(90deg); scale: 0.9; outline: none; }
@@ -56,14 +54,14 @@
         .nav-arrow { position: fixed; top: 50%; transform: translateY(-50%); font-size: 50px; color: #0f0; cursor: pointer; z-index: 2000; text-shadow: 0 0 15px #0f0; }
         #nextBtn { right: 15px; } #prevBtn { left: 15px; display: none; }
 
-        /* AVATAR & CARDS */
+        /* AVATAR & CARDS (PAGE 1) */
         .avatar-box { width: 120px; height: 120px; border-radius: 50%; border: 2px solid #0f0; margin-bottom: 20px; overflow: hidden; }
         .card { width: 300px; padding: 15px; margin-bottom: 12px; background: rgba(255,255,255,0.05); border: 1.5px solid #0f0; border-radius: 12px; display: flex; align-items: center; text-decoration: none; color: #fff; }
 
-        /* LIKE */
+        /* LIKE SECTION - ENG PASTDA */
         #like-container { position: fixed; bottom: 20px; left: 20px; z-index: 1000; display: flex; align-items: center; gap: 8px; cursor: pointer; }
-        #like-btn { font-size: 35px; color: #444; }
-        .liked #like-btn { color: #f00; }
+        #like-btn { font-size: 35px; color: #444; transition: 0.3s; }
+        .liked #like-btn { color: #f00; transform: scale(1.1); }
 
         #snow-canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
 
@@ -97,15 +95,13 @@
         </div>
 
         <div class="page" id="p2">
-            <h2 style="color:#0f0; margin-bottom: 20px; font-size: 22px;">Mening Galereyam</h2>
+            <h2 style="color:#0f0; position: absolute; top: 15%; font-size: 22px;">Mening Galereyam</h2>
             <div class="media-container">
                 <div class="media-item audio-box">
                     <audio id="myAudio" controls onplay="stopOther('audio')">
                         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
                     </audio>
                 </div>
-
-                <div class="nav-gap"></div>
 
                 <div class="media-item video-box">
                     <video id="myVideo" controls onplay="stopOther('video')">
@@ -131,7 +127,7 @@
     </div>
 
     <script>
-        // Matrix, Snow, Clock, Navigation va Telegram funksiyalari (Hammasi saqlangan)
+        // Barcha funksiyalar (Matrix, Snow, Clock, Navigation, Like, Telegram) o'z joyida
         const mCanvas = document.getElementById('matrix-intro-canvas');
         const mCtx = mCanvas.getContext('2d');
         mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight;
