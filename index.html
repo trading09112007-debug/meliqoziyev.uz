@@ -6,19 +6,19 @@
     <title>Asadbek | meliqoziyev.uz</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
+        /* ASOSIY BODY VA BAZA */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; }
 
         /* CANVASES */
         canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; }
-        #matrix-canvas { z-index: 10005; background: #000; } /* Intro uchun tepada */
-        #snow-canvas { z-index: 1; pointer-events: none; } /* Doimiy orqa fonda */
-
+        #matrix-canvas { z-index: 10005; background: #000; } 
+        #snow-canvas { z-index: 1; pointer-events: none; } /* snow-canvas pastda turadi */
+        
         /* INTRO TEXT */
         #intro-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10010; display: flex; justify-content: center; align-items: center; pointer-events: none; }
         .intro-content { text-align: center; }
         .t1 { font-size: 35px; font-weight: bold; color: #0f0; text-transform: uppercase; letter-spacing: 5px; text-shadow: 0 0 20px #0f0; opacity: 0; animation: fadeIn 2s forwards 1s; }
-
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         /* MAIN CONTENT */
@@ -26,25 +26,45 @@
         .page { position: absolute; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 15px; text-align: center; }
         .active { display: flex; }
 
-        /* PROFILE */
-        .avatar { width: 100px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 15px; box-shadow: 0 0 20px #0f0; }
-        .card { width: 280px; padding: 12px; margin: 6px 0; border-radius: 12px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; background: rgba(0, 255, 0, 0.1); border: 1px solid #0f0; }
-        .card i { margin-right: 15px; font-size: 22px; }
+        /* GLITCH NAME EFFECT */
+        .glitch-text { font-size: 28px; color: #0f0; font-family: monospace; font-weight: bold; margin-bottom: 20px; text-shadow: 0 0 10px #0f0; min-height: 40px; }
 
-        /* VIDEO PLAYER */
-        .cyber-panel { border: 1px solid #0f0; background: rgba(0, 0, 0, 0.6); padding: 12px; border-radius: 10px; position: relative; width: 100%; max-width: 360px; margin-bottom: 15px; }
-        .cyber-panel::before { content: attr(data-label); position: absolute; top: -10px; left: 10px; background: #000; color: #0f0; font-size: 9px; padding: 0 5px; border: 1px solid #0f0; }
-        #video-player { width: 100%; border-radius: 5px; cursor: pointer; display: block; }
+        /* PROFILE CARDS */
+        .avatar { width: 110px; height: 110px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 15px; box-shadow: 0 0 20px #0f0; z-index: 101; }
+        .card { width: 280px; padding: 12px; margin: 8px 0; border-radius: 12px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; background: rgba(0, 255, 0, 0.05); border: 1px solid rgba(0, 255, 0, 0.3); transition: 0.3s; z-index: 101; }
+        .card:hover { background: rgba(0, 255, 0, 0.15); border-color: #0f0; transform: scale(1.05); box-shadow: 0 0 15px #0f0; }
+        .card i { margin-right: 15px; font-size: 24px; }
+
+        /* VIDEO PANEL */
+        .cyber-panel { border: 1px solid #0f0; background: rgba(0, 0, 0, 0.7); padding: 12px; border-radius: 12px; position: relative; width: 100%; max-width: 380px; margin-bottom: 20px; box-shadow: 0 0 10px rgba(0,255,0,0.2); }
+        .cyber-panel::before { content: attr(data-label); position: absolute; top: -10px; left: 10px; background: #000; color: #0f0; font-size: 10px; padding: 0 6px; border: 1px solid #0f0; letter-spacing: 2px; }
+        #video-player { width: 100%; border-radius: 8px; cursor: pointer; border: 1px solid #0f0; }
         
-        .video-controls { display: flex; justify-content: center; gap: 20px; margin-top: 15px; }
-        .v-nav-btn { background: transparent; border: 1.5px solid #0f0; color: #0f0; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 18px; }
+        .video-controls { display: flex; justify-content: center; gap: 25px; margin-top: 15px; }
+        .v-nav-btn { background: transparent; border: 1.5px solid #0f0; color: #0f0; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; transition: 0.3s; font-size: 20px; }
+        .v-nav-btn:hover { background: #0f0; color: #000; box-shadow: 0 0 20px #0f0; }
 
         /* NAVIGATION */
-        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 40px; color: #0f0; cursor: pointer; z-index: 5000; }
-        #nextBtn { right: 10px; } #prevBtn { left: 10px; display: none; }
+        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 5000; text-shadow: 0 0 15px #0f0; }
+        #nextBtn { right: 15px; } #prevBtn { left: 15px; display: none; }
 
-        #big-time { font-size: 22px; color: #0f0; font-family: monospace; margin-bottom: 15px; text-shadow: 0 0 10px #0f0; }
-        audio { width: 100%; height: 35px; filter: invert(100%) hue-rotate(90deg); }
+        #big-time { font-size: 24px; color: #0f0; font-family: monospace; margin-bottom: 15px; text-shadow: 0 0 10px #0f0; letter-spacing: 3px; }
+        audio { width: 100%; height: 35px; filter: invert(100%) hue-rotate(90deg); margin-top: 5px; }
+
+        /* 4-BO'LIM: YER SHARI */
+        #p4 { background: #000; position: relative; }
+        #globe-canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; display: flex; justify-content: center; align-items: center; }
+        #globe-canvas { width: 100%; height: 100%; }
+        #hand-control-text { position: absolute; bottom: 20px; color: #0f0; font-size: 14px; text-shadow: 0 0 8px #0f0; z-index: 5; background: rgba(0,0,0,0.7); padding: 5px 10px; border-radius: 5px; border: 1px solid #0f0; }
+        #start-camera-btn { 
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+            padding: 15px 30px; font-size: 20px; color: #0f0; background: rgba(0,255,0,0.1); 
+            border: 2px solid #0f0; border-radius: 10px; cursor: pointer; z-index: 10;
+            text-shadow: 0 0 10px #0f0; transition: 0.3s;
+        }
+        #start-camera-btn:hover { background: rgba(0,255,0,0.3); box-shadow: 0 0 25px #0f0; }
+        #webcam-feed { position: absolute; bottom: 10px; right: 10px; width: 160px; height: 120px; border: 2px solid #0f0; z-index: 1000; transform: scaleX(-1); }
+        .loading-text { color: #0f0; margin-top: 15px; font-size: 16px; text-shadow: 0 0 5px #0f0; }
     </style>
 </head>
 <body>
@@ -62,18 +82,18 @@
 
         <div class="page active" id="p1">
             <img src="https://img.freepik.com/free-vector/hacker-operating-laptop-cartoon-icon-illustration_138676-2387.jpg" class="avatar">
-            <h2 style="color:#0f0; margin-bottom: 15px;">Asadbek</h2>
-            <a href="https://instagram.com/ezz_mafiya" class="card"><i class="fab fa-instagram"></i> Instagram</a>
-            <a href="https://t.me/Pain_2007" class="card"><i class="fab fa-telegram"></i> Telegram</a>
-            <a href="https://youtube.com/@meliqoziyev" class="card"><i class="fab fa-youtube"></i> YouTube</a>
+            <h2 class="glitch-text" id="user-name"></h2>
+            <a href="https://instagram.com/ezz_mafiya" target="_blank" class="card"><i class="fab fa-instagram" style="color:#E1306C"></i> Instagram</a>
+            <a href="https://t.me/Pain_2007" target="_blank" class="card"><i class="fab fa-telegram" style="color:#0088cc"></i> Telegram</a>
+            <a href="https://youtube.com/@meliqoziyev" target="_blank" class="card"><i class="fab fa-youtube" style="color:#FF0000"></i> YouTube</a>
         </div>
 
         <div class="page" id="p2">
             <div id="big-time">00:00:00</div>
-            <div class="cyber-panel" data-label="AUDIO">
+            <div class="cyber-panel" data-label="AUDIO_STREAM">
                 <audio id="myAudio" controls><source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3" type="audio/mpeg"></audio>
             </div>
-            <div class="cyber-panel" data-label="VIDEO">
+            <div class="cyber-panel" data-label="VIDEO_FEED">
                 <video id="video-player" poster="https://img.freepik.com/free-vector/digital-futuristic-background_23-2148403328.jpg" preload="metadata" onclick="togglePlay()">
                     <source id="video-source" src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4">
                 </video>
@@ -86,17 +106,34 @@
         </div>
 
         <div class="page" id="p3">
-            <div style="background:rgba(0,0,0,0.8); padding:20px; border:1px solid #0f0; border-radius:15px; width:300px;">
-                <h3 style="color:#0f0; margin-bottom:10px;">ALOQA</h3>
-                <input type="text" id="uName" placeholder="Ismingiz" style="width:100%; padding:10px; margin:5px 0; background:#000; border:1px solid #0f0; color:#fff;">
-                <textarea id="uMsg" placeholder="Xabar..." style="width:100%; padding:10px; margin:5px 0; background:#000; border:1px solid #0f0; color:#fff;"></textarea>
-                <button onclick="sendTele()" style="width:100%; padding:10px; background:#0f0; border:none; font-weight:bold; cursor:pointer;">YUBORISH</button>
+            <div style="background:rgba(0,0,0,0.85); padding:30px; border:1.5px solid #0f0; border-radius:20px; width:320px; box-shadow: 0 0 20px rgba(0,255,0,0.2);">
+                <h3 style="color:#0f0; margin-bottom:15px; letter-spacing:3px;">ALOQA</h3>
+                <input type="text" id="uName" placeholder="Ismingiz" style="width:100%; padding:12px; margin:8px 0; background:#000; border:1px solid #0f0; color:#fff; border-radius:8px;">
+                <textarea id="uMsg" placeholder="Xabaringiz..." style="width:100%; padding:12px; margin:8px 0; background:#000; border:1px solid #0f0; color:#fff; border-radius:8px; height:100px;"></textarea>
+                <button onclick="sendTele()" style="width:100%; padding:14px; background:#0f0; border:none; font-weight:bold; cursor:pointer; border-radius:8px; color:#000; transition: 0.3s;">YUBORISH</button>
             </div>
+        </div>
+
+        <div class="page" id="p4">
+            <h3 style="color:#0f0; margin-bottom:20px; text-shadow:0 0 10px #0f0; z-index: 5;">YER SHARI: TEGMASDAN BOSHQARISH</h3>
+            <div id="globe-canvas-container">
+                <button id="start-camera-btn" onclick="initHandTracking()">Kamerani yoqish</button>
+                <p class="loading-text" id="loading-model-text" style="display: none;">Model yuklanmoqda...</p>
+            </div>
+            <p id="hand-control-text" style="display:none;">Qo'lingizni ekran oldida harakatlantiring!</p>
+            <video id="webcam-feed" autoplay playsinline style="display:none;"></video>
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.158.0/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675466453/hands.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core@4.10.0/dist/tf-core.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter@4.10.0/dist/tf-converter.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl@4.10.0/dist/tf-backend-webgl.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/hand-pose-detection@2.0.0/dist/hand-pose-detection.min.js"></script>
+
     <script>
-        // --- MATRIX (INTRO UCHUN) ---
+        // --- MATRIX EFFECT (INTRO) ---
         const mCanvas = document.getElementById('matrix-canvas');
         const mCtx = mCanvas.getContext('2d');
         mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight;
@@ -112,7 +149,7 @@
         }
         let matrixInterval = setInterval(drawMatrix, 50);
 
-        // --- SNOW (ASOSIY FON UCHUN) ---
+        // --- SNOW EFFECT (BACKGROUND) ---
         const sCanvas = document.getElementById('snow-canvas');
         const sCtx = sCanvas.getContext('2d');
         sCanvas.width = window.innerWidth; sCanvas.height = window.innerHeight;
@@ -122,20 +159,34 @@
             draw() { sCtx.beginPath(); sCtx.arc(this.x, this.y, this.r, 0, Math.PI*2); sCtx.fillStyle = `rgba(255,255,255,${this.opacity})`; sCtx.fill(); }
             update() { this.x += this.dx; this.y += this.dy; if (this.y > sCanvas.height) { this.y = -10; this.x = Math.random() * sCanvas.width; } this.draw(); }
         }
-        for(let i=0; i<100; i++) particles.push(new Particle(Math.random()*sCanvas.width, Math.random()*sCanvas.height, Math.random()*3, Math.random()*1-0.5, Math.random()*2+1));
-        
+        for(let i=0; i<80; i++) particles.push(new Particle(Math.random()*sCanvas.width, Math.random()*sCanvas.height, Math.random()*3, Math.random()*1-0.5, Math.random()*2+1));
         function animateSnow() { sCtx.clearRect(0, 0, sCanvas.width, sCanvas.height); particles.forEach(p => p.update()); requestAnimationFrame(animateSnow); }
         animateSnow();
 
-        // BOSSA QOR SACHRASHI
         window.addEventListener('mousedown', (e) => {
-            for(let i=0; i<10; i++) {
-                let p = new Particle(e.clientX, e.clientY, Math.random()*3, (Math.random()-0.5)*8, (Math.random()-0.5)*8);
-                particles.push(p); setTimeout(() => { particles.splice(particles.indexOf(p), 1); }, 800);
+            for(let i=0; i<12; i++) {
+                let p = new Particle(e.clientX, e.clientY, Math.random()*3, (Math.random()-0.5)*10, (Math.random()-0.5)*10);
+                particles.push(p); setTimeout(() => { particles.splice(particles.indexOf(p), 1); }, 1000);
             }
         });
 
-        // --- INTRO TUGASHI ---
+        // --- GLITCH NAME LOGIC ---
+        const nameEl = document.getElementById('user-name');
+        const targetName = "ASADBEK";
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&";
+        function glitchName() {
+            let iteration = 0;
+            let interval = setInterval(() => {
+                nameEl.innerText = targetName.split("").map((letter, index) => {
+                    if(index < iteration) return targetName[index];
+                    return chars[Math.floor(Math.random() * chars.length)];
+                }).join("");
+                if(iteration >= targetName.length) clearInterval(interval);
+                iteration += 1/3;
+            }, 50);
+        }
+
+        // --- INTRO ENDS ---
         setTimeout(() => {
             clearInterval(matrixInterval);
             mCanvas.style.transition = "2s";
@@ -144,11 +195,14 @@
             setTimeout(() => { 
                 mCanvas.style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
-                setTimeout(() => { document.getElementById('main-content').style.opacity = '1'; }, 50);
-            }, 2000);
-        }, 5000);
+                setTimeout(() => { 
+                    document.getElementById('main-content').style.opacity = '1'; 
+                    glitchName();
+                }, 50);
+            }, 1500); // Matrix fade tugagandan keyin asosiy kontent ko'rinadi
+        }, 5000); // Intro umumiy vaqti
 
-        // --- VIDEO PLAYER ---
+        // --- VIDEO & AUDIO PLAYER LOGIC ---
         const video = document.getElementById('video-player');
         const vSource = document.getElementById('video-source');
         const ppBtn = document.getElementById('play-pause-btn');
@@ -170,23 +224,72 @@
             ppBtn.innerHTML = '<i class="fas fa-play"></i>';
         }
 
-        // --- UTILS ---
+        // --- UTILS (CLOCK & PAGE NAVIGATION) ---
         setInterval(() => { document.getElementById('big-time').innerText = new Date().toLocaleTimeString('uz-UZ', { hour12: false }); }, 1000);
+        
+        let currentPageIndex = 1; // Hozirgi sahifa indeksi
+        const totalPages = 4; // Umumiy sahifalar soni
+
         function movePage(s) {
-            let curr = document.querySelector('.page.active');
-            let nextNum = parseInt(curr.id.replace('p', '')) + s;
-            curr.classList.remove('active');
-            document.getElementById('p'+nextNum).classList.add('active');
-            document.getElementById('prevBtn').style.display = (nextNum==1)?'none':'block';
-            document.getElementById('nextBtn').style.display = (nextNum==3)?'none':'block';
-            video.pause(); audio.pause();
+            // Hozirgi sahifani yashirish
+            document.getElementById('p' + currentPageIndex).classList.remove('active');
+
+            // Keyingi sahifa indeksini hisoblash
+            currentPageIndex += s;
+            if (currentPageIndex > totalPages) currentPageIndex = 1; // Oxiridan keyin birinchiga
+            if (currentPageIndex < 1) currentPageIndex = totalPages; // Birinchidan oldin oxiriga
+
+            // Yangi sahifani ko'rsatish
+            document.getElementById('p' + currentPageIndex).classList.add('active');
+
+            // Navigatsiya tugmalarini yangilash
+            document.getElementById('prevBtn').style.display = 'block';
+            document.getElementById('nextBtn').style.display = 'block';
+            // 4-sahifaga yetganda oldinga o'tish tugmasini ko'rsatish
+            if (currentPageIndex === totalPages) {
+                document.getElementById('nextBtn').style.display = 'block';
+            }
+            // 1-sahifaga qaytganda orqaga o'tish tugmasini ko'rsatish
+            if (currentPageIndex === 1) {
+                document.getElementById('prevBtn').style.display = 'block';
+            }
+
+            // Video va audioni to'xtatish
+            video.pause();
+            audio.pause();
+            ppBtn.innerHTML = '<i class="fas fa-play"></i>';
+
+            // Agar 4-sahifaga o'tsa va kamera hali yoqilmagan bo'lsa, tugmani ko'rsatish
+            if (currentPageIndex === 4 && !isCameraInitialized) {
+                document.getElementById('start-camera-btn').style.display = 'block';
+                document.getElementById('hand-control-text').style.display = 'none';
+                document.getElementById('webcam-feed').style.display = 'none';
+            } else if (currentPageIndex === 4 && isCameraInitialized) {
+                document.getElementById('start-camera-btn').style.display = 'none';
+                document.getElementById('hand-control-text').style.display = 'block';
+                document.getElementById('webcam-feed').style.display = 'block';
+            } else {
+                // Boshqa sahifalarda kamera bo'lmaydi
+                document.getElementById('start-camera-btn').style.display = 'none';
+                document.getElementById('hand-control-text').style.display = 'none';
+                document.getElementById('webcam-feed').style.display = 'none';
+            }
         }
+
         function sendTele() {
             const n = document.getElementById('uName'), m = document.getElementById('uMsg');
             if(!n.value || !m.value) return;
             fetch(`https://api.telegram.org/bot7725172926:AAHaVKSy6J-oaQnBSYy5bGKqSKIr-UQrOIM/sendMessage?chat_id=6804374367&text=User: ${n.value}%0AMessage: ${m.value}`)
             .then(() => { alert("Yuborildi!"); n.value = ""; m.value = ""; });
         }
-    </script>
-</body>
-</html>
+
+
+        // --- YER SHARI VA TEGMASDAN BOSHQARISH (4-BO'LIM) ---
+        let scene, camera, renderer, globe;
+        let detector, videoElement;
+        let isCameraInitialized = false;
+        let lastHandX = null, lastHandY = null;
+
+        async function initHandTracking() {
+            document.getElementById('start-camera-btn').style.display = 'none';
+            
