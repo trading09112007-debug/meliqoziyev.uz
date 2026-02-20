@@ -14,55 +14,39 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; }
 
-        /* CANVASES */
         canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; }
-        #matrix-canvas { z-index: 10005; background: #000; } 
         #snow-canvas { z-index: 1; pointer-events: none; } 
-        
-        /* 4-BO'LIM ELEMENTLARI */
         #canvas-3d { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; display: none; }
         #output_canvas, #input_video { display: none !important; }
-        #p4-hint { position: absolute; top: 20px; color: #0f0; font-family: monospace; display: none; z-index: 1001; text-shadow: 0 0 10px #0f0; width: 100%; text-align: center; font-size: 16px; letter-spacing: 2px; }
 
-        /* INTRO */
-        #intro-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10010; display: flex; justify-content: center; align-items: center; pointer-events: none; }
-        .t1 { font-size: 30px; font-weight: bold; color: #0f0; text-transform: uppercase; letter-spacing: 5px; text-shadow: 0 0 20px #0f0; opacity: 0; animation: fadeIn 2s forwards 1s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* MAIN CONTENT */
-        #main-content { display: none; opacity: 0; transition: 1s; height: 100vh; width: 100%; position: relative; z-index: 100; }
-        .page { position: absolute; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 15px; text-align: center; }
+        #main-content { height: 100vh; width: 100%; position: relative; z-index: 100; }
+        .page { position: absolute; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
         .active { display: flex; }
 
-        /* STYLES */
-        .glitch-text { font-size: 28px; color: #0f0; font-family: monospace; font-weight: bold; margin-bottom: 20px; text-shadow: 0 0 10px #0f0; min-height: 40px; }
         .avatar { width: 110px; height: 110px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 15px; box-shadow: 0 0 20px #0f0; }
-        .card { width: 280px; padding: 12px; margin: 8px 0; border-radius: 12px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; background: rgba(0, 255, 0, 0.05); border: 1px solid rgba(0, 255, 0, 0.3); transition: 0.3s; }
-        .card:hover { transform: scale(1.05); box-shadow: 0 0 15px #0f0; border-color: #0f0; }
+        .card { width: 280px; padding: 12px; margin: 8px 0; border-radius: 12px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; background: rgba(0, 255, 0, 0.1); border: 1px solid #0f0; transition: 0.3s; }
+        .card:hover { transform: scale(1.05); background: rgba(0, 255, 0, 0.2); }
         .card i { margin-right: 15px; font-size: 24px; }
 
-        .cyber-panel { border: 1px solid #0f0; background: rgba(0, 0, 0, 0.7); padding: 12px; border-radius: 12px; position: relative; width: 100%; max-width: 350px; margin-bottom: 15px; }
-        .cyber-panel::before { content: attr(data-label); position: absolute; top: -10px; left: 10px; background: #000; color: #0f0; font-size: 10px; padding: 0 5px; border: 1px solid #0f0; }
-        #video-player { width: 100%; border-radius: 8px; border: 1px solid #0f0; }
+        .cyber-panel { border: 1px solid #0f0; background: rgba(0, 0, 0, 0.8); padding: 15px; border-radius: 15px; width: 100%; max-width: 350px; }
+        video { width: 100%; border-radius: 10px; border: 1px solid #0f0; cursor: pointer; }
 
-        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 5000; text-shadow: 0 0 15px #0f0; }
+        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 50px; color: #0f0; cursor: pointer; z-index: 1000; text-shadow: 0 0 15px #0f0; }
         #nextBtn { right: 15px; } #prevBtn { left: 15px; display: none; }
-        #big-time { font-size: 24px; color: #0f0; font-family: monospace; margin-bottom: 10px; }
-        audio { width: 100%; height: 30px; filter: invert(100%) hue-rotate(90deg); }
+        
+        input, textarea { width: 100%; padding: 10px; margin: 8px 0; background: #000; border: 1px solid #0f0; color: #fff; border-radius: 8px; }
+        button { width: 100%; padding: 12px; background: #0f0; border: none; font-weight: bold; cursor: pointer; border-radius: 8px; margin-top: 10px; color: #000; }
+        
+        #big-time { font-size: 22px; color: #0f0; font-family: monospace; margin-bottom: 10px; text-shadow: 0 0 10px #0f0; }
+        audio { width: 100%; height: 35px; filter: invert(100%) hue-rotate(90deg); margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
-    <canvas id="matrix-canvas"></canvas>
     <canvas id="snow-canvas"></canvas>
     <video id="input_video"></video>
     <canvas id="output_canvas"></canvas>
     <div id="canvas-3d"></div>
-    <div id="p4-hint">SYSTEM SCANNED: HAND CONTROL ACTIVE<br>Kaftingizni oching yoki musht qilib siqing</div>
-
-    <div id="intro-screen">
-        <div class="intro-content"><div class="t1">Assalomu Alaykum</div></div>
-    </div>
 
     <div id="main-content">
         <i class="fas fa-chevron-left nav-btn" id="prevBtn" onclick="movePage(-1)"></i>
@@ -70,88 +54,94 @@
 
         <div class="page active" id="p1">
             <img src="https://img.freepik.com/free-vector/hacker-operating-laptop-cartoon-icon-illustration_138676-2387.jpg" class="avatar">
-            <h2 class="glitch-text" id="user-name"></h2>
+            <h2 style="color:#0f0; margin-bottom:15px; text-shadow: 0 0 10px #0f0;">ASADBEK</h2>
             <a href="https://instagram.com/ezz_mafiya" class="card"><i class="fab fa-instagram" style="color:#E1306C"></i> Instagram</a>
             <a href="https://t.me/Pain_2007" class="card"><i class="fab fa-telegram" style="color:#0088cc"></i> Telegram</a>
+            <a href="https://youtube.com/@meliqoziyev" class="card"><i class="fab fa-youtube" style="color:#FF0000"></i> YouTube</a>
         </div>
 
         <div class="page" id="p2">
             <div id="big-time">00:00:00</div>
-            <div class="cyber-panel" data-label="AUDIO">
-                <audio id="myAudio" controls><source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3"></audio>
-            </div>
-            <div class="cyber-panel" data-label="VIDEO">
-                <video id="video-player" poster="https://img.freepik.com/free-vector/digital-futuristic-background_23-2148403328.jpg">
-                    <source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4">
+            <div class="cyber-panel">
+                <h3 style="color:#0f0; margin-bottom:10px; font-size: 14px;">MUSIC</h3>
+                <audio id="myAudio" controls>
+                    <source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3" type="audio/mp3">
+                </audio>
+
+                <h3 style="color:#0f0; margin-bottom:10px; font-size: 14px;">VIDEO (BOSSA ISHLAYDI)</h3>
+                <video id="mainVideo" poster="https://img.freepik.com/free-vector/digital-futuristic-background_23-2148403328.jpg" onclick="playVideoOnly()">
+                    <source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4">
                 </video>
             </div>
         </div>
 
         <div class="page" id="p3">
-            <div style="background:rgba(0,0,0,0.8); padding:25px; border:1px solid #0f0; border-radius:15px; width:290px;">
-                <h3 style="color:#0f0; margin-bottom:10px;">ALOQA</h3>
-                <input type="text" id="uName" placeholder="Ism" style="width:100%; padding:8px; margin-bottom:8px; background:#000; border:1px solid #0f0; color:#fff;">
-                <textarea id="uMsg" placeholder="Xabar..." style="width:100%; padding:8px; background:#000; border:1px solid #0f0; color:#fff; height:60px;"></textarea>
-                <button onclick="alert('Yuborildi!')" style="width:100%; padding:10px; background:#0f0; font-weight:bold; cursor:pointer; color:#000;">YUBORISH</button>
+            <div class="cyber-panel">
+                <h3 style="color:#0f0; margin-bottom:15px;">ALOQA</h3>
+                <input type="text" id="uName" placeholder="Ismingiz">
+                <textarea id="uMsg" placeholder="Xabaringiz..."></textarea>
+                <button onclick="sendMsg()">YUBORISH</button>
             </div>
         </div>
 
-        <div class="page" id="p4"></div>
+        <div class="page" id="p4">
+            <h2 style="color:#0f0; position:absolute; top:20px; width:100%; text-align:center; z-index:1001; font-family: monospace;">AI CONTROL ACTIVE</h2>
+        </div>
     </div>
 
     <script>
-        // --- 1. MATRIX & SNOW ---
-        const mCanvas = document.getElementById('matrix-canvas');
-        const mCtx = mCanvas.getContext('2d');
-        mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight;
-        const drops = new Array(Math.floor(mCanvas.width / 20)).fill(1);
-        function drawMatrix() {
-            mCtx.fillStyle = 'rgba(0,0,0,0.1)'; mCtx.fillRect(0,0,mCanvas.width,mCanvas.height);
-            mCtx.fillStyle = '#0f0'; mCtx.font = '20px monospace';
-            drops.forEach((y, i) => {
-                mCtx.fillText(Math.floor(Math.random()*2), i*20, y*20);
-                if(y*20 > mCanvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
-            });
-        }
-        let mInt = setInterval(drawMatrix, 50);
+        const audio = document.getElementById('myAudio');
+        const video = document.getElementById('mainVideo');
 
+        // Video bosilganda musiqani to'xtatadi
+        function playVideoOnly() {
+            if (video.paused) {
+                audio.pause(); // Musiqani to'xtatish
+                video.play();  // Videoni qo'yish
+            } else {
+                video.pause();
+            }
+        }
+
+        // Musiqa qo'yilganda videoni to'xtatadi
+        audio.onplay = function() {
+            video.pause();
+        };
+
+        // QOR EFFEKTI
         const sCanvas = document.getElementById('snow-canvas');
         const sCtx = sCanvas.getContext('2d');
         sCanvas.width = window.innerWidth; sCanvas.height = window.innerHeight;
-        let pArr = [];
-        for(let i=0; i<70; i++) pArr.push({x:Math.random()*sCanvas.width, y:Math.random()*sCanvas.height, r:Math.random()*2+1, d:Math.random()*1+1});
+        let snow = [];
+        for(let i=0; i<100; i++) snow.push({x: Math.random()*sCanvas.width, y: Math.random()*sCanvas.height, r: Math.random()*2+1, s: Math.random()*1+0.5});
         function drawSnow() {
             sCtx.clearRect(0,0,sCanvas.width,sCanvas.height);
             sCtx.fillStyle = "white";
-            pArr.forEach(p => {
+            snow.forEach(p => {
                 sCtx.beginPath(); sCtx.arc(p.x, p.y, p.r, 0, Math.PI*2); sCtx.fill();
-                p.y += p.d; if(p.y > sCanvas.height) p.y = -5;
+                p.y += p.s; if(p.y > sCanvas.height) p.y = -5;
             });
             requestAnimationFrame(drawSnow);
         }
         drawSnow();
 
-        // --- 2. INTRO & GLITCH ---
-        setTimeout(() => {
-            clearInterval(mInt);
-            document.getElementById('intro-screen').style.display = 'none';
-            document.getElementById('matrix-canvas').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
-            setTimeout(() => { document.getElementById('main-content').style.opacity = '1'; glitch(); }, 50);
-        }, 4000);
-
-        function glitch() {
-            const el = document.getElementById('user-name'); const txt = "ASADBEK"; let i = 0;
-            let int = setInterval(() => {
-                el.innerText = txt.split("").map((l, n) => n < i ? txt[n] : "XYZ#!01"[Math.floor(Math.random()*7)]).join("");
-                if(i >= txt.length) clearInterval(int); i += 1/3;
-            }, 50);
+        // XABARNI TOZALASH
+        function sendMsg() {
+            const n = document.getElementById('uName');
+            const m = document.getElementById('uMsg');
+            if(n.value && m.value) {
+                alert("Xabar yuborildi!");
+                n.value = ""; m.value = "";
+            }
         }
 
-        // --- 3. 3D AI LOGIC (SQUEEZE EFFEKT) ---
-        let scene, camera3d, renderer, cyberObj, cameraActive = false;
-        
+        // VLIYAQT (SOAT)
+        setInterval(() => { 
+            document.getElementById('big-time').innerText = new Date().toLocaleTimeString('uz-UZ', {hour12:false}); 
+        }, 1000);
+
+        // 3D AI LOGIC
+        let scene, camera3d, renderer, cyberObj, camActive = false;
         function init3D() {
             scene = new THREE.Scene();
             camera3d = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
@@ -167,19 +157,19 @@
         hands.onResults(res => {
             if (res.multiHandLandmarks && res.multiHandLandmarks.length > 0) {
                 const lm = res.multiHandLandmarks[0];
-                // Aylantirish
                 cyberObj.rotation.y = (lm[8].x - 0.5) * 10;
                 cyberObj.rotation.x = (lm[8].y - 0.5) * 10;
-                // Siqish (Squeeze)
                 const dist = Math.sqrt(Math.pow(lm[4].x-lm[20].x, 2) + Math.pow(lm[4].y-lm[20].y, 2));
                 let s = dist * 4; cyberObj.scale.set(s, s, s);
                 cyberObj.material.color.setHSL(dist, 1, 0.5);
             }
         });
 
-        const camAI = new Camera(document.getElementById('input_video'), { onFrame: async () => { await hands.send({image: document.getElementById('input_video')}); }, width: 640, height: 480 });
+        const camAI = new Camera(document.getElementById('input_video'), { 
+            onFrame: async () => { await hands.send({image: document.getElementById('input_video')}); }, 
+            width: 640, height: 480 
+        });
 
-        // --- 4. NAVIGATION ---
         function movePage(s) {
             let curr = document.querySelector('.page.active');
             let n = parseInt(curr.id.replace('p', '')) + s;
@@ -187,19 +177,14 @@
             curr.classList.remove('active'); document.getElementById('p'+n).classList.add('active');
             document.getElementById('prevBtn').style.display = (n==1)?'none':'block';
             document.getElementById('nextBtn').style.display = (n==4)?'none':'block';
-
             if(n === 4) {
                 document.getElementById('canvas-3d').style.display = 'block';
-                document.getElementById('p4-hint').style.display = 'block';
-                if(!cameraActive) { init3D(); camAI.start(); cameraActive = true; animate(); }
+                if(!camActive) { init3D(); camAI.start(); camActive = true; animate(); }
             } else {
                 document.getElementById('canvas-3d').style.display = 'none';
-                document.getElementById('p4-hint').style.display = 'none';
             }
         }
-
         function animate() { requestAnimationFrame(animate); if(cyberObj) cyberObj.rotation.z += 0.01; renderer.render(scene, camera3d); }
-        setInterval(() => { document.getElementById('big-time').innerText = new Date().toLocaleTimeString('uz-UZ', {hour12:false}); }, 1000);
     </script>
 </body>
 </html>
