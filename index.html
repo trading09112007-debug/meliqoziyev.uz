@@ -23,22 +23,29 @@
         .page { position: absolute; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
         .active { display: flex; }
 
-        .avatar { width: 110px; height: 110px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 15px; box-shadow: 0 0 20px #0f0; }
-        .card { width: 280px; padding: 12px; margin: 8px 0; border-radius: 12px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; background: rgba(0, 255, 0, 0.1); border: 1px solid #0f0; transition: 0.3s; }
-        .card:hover { transform: scale(1.05); background: rgba(0, 255, 0, 0.2); }
-        .card i { margin-right: 15px; font-size: 24px; }
+        /* RAMKALAR (PANEL) */
+        .cyber-panel { border: 1px solid #0f0; background: rgba(0, 0, 0, 0.85); padding: 15px; border-radius: 15px; width: 100%; max-width: 340px; margin: 10px 0; position: relative; box-shadow: 0 0 15px rgba(0,255,0,0.2); }
+        .cyber-panel::before { content: attr(data-label); position: absolute; top: -10px; left: 15px; background: #000; color: #0f0; font-size: 11px; padding: 0 8px; border: 1px solid #0f0; text-transform: uppercase; letter-spacing: 1px; }
 
-        .cyber-panel { border: 1px solid #0f0; background: rgba(0, 0, 0, 0.8); padding: 15px; border-radius: 15px; width: 100%; max-width: 350px; }
-        video { width: 100%; border-radius: 10px; border: 1px solid #0f0; cursor: pointer; }
+        /* VIDEO VA AUDIO ELEMENTLARI */
+        video { width: 100%; border-radius: 8px; border: 1px solid rgba(0,255,0,0.5); }
+        audio { width: 100%; height: 40px; filter: invert(100%) hue-rotate(90deg) brightness(1.5); margin-top: 5px; }
 
-        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 50px; color: #0f0; cursor: pointer; z-index: 1000; text-shadow: 0 0 15px #0f0; }
-        #nextBtn { right: 15px; } #prevBtn { left: 15px; display: none; }
+        /* BOSHQARUV TUGMALARI */
+        .controls { display: flex; justify-content: space-around; align-items: center; margin-top: 10px; }
+        .c-btn { background: none; border: 1px solid #0f0; color: #0f0; padding: 5px 15px; border-radius: 5px; cursor: pointer; transition: 0.3s; font-size: 18px; }
+        .c-btn:hover { background: #0f0; color: #000; box-shadow: 0 0 10px #0f0; }
+
+        /* NAVIGATSIYA */
+        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 1000; text-shadow: 0 0 15px #0f0; transition: 0.3s; }
+        .nav-btn:hover { transform: translateY(-50%) scale(1.2); }
+        #nextBtn { right: 10px; } #prevBtn { left: 10px; display: none; }
         
-        input, textarea { width: 100%; padding: 10px; margin: 8px 0; background: #000; border: 1px solid #0f0; color: #fff; border-radius: 8px; }
-        button { width: 100%; padding: 12px; background: #0f0; border: none; font-weight: bold; cursor: pointer; border-radius: 8px; margin-top: 10px; color: #000; }
-        
-        #big-time { font-size: 22px; color: #0f0; font-family: monospace; margin-bottom: 10px; text-shadow: 0 0 10px #0f0; }
-        audio { width: 100%; height: 35px; filter: invert(100%) hue-rotate(90deg); margin-bottom: 15px; }
+        #big-time { font-size: 24px; color: #0f0; font-family: monospace; margin-bottom: 10px; text-shadow: 0 0 10px #0f0; }
+        .avatar { width: 100px; height: 100px; border-radius: 50%; border: 2px solid #0f0; margin-bottom: 15px; box-shadow: 0 0 15px #0f0; }
+        .card { width: 260px; padding: 10px; margin: 6px 0; border-radius: 10px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; background: rgba(0, 255, 0, 0.1); border: 1px solid #0f0; transition: 0.3s; font-size: 14px; }
+        input, textarea { width: 100%; padding: 10px; margin: 5px 0; background: #000; border: 1px solid #0f0; color: #fff; border-radius: 5px; outline: none; }
+        .send-btn { width: 100%; padding: 10px; background: #0f0; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; color: #000; margin-top: 5px; }
     </style>
 </head>
 <body>
@@ -54,7 +61,7 @@
 
         <div class="page active" id="p1">
             <img src="https://img.freepik.com/free-vector/hacker-operating-laptop-cartoon-icon-illustration_138676-2387.jpg" class="avatar">
-            <h2 style="color:#0f0; margin-bottom:15px; text-shadow: 0 0 10px #0f0;">ASADBEK</h2>
+            <h2 style="color:#0f0; margin-bottom:10px; letter-spacing: 3px;">ASADBEK</h2>
             <a href="https://instagram.com/ezz_mafiya" class="card"><i class="fab fa-instagram" style="color:#E1306C"></i> Instagram</a>
             <a href="https://t.me/Pain_2007" class="card"><i class="fab fa-telegram" style="color:#0088cc"></i> Telegram</a>
             <a href="https://youtube.com/@meliqoziyev" class="card"><i class="fab fa-youtube" style="color:#FF0000"></i> YouTube</a>
@@ -62,51 +69,71 @@
 
         <div class="page" id="p2">
             <div id="big-time">00:00:00</div>
-            <div class="cyber-panel">
-                <h3 style="color:#0f0; margin-bottom:10px; font-size: 14px;">MUSIC</h3>
-                <audio id="myAudio" controls>
+            
+            <div class="cyber-panel" data-label="Music Player">
+                <audio id="myAudio" controls onplay="stopVideo()">
                     <source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3" type="audio/mp3">
                 </audio>
+            </div>
 
-                <h3 style="color:#0f0; margin-bottom:10px; font-size: 14px;">VIDEO (BOSSA ISHLAYDI)</h3>
-                <video id="mainVideo" poster="https://img.freepik.com/free-vector/digital-futuristic-background_23-2148403328.jpg" onclick="playVideoOnly()">
-                    <source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4">
+            <div class="cyber-panel" data-label="Video Player">
+                <video id="mainVideo" onplay="stopAudio()">
+                    <source id="videoSrc" src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4">
                 </video>
+                <div class="controls">
+                    <button class="c-btn" onclick="changeVideo(-1)"><i class="fas fa-backward"></i></button>
+                    <button class="c-btn" onclick="toggleVideo()" id="playBtn"><i class="fas fa-play"></i></button>
+                    <button class="c-btn" onclick="changeVideo(1)"><i class="fas fa-forward"></i></button>
+                </div>
             </div>
         </div>
 
         <div class="page" id="p3">
-            <div class="cyber-panel">
-                <h3 style="color:#0f0; margin-bottom:15px;">ALOQA</h3>
+            <div class="cyber-panel" data-label="Contact Me">
                 <input type="text" id="uName" placeholder="Ismingiz">
                 <textarea id="uMsg" placeholder="Xabaringiz..."></textarea>
-                <button onclick="sendMsg()">YUBORISH</button>
+                <button class="send-btn" onclick="sendMsg()">YUBORISH</button>
             </div>
         </div>
 
         <div class="page" id="p4">
-            <h2 style="color:#0f0; position:absolute; top:20px; width:100%; text-align:center; z-index:1001; font-family: monospace;">AI CONTROL ACTIVE</h2>
+            <h3 style="color:#0f0; position:absolute; top:20px; width:100%; text-align:center; z-index:1001; font-family: monospace;">SYSTEM: HAND TRACKING ACTIVE</h3>
         </div>
     </div>
 
     <script>
         const audio = document.getElementById('myAudio');
         const video = document.getElementById('mainVideo');
+        const videoSrc = document.getElementById('videoSrc');
+        const playBtn = document.getElementById('playBtn');
 
-        // Video bosilganda musiqani to'xtatadi
-        function playVideoOnly() {
+        // VIDEO RO'YXATI
+        const videos = [
+            "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4",
+            "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" // 2-chi videongiz linkini shu yerga qo'ying
+        ];
+        let currentVid = 0;
+
+        function stopVideo() { video.pause(); playBtn.innerHTML = '<i class="fas fa-play"></i>'; }
+        function stopAudio() { audio.pause(); }
+
+        function toggleVideo() {
             if (video.paused) {
-                audio.pause(); // Musiqani to'xtatish
-                video.play();  // Videoni qo'yish
+                stopAudio();
+                video.play();
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
             } else {
                 video.pause();
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
             }
         }
 
-        // Musiqa qo'yilganda videoni to'xtatadi
-        audio.onplay = function() {
-            video.pause();
-        };
+        function changeVideo(dir) {
+            currentVid = (currentVid + dir + videos.length) % videos.length;
+            videoSrc.src = videos[currentVid];
+            video.load();
+            toggleVideo();
+        }
 
         // QOR EFFEKTI
         const sCanvas = document.getElementById('snow-canvas');
@@ -125,22 +152,17 @@
         }
         drawSnow();
 
-        // XABARNI TOZALASH
         function sendMsg() {
             const n = document.getElementById('uName');
             const m = document.getElementById('uMsg');
-            if(n.value && m.value) {
-                alert("Xabar yuborildi!");
-                n.value = ""; m.value = "";
-            }
+            if(n.value && m.value) { alert("Xabar yuborildi!"); n.value = ""; m.value = ""; }
         }
 
-        // VLIYAQT (SOAT)
         setInterval(() => { 
             document.getElementById('big-time').innerText = new Date().toLocaleTimeString('uz-UZ', {hour12:false}); 
         }, 1000);
 
-        // 3D AI LOGIC
+        // AI 3D LOGIC
         let scene, camera3d, renderer, cyberObj, camActive = false;
         function init3D() {
             scene = new THREE.Scene();
