@@ -8,42 +8,40 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; }
-        
         canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; }
         #snow-canvas { z-index: 1; pointer-events: none; } 
-        #canvas-3d { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; display: none; background: #000; }
-        #input_video { position: fixed; bottom: 10px; right: 10px; width: 120px; height: 90px; border: 2px solid #0f0; z-index: 1002; display: none; border-radius: 10px; object-fit: cover; }
-
+        #canvas-3d { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; display: none; }
+        #output_canvas, #input_video { display: none !important; }
         #main-content { height: 100vh; width: 100%; position: relative; z-index: 100; }
         .page { position: absolute; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
         .active { display: flex; }
-
         .cyber-panel { border: 1px solid #0f0; background: rgba(0, 0, 0, 0.85); padding: 15px; border-radius: 15px; width: 100%; max-width: 340px; margin: 10px 0; position: relative; box-shadow: 0 0 15px rgba(0,255,0,0.2); }
         .cyber-panel::before { content: attr(data-label); position: absolute; top: -10px; left: 15px; background: #000; color: #0f0; font-size: 11px; padding: 0 8px; border: 1px solid #0f0; text-transform: uppercase; letter-spacing: 1px; }
-        
-        video#mainVideo { width: 100%; border-radius: 8px; border: 1px solid rgba(0,255,0,0.5); }
+        video { width: 100%; border-radius: 8px; border: 1px solid rgba(0,255,0,0.5); }
+        audio { width: 100%; height: 40px; filter: invert(100%) hue-rotate(90deg) brightness(1.5); margin-top: 5px; }
         .controls { display: flex; justify-content: space-around; align-items: center; margin-top: 10px; }
-        .c-btn { background: none; border: 1px solid #0f0; color: #0f0; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-size: 18px; }
-
-        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 1000; text-shadow: 0 0 15px #0f0; }
+        .c-btn { background: none; border: 1px solid #0f0; color: #0f0; padding: 5px 15px; border-radius: 5px; cursor: pointer; transition: 0.3s; font-size: 18px; }
+        .c-btn:hover { background: #0f0; color: #000; box-shadow: 0 0 10px #0f0; }
+        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 1000; text-shadow: 0 0 15px #0f0; transition: 0.3s; }
         #nextBtn { right: 10px; } #prevBtn { left: 10px; display: none; }
-
+        #big-time { font-size: 24px; color: #0f0; font-family: monospace; margin-bottom: 10px; text-shadow: 0 0 10px #0f0; }
         .avatar { width: 100px; height: 100px; border-radius: 50%; border: 2px solid #0f0; margin-bottom: 15px; box-shadow: 0 0 15px #0f0; }
-        .card { width: 260px; padding: 10px; margin: 6px 0; border-radius: 10px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; background: rgba(0, 255, 0, 0.1); border: 1px solid #0f0; font-size: 14px; }
-        
+        .card { width: 260px; padding: 10px; margin: 6px 0; border-radius: 10px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; background: rgba(0, 255, 0, 0.1); border: 1px solid #0f0; transition: 0.3s; font-size: 14px; }
+        .heart-active { color: #ff0000 !important; transform: scale(1.2); text-shadow: 0 0 15px #ff0000; }
         input, textarea { width: 100%; padding: 10px; margin: 5px 0; background: #000; border: 1px solid #0f0; color: #fff; border-radius: 5px; outline: none; }
-        .send-btn { width: 100%; padding: 10px; background: #0f0; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; color: #000; }
-        #cam-status { position: absolute; bottom: 80px; font-family: monospace; color: #0f0; font-size: 14px; z-index: 1001; background: rgba(0,0,0,0.5); padding: 5px 10px; }
+        .send-btn { width: 100%; padding: 10px; background: #0f0; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; color: #000; margin-top: 5px; }
     </style>
 </head>
 <body>
 
     <canvas id="snow-canvas"></canvas>
-    <video id="input_video" playsinline></video>
+    <video id="input_video"></video>
+    <canvas id="output_canvas"></canvas>
     <div id="canvas-3d"></div>
 
     <div id="main-content">
@@ -53,19 +51,32 @@
         <div class="page active" id="p1">
             <img src="https://img.freepik.com/free-vector/hacker-operating-laptop-cartoon-icon-illustration_138676-2387.jpg" class="avatar">
             <h2 style="color:#0f0; margin-bottom:10px; letter-spacing: 3px;">ASADBEK</h2>
-            <a href="https://instagram.com/ezz_mafiya" class="card"><i class="fab fa-instagram" style="color:#E1306C; margin-right:10px;"></i> Instagram</a>
-            <a href="https://t.me/Pain_2007" class="card"><i class="fab fa-telegram" style="color:#0088cc; margin-right:10px;"></i> Telegram</a>
+            <a href="https://instagram.com/ezz_mafiya" class="card"><i class="fab fa-instagram" style="color:#E1306C"></i> Instagram</a>
+            <a href="https://t.me/Pain_2007" class="card"><i class="fab fa-telegram" style="color:#0088cc"></i> Telegram</a>
+            <a href="https://youtube.com/@meliqoziyev" class="card"><i class="fab fa-youtube" style="color:#FF0000"></i> YouTube</a>
         </div>
 
         <div class="page" id="p2">
-            <div id="big-time" style="font-size: 24px; color: #0f0; font-family: monospace; margin-bottom: 10px;">00:00:00</div>
+            <div id="big-time">00:00:00</div>
+            
+            <div class="cyber-panel" data-label="Music Player">
+                <audio id="myAudio" controls onplay="stopVideo()">
+                    <source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3" type="audio/mp3">
+                </audio>
+            </div>
+
             <div class="cyber-panel" data-label="Video Player">
-                <video id="mainVideo">
+                <video id="mainVideo" onplay="stopAudio()">
                     <source id="videoSrc" src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4">
                 </video>
                 <div class="controls">
-                    <button class="c-btn" onclick="toggleVideo()" id="playBtn">PLAY</button>
-                    <button class="c-btn" onclick="changeVideo(1)">NEXT</button>
+                    <button class="c-btn" onclick="changeVideo(-1)"><i class="fas fa-backward"></i></button>
+                    <button class="c-btn" onclick="toggleVideo()" id="playBtn"><i class="fas fa-play"></i></button>
+                    <button class="c-btn" onclick="changeVideo(1)"><i class="fas fa-forward"></i></button>
+                </div>
+                <div style="margin-top: 15px; border-top: 1px solid rgba(0,255,0,0.2); padding-top: 10px; cursor: pointer;" onclick="toggleLike()">
+                    <i id="heart-icon" class="fas fa-heart" style="font-size: 22px; transition: 0.3s;"></i>
+                    <span id="like-num" style="color: #0f0; font-family: monospace; font-size: 18px; margin-left: 5px;">350</span>
                 </div>
             </div>
         </div>
@@ -74,97 +85,150 @@
             <div class="cyber-panel" data-label="Contact Me">
                 <input type="text" id="uName" placeholder="Ismingiz">
                 <textarea id="uMsg" placeholder="Xabaringiz..."></textarea>
-                <button class="send-btn" id="sendBtn" onclick="sendMessage()">YUBORISH</button>
+                <button class="send-btn" onclick="sendMsg()">YUBORISH</button>
             </div>
         </div>
 
         <div class="page" id="p4">
-            <h3 style="color:#0f0; position:absolute; top:20px; font-family: monospace;">HAND CONTROL SYSTEM</h3>
-            <div id="cam-status">Kamera so'ralmoqda...</div>
+            <h3 style="color:#0f0; position:absolute; top:20px; width:100%; text-align:center; z-index:1001; font-family: monospace; text-shadow: 0 0 10px #0f0;">STARFIELD NAVIGATION</h3>
+            <p style="color:#0f0; position:absolute; bottom:30px; width:100%; text-align:center; z-index:1001; font-family: monospace; font-size: 12px;">QO'LINGIZ BILAN YULDUZLARNI BOSQARING</p>
         </div>
     </div>
 
     <script>
-        // 1. TELEGRAM
-        function sendMessage() {
-            const name = document.getElementById('uName');
-            const msg = document.getElementById('uMsg');
-            const token = "7725172926:AAH6vP2S-f8R8N9U5BfXqYh-fG_H3f-y8f8"; 
-            const chat_id = "6804374367"; 
+        const audio = document.getElementById('myAudio');
+        const video = document.getElementById('mainVideo');
+        const videoSrc = document.getElementById('videoSrc');
+        const playBtn = document.getElementById('playBtn');
 
-            if(name.value.trim() && msg.value.trim()) {
-                const text = `🚀 YANGI XABAR!\n👤 Ism: ${name.value}\n💬 Xabar: ${msg.value}`;
-                fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(text)}`)
-                .then(() => { alert("Yuborildi!"); name.value = ""; msg.value = ""; });
-            }
+        const videos = [
+            "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4",
+            "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260301_001120_168.mp4",
+            "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260302_180350_682.mp4",
+            "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260302_234650_212.mp4"
+        ];
+        let currentVid = 0;
+
+        function stopVideo() { video.pause(); playBtn.innerHTML = '<i class="fas fa-play"></i>'; }
+        function stopAudio() { audio.pause(); }
+        function toggleVideo() {
+            if (video.paused) { stopAudio(); video.play(); playBtn.innerHTML = '<i class="fas fa-pause"></i>'; } 
+            else { video.pause(); playBtn.innerHTML = '<i class="fas fa-play"></i>'; }
+        }
+        function changeVideo(dir) {
+            currentVid = (currentVid + dir + videos.length) % videos.length;
+            video.pause(); videoSrc.src = videos[currentVid]; video.load(); toggleVideo();
         }
 
-        // 2. QOR
+        let isLiked = false; let likes = 350;
+        function toggleLike() {
+            const h = document.getElementById('heart-icon');
+            const n = document.getElementById('like-num');
+            if(!isLiked) { likes++; h.classList.add('heart-active'); isLiked = true; } 
+            else { likes--; h.classList.remove('heart-active'); isLiked = false; }
+            n.innerText = likes;
+        }
+
         const sCanvas = document.getElementById('snow-canvas');
         const sCtx = sCanvas.getContext('2d');
         sCanvas.width = window.innerWidth; sCanvas.height = window.innerHeight;
         let snow = [];
-        for(let i=0; i<80; i++) snow.push({x: Math.random()*sCanvas.width, y: Math.random()*sCanvas.height, r: Math.random()*2+1, s: Math.random()*1+0.5});
+        for(let i=0; i<100; i++) snow.push({x: Math.random()*sCanvas.width, y: Math.random()*sCanvas.height, r: Math.random()*2+1, s: Math.random()*1+0.5});
         function drawSnow() {
             sCtx.clearRect(0,0,sCanvas.width,sCanvas.height);
             sCtx.fillStyle = "white";
-            snow.forEach(p => { p.y += p.s; if(p.y > sCanvas.height) p.y = -5; sCtx.beginPath(); sCtx.arc(p.x, p.y, p.r, 0, Math.PI*2); sCtx.fill(); });
+            snow.forEach(p => {
+                sCtx.beginPath(); sCtx.arc(p.x, p.y, p.r, 0, Math.PI*2); sCtx.fill();
+                p.y += p.s; if(p.y > sCanvas.height) p.y = -5;
+            });
             requestAnimationFrame(drawSnow);
         }
         drawSnow();
 
-        // 3. VIDEO
-        const video = document.getElementById('mainVideo');
-        const vids = ["https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4", "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260301_001120_168.mp4"];
-        let curV = 0;
-        function toggleVideo() { video.paused ? video.play() : video.pause(); }
-        function changeVideo(d) { curV = (curV+d)%vids.length; video.src = vids[curV]; video.play(); }
+        setInterval(() => { 
+            document.getElementById('big-time').innerText = new Date().toLocaleTimeString('uz-UZ', {hour12:false}); 
+        }, 1000);
 
-        // 4. 3D VA KAMERA (ENG MUHIM QISM)
-        let scene, camera3d, renderer, shape, camActive = false;
-        const videoElement = document.getElementById('input_video');
+        // --- 4-BO'LIM: YULDUZLAR VA HAND TRACKING ---
+        let scene, camera3d, renderer, stars, starGeo, camActive = false;
+        let starSpeed = 0.5;
+        let starTargetRotationX = 0;
+        let starTargetRotationY = 0;
 
-        function init3D() {
+        function initStars() {
             scene = new THREE.Scene();
-            camera3d = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-            camera3d.position.z = 3;
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            camera3d = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
+            camera3d.position.z = 1;
+            camera3d.rotation.x = Math.PI/2;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
-            document.getElementById('canvas-3d').innerHTML = "";
             document.getElementById('canvas-3d').appendChild(renderer.domElement);
-            shape = new THREE.Mesh(new THREE.IcosahedronGeometry(1, 0), new THREE.MeshPhongMaterial({ color: 0x00ff00, wireframe: true }));
-            scene.add(shape);
-            scene.add(new THREE.PointLight(0xffffff, 1, 100));
+
+            starGeo = new THREE.BufferGeometry();
+            const starCoords = [];
+            for (let i = 0; i < 100; i++) {
+                let star = new THREE.Vector3(
+                    Math.random() * 600 - 300,
+                    Math.random() * 600 - 300,
+                    Math.random() * 600 - 300
+                );
+                starCoords.push(star.x, star.y, star.z);
+            }
+            starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starCoords, 3));
+
+            let sprite = new THREE.TextureLoader().load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/sprites/circle.png');
+            let starMaterial = new THREE.PointsMaterial({
+                color: 0x00ff00,
+                size: 1.5,
+                map: sprite,
+                transparent: true
+            });
+
+            stars = new THREE.Points(starGeo, starMaterial);
+            scene.add(stars);
         }
 
         const hands = new Hands({locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`});
-        hands.setOptions({ maxNumHands: 1, minDetectionConfidence: 0.5, modelComplexity: 1 });
+        hands.setOptions({ maxNumHands: 1, modelComplexity: 1, minDetectionConfidence: 0.6 });
+        
         hands.onResults(res => {
             if (res.multiHandLandmarks && res.multiHandLandmarks.length > 0) {
-                const lm = res.multiHandLandmarks[0][8];
-                shape.rotation.y = lm.x * 10;
-                shape.rotation.x = lm.y * 10;
-                document.getElementById('cam-status').innerText = "SYSTEM ONLINE";
+                const lm = res.multiHandLandmarks[0];
+                // Ko'rsatkich barmog'i bilan yo'nalishni boshqarish
+                starTargetRotationY = (lm[8].x - 0.5) * 2;
+                starTargetRotationX = (lm[8].y - 0.5) * 2;
+
+                // Ikki barmoq orasidagi masofa bilan tezlikni boshqarish (4 va 8-nuqtalar)
+                const dist = Math.sqrt(Math.pow(lm[4].x-lm[8].x, 2) + Math.pow(lm[4].y-lm[8].y, 2));
+                starSpeed = dist * 20; 
+            } else {
+                starSpeed = 0.5; // Qo'l bo'lmasa normal tezlik
             }
         });
 
-        async function startCamera() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
-                videoElement.srcObject = stream;
-                videoElement.play();
-                videoElement.style.display = "block";
-                document.getElementById('cam-status').innerText = "Kamera yoqildi. Qo'lingizni ko'rsating.";
-                
-                async function detectionLoop() {
-                    if(!camActive) return;
-                    await hands.send({image: videoElement});
-                    requestAnimationFrame(detectionLoop);
+        const camAI = new Camera(document.getElementById('input_video'), { 
+            onFrame: async () => { await hands.send({image: document.getElementById('input_video')}); }, 
+            width: 640, height: 480 
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            const positions = starGeo.attributes.position.array;
+            for (let i = 0; i < positions.length; i += 3) {
+                positions[i + 1] -= starSpeed; // Y o'qi bo'yicha harakat (pastga uchish)
+                if (positions[i + 1] < -300) {
+                    positions[i + 1] = 300;
                 }
-                detectionLoop();
-            } catch (err) {
-                document.getElementById('cam-status').innerText = "Xatolik: Kameraga ruxsat bering!";
             }
+            starGeo.attributes.position.needsUpdate = true;
+            
+            // Silliq aylanish
+            stars.rotation.y += (starTargetRotationY - stars.rotation.y) * 0.1;
+            stars.rotation.x += (starTargetRotationX - stars.rotation.x) * 0.1;
+
+            renderer.render(scene, camera3d);
         }
 
         function movePage(s) {
@@ -172,22 +236,17 @@
             let n = parseInt(curr.id.replace('p', '')) + s;
             if(n<1 || n>4) return;
             curr.classList.remove('active'); document.getElementById('p'+n).classList.add('active');
-            document.getElementById('prevBtn').style.display = (n===1)?'none':'block';
-            document.getElementById('nextBtn').style.display = (n===4)?'none':'block';
-            
+            document.getElementById('prevBtn').style.display = (n==1)?'none':'block';
+            document.getElementById('nextBtn').style.display = (n==4)?'none':'block';
             if(n === 4) {
                 document.getElementById('canvas-3d').style.display = 'block';
-                init3D(); camActive = true; 
-                startCamera();
-                (function anim() { if(camActive) { shape.rotation.z += 0.01; renderer.render(scene, camera3d); requestAnimationFrame(anim); } })();
-            } else {
-                camActive = false;
-                document.getElementById('canvas-3d').style.display = 'none';
-                if(videoElement.srcObject) videoElement.srcObject.getTracks().forEach(t => t.stop());
-                videoElement.style.display = "none";
+                if(!camActive) { initStars(); camAI.start(); camActive = true; animate(); }
+            } else { 
+                document.getElementById('canvas-3d').style.display = 'none'; 
             }
         }
-        setInterval(() => { document.getElementById('big-time').innerText = new Date().toLocaleTimeString(); }, 1000);
+
+        function sendMsg() { alert("Xabar yuborildi!"); }
     </script>
 </body>
 </html>
