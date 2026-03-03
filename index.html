@@ -14,18 +14,15 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; }
         
-        /* FON VA KANVASLAR */
         canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; }
         #snow-canvas { z-index: 1; pointer-events: none; } 
         #canvas-3d { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; display: none; background: #000; }
         #input_video { display: none !important; }
 
-        /* ASOSIY KONTENT */
         #main-content { height: 100vh; width: 100%; position: relative; z-index: 100; }
         .page { position: absolute; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
         .active { display: flex; }
 
-        /* PANEL VA DIZAYN */
         .cyber-panel { border: 1px solid #0f0; background: rgba(0, 0, 0, 0.85); padding: 15px; border-radius: 15px; width: 100%; max-width: 340px; margin: 10px 0; position: relative; box-shadow: 0 0 15px rgba(0,255,0,0.2); }
         .cyber-panel::before { content: attr(data-label); position: absolute; top: -10px; left: 15px; background: #000; color: #0f0; font-size: 11px; padding: 0 8px; border: 1px solid #0f0; text-transform: uppercase; letter-spacing: 1px; }
         
@@ -34,21 +31,16 @@
         
         .controls { display: flex; justify-content: space-around; align-items: center; margin-top: 10px; }
         .c-btn { background: none; border: 1px solid #0f0; color: #0f0; padding: 5px 15px; border-radius: 5px; cursor: pointer; transition: 0.3s; font-size: 18px; }
-        .c-btn:hover { background: #0f0; color: #000; box-shadow: 0 0 10px #0f0; }
-
-        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 1000; text-shadow: 0 0 15px #0f0; transition: 0.3s; }
+        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 1000; text-shadow: 0 0 15px #0f0; }
         #nextBtn { right: 10px; } #prevBtn { left: 10px; display: none; }
 
         .avatar { width: 100px; height: 100px; border-radius: 50%; border: 2px solid #0f0; margin-bottom: 15px; box-shadow: 0 0 15px #0f0; }
-        .card { width: 260px; padding: 10px; margin: 6px 0; border-radius: 10px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; background: rgba(0, 255, 0, 0.1); border: 1px solid #0f0; transition: 0.3s; font-size: 14px; }
+        .card { width: 260px; padding: 10px; margin: 6px 0; border-radius: 10px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; background: rgba(0, 255, 0, 0.1); border: 1px solid #0f0; font-size: 14px; }
         
         input, textarea { width: 100%; padding: 10px; margin: 5px 0; background: #000; border: 1px solid #0f0; color: #fff; border-radius: 5px; outline: none; }
         .send-btn { width: 100%; padding: 10px; background: #0f0; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; color: #000; margin-top: 5px; }
         .heart-active { color: #ff0000 !important; transform: scale(1.2); text-shadow: 0 0 15px #ff0000; }
-        
-        /* 4-BO'LIM STILI */
-        #p4 h3 { position: absolute; top: 20px; color: #0f0; z-index: 1001; font-family: monospace; letter-spacing: 2px; }
-        #cam-msg { position: absolute; bottom: 30px; color: #0f0; font-size: 12px; z-index: 1001; font-family: monospace; }
+        #cam-msg { position: absolute; bottom: 30px; color: #0f0; font-family: monospace; z-index: 1001; }
     </style>
 </head>
 <body>
@@ -66,16 +58,10 @@
             <h2 style="color:#0f0; margin-bottom:10px; letter-spacing: 3px;">ASADBEK</h2>
             <a href="https://instagram.com/ezz_mafiya" class="card"><i class="fab fa-instagram" style="color:#E1306C; margin-right:10px;"></i> Instagram</a>
             <a href="https://t.me/Pain_2007" class="card"><i class="fab fa-telegram" style="color:#0088cc; margin-right:10px;"></i> Telegram</a>
-            <a href="https://youtube.com/@meliqoziyev" class="card"><i class="fab fa-youtube" style="color:#FF0000; margin-right:10px;"></i> YouTube</a>
         </div>
 
         <div class="page" id="p2">
             <div id="big-time" style="font-size: 24px; color: #0f0; font-family: monospace; margin-bottom: 10px;">00:00:00</div>
-            <div class="cyber-panel" data-label="Music Player">
-                <audio id="myAudio" controls>
-                    <source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3" type="audio/mp3">
-                </audio>
-            </div>
             <div class="cyber-panel" data-label="Video Player">
                 <video id="mainVideo">
                     <source id="videoSrc" src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4">
@@ -85,10 +71,6 @@
                     <button class="c-btn" onclick="toggleVideo()" id="playBtn"><i class="fas fa-play"></i></button>
                     <button class="c-btn" onclick="changeVideo(1)"><i class="fas fa-forward"></i></button>
                 </div>
-                <div style="margin-top: 15px; border-top: 1px solid rgba(0,255,0,0.2); padding-top: 10px; cursor: pointer;" onclick="toggleLike()">
-                    <i id="heart-icon" class="fas fa-heart" style="font-size: 22px;"></i>
-                    <span id="like-num" style="color: #0f0; margin-left: 5px;">350</span>
-                </div>
             </div>
         </div>
 
@@ -96,27 +78,21 @@
             <div class="cyber-panel" data-label="Contact Me">
                 <input type="text" id="uName" placeholder="Ismingiz">
                 <textarea id="uMsg" placeholder="Xabaringiz..."></textarea>
-                <button class="send-btn" onclick="alert('Xabar yuborildi!')">YUBORISH</button>
+                <button class="send-btn" onclick="sendMessage()">YUBORISH</button>
             </div>
         </div>
 
         <div class="page" id="p4">
-            <h3>CYBER WORLD 3D</h3>
-            <div id="cam-msg">Kamera yuklanmoqda...</div>
+            <h3 style="color:#0f0; position:absolute; top:20px; font-family: monospace;">3D WORLD CONTROL</h3>
+            <div id="cam-msg">Kamera kutilmoqda...</div>
         </div>
     </div>
 
     <script>
-        // 1. VIDEO VA AUDIO SOZLAMALARI
         const video = document.getElementById('mainVideo');
         const videoSrc = document.getElementById('videoSrc');
         const playBtn = document.getElementById('playBtn');
-        const videos = [
-            "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4",
-            "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260301_001120_168.mp4",
-            "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260302_180350_682.mp4",
-            "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260302_234650_212.mp4"
-        ];
+        const videos = ["https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4", "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260301_001120_168.mp4", "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260302_180350_682.mp4"];
         let currentVid = 0;
 
         function toggleVideo() {
@@ -125,15 +101,23 @@
         }
         function changeVideo(dir) {
             currentVid = (currentVid + dir + videos.length) % videos.length;
-            videoSrc.src = videos[currentVid];
-            video.load(); video.play();
-            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-        }
-        function toggleLike() {
-            document.getElementById('heart-icon').classList.toggle('heart-active');
+            videoSrc.src = videos[currentVid]; video.load(); video.play();
         }
 
-        // 2. QOR EFFEKTI
+        // XABARNI YUBORISH VA TOZALASH
+        function sendMessage() {
+            const name = document.getElementById('uName');
+            const msg = document.getElementById('uMsg');
+            if(name.value.trim() && msg.value.trim()) {
+                alert("Xabaringiz yuborildi!");
+                name.value = ""; // Ismni o'chirish
+                msg.value = "";  // Xabarni o'chirish
+            } else {
+                alert("Iltimos, hamma joyni to'ldiring!");
+            }
+        }
+
+        // QOR
         const sCanvas = document.getElementById('snow-canvas');
         const sCtx = sCanvas.getContext('2d');
         sCanvas.width = window.innerWidth; sCanvas.height = window.innerHeight;
@@ -150,57 +134,38 @@
         }
         drawSnow();
 
-        // 3. YER SHARI (THREE.JS)
+        // YER SHARI (THREE.JS)
         let scene, camera3d, renderer, earth, camActive = false;
-
         function initEarth() {
             scene = new THREE.Scene();
-            camera3d = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera3d = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
             camera3d.position.z = 2;
-
             renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
-            const container = document.getElementById('canvas-3d');
-            container.innerHTML = "";
-            container.appendChild(renderer.domElement);
-
-            const geometry = new THREE.SphereGeometry(0.8, 25, 25);
-            const material = new THREE.MeshPhongMaterial({
-                color: 0x00ff00,
-                wireframe: true,
-                transparent: true,
-                opacity: 0.8
-            });
-            earth = new THREE.Mesh(geometry, material);
+            document.getElementById('canvas-3d').innerHTML = "";
+            document.getElementById('canvas-3d').appendChild(renderer.domElement);
+            const geo = new THREE.SphereGeometry(0.8, 20, 20);
+            const mat = new THREE.MeshPhongMaterial({ color: 0x00ff00, wireframe: true });
+            earth = new THREE.Mesh(geo, mat);
             scene.add(earth);
-
-            const light = new THREE.DirectionalLight(0xffffff, 1);
-            light.position.set(5, 3, 5);
-            scene.add(light);
-            scene.add(new THREE.AmbientLight(0x404040));
+            const light = new THREE.PointLight(0xffffff, 1, 100);
+            light.position.set(5, 5, 5); scene.add(light);
         }
 
         function animateEarth() {
-            if (earth && !camActive) earth.rotation.y += 0.005;
+            if(earth && !camActive) earth.rotation.y += 0.005;
             renderer.render(scene, camera3d);
             requestAnimationFrame(animateEarth);
         }
 
-        // 4. HAND TRACKING
         const hands = new Hands({locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`});
-        hands.setOptions({ maxNumHands: 1, minDetectionConfidence: 0.6 });
-        
+        hands.setOptions({ maxNumHands: 1, minDetectionConfidence: 0.5 });
         hands.onResults(res => {
-            const msg = document.getElementById('cam-msg');
             if (res.multiHandLandmarks && res.multiHandLandmarks.length > 0) {
                 const lm = res.multiHandLandmarks[0];
                 earth.rotation.y = lm[8].x * Math.PI * 2;
                 earth.rotation.x = (lm[8].y - 0.5) * Math.PI;
-                msg.innerText = "BOSHQARUV: ONLINE";
-                msg.style.color = "#0f0";
-            } else {
-                msg.innerText = "Qo'lingizni kameraga ko'rsating...";
-                msg.style.color = "#fff";
+                document.getElementById('cam-msg').innerText = "SYSTEM: CONNECTED";
             }
         });
 
@@ -209,31 +174,19 @@
             width: 480, height: 360
         });
 
-        // 5. NAVIGATSIYA
         function movePage(s) {
             let curr = document.querySelector('.page.active');
             let n = parseInt(curr.id.replace('p', '')) + s;
             if(n<1 || n>4) return;
-            
-            curr.classList.remove('active');
-            document.getElementById('p'+n).classList.add('active');
-            
+            curr.classList.remove('active'); document.getElementById('p'+n).classList.add('active');
             document.getElementById('prevBtn').style.display = (n==1)?'none':'block';
             document.getElementById('nextBtn').style.display = (n==4)?'none':'block';
-
             if(n === 4) {
                 document.getElementById('canvas-3d').style.display = 'block';
-                initEarth();
-                animateEarth();
-                camControl.start()
-                    .then(() => { camActive = true; })
-                    .catch(() => { document.getElementById('cam-msg').innerText = "Kamera bloklangan!"; });
-            } else {
-                document.getElementById('canvas-3d').style.display = 'none';
-                camActive = false;
-            }
+                initEarth(); animateEarth();
+                camControl.start().then(() => camActive = true).catch(() => { document.getElementById('cam-msg').innerText = "Kamera ruxsati kerak!"; });
+            } else { document.getElementById('canvas-3d').style.display = 'none'; camActive = false; }
         }
-
         setInterval(() => { document.getElementById('big-time').innerText = new Date().toLocaleTimeString(); }, 1000);
     </script>
 </body>
