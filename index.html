@@ -1,115 +1,211 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asadbek | meliqoziyev.uz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+
     <style>
-        /* ... (Eski stillar) ... */
-        #canvas-3d { display: none; background: radial-gradient(circle, #001 0%, #000 100%); }
-        .space-info { position: absolute; bottom: 20px; color: #0f0; font-family: monospace; width: 100%; text-align: center; z-index: 1002; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; }
+        
+        /* FON VA KANVASLAR */
+        canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; }
+        #snow-canvas { z-index: 1; pointer-events: none; } 
+        #canvas-3d { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; display: none; background: #000; }
+        #output_canvas, #input_video { display: none !important; }
+
+        /* ASOSIY KONTENT */
+        #main-content { height: 100vh; width: 100%; position: relative; z-index: 100; }
+        .page { position: absolute; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
+        .active { display: flex; }
+
+        /* PANEL VA DIZAYN */
+        .cyber-panel { border: 1px solid #0f0; background: rgba(0, 0, 0, 0.85); padding: 15px; border-radius: 15px; width: 100%; max-width: 340px; margin: 10px 0; position: relative; box-shadow: 0 0 15px rgba(0,255,0,0.2); }
+        .cyber-panel::before { content: attr(data-label); position: absolute; top: -10px; left: 15px; background: #000; color: #0f0; font-size: 11px; padding: 0 8px; border: 1px solid #0f0; text-transform: uppercase; letter-spacing: 1px; }
+        
+        video { width: 100%; border-radius: 8px; border: 1px solid rgba(0,255,0,0.5); }
+        audio { width: 100%; height: 40px; filter: invert(100%) hue-rotate(90deg) brightness(1.5); margin-top: 5px; }
+        
+        .controls { display: flex; justify-content: space-around; align-items: center; margin-top: 10px; }
+        .c-btn { background: none; border: 1px solid #0f0; color: #0f0; padding: 5px 15px; border-radius: 5px; cursor: pointer; transition: 0.3s; font-size: 18px; }
+        .c-btn:hover { background: #0f0; color: #000; box-shadow: 0 0 10px #0f0; }
+
+        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 1000; text-shadow: 0 0 15px #0f0; transition: 0.3s; }
+        #nextBtn { right: 10px; } #prevBtn { left: 10px; display: none; }
+
+        .avatar { width: 100px; height: 100px; border-radius: 50%; border: 2px solid #0f0; margin-bottom: 15px; box-shadow: 0 0 15px #0f0; }
+        .card { width: 260px; padding: 10px; margin: 6px 0; border-radius: 10px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; background: rgba(0, 255, 0, 0.1); border: 1px solid #0f0; transition: 0.3s; font-size: 14px; }
+        
+        input, textarea { width: 100%; padding: 10px; margin: 5px 0; background: #000; border: 1px solid #0f0; color: #fff; border-radius: 5px; outline: none; }
+        .send-btn { width: 100%; padding: 10px; background: #0f0; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; color: #000; margin-top: 5px; }
+        .heart-active { color: #ff0000 !important; transform: scale(1.2); text-shadow: 0 0 15px #ff0000; }
     </style>
 </head>
 <body>
-    <div class="page" id="p4">
-        <h3 style="color:#0f0; position:absolute; top:20px; width:100%; text-align:center; z-index:1001; font-family: monospace;">SYSTEM: DEEP SPACE EXPLORATION</h3>
-        <div class="space-info">Qo'lingiz bilan yulduzlarni boshqaring</div>
+
+    <canvas id="snow-canvas"></canvas>
+    <video id="input_video" playsinline></video>
+    <div id="canvas-3d"></div>
+
+    <div id="main-content">
+        <i class="fas fa-chevron-left nav-btn" id="prevBtn" onclick="movePage(-1)"></i>
+        <i class="fas fa-chevron-right nav-btn" id="nextBtn" onclick="movePage(1)"></i>
+
+        <div class="page active" id="p1">
+            <img src="https://img.freepik.com/free-vector/hacker-operating-laptop-cartoon-icon-illustration_138676-2387.jpg" class="avatar">
+            <h2 style="color:#0f0; margin-bottom:10px; letter-spacing: 3px;">ASADBEK</h2>
+            <a href="https://instagram.com/ezz_mafiya" class="card"><i class="fab fa-instagram" style="color:#E1306C"></i> Instagram</a>
+            <a href="https://t.me/Pain_2007" class="card"><i class="fab fa-telegram" style="color:#0088cc"></i> Telegram</a>
+            <a href="https://youtube.com/@meliqoziyev" class="card"><i class="fab fa-youtube" style="color:#FF0000"></i> YouTube</a>
+        </div>
+
+        <div class="page" id="p2">
+            <div id="big-time" style="font-size: 24px; color: #0f0; font-family: monospace; margin-bottom: 10px;">00:00:00</div>
+            <div class="cyber-panel" data-label="Music Player">
+                <audio id="myAudio" controls>
+                    <source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3" type="audio/mp3">
+                </audio>
+            </div>
+            <div class="cyber-panel" data-label="Video Player">
+                <video id="mainVideo">
+                    <source id="videoSrc" src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4">
+                </video>
+                <div class="controls">
+                    <button class="c-btn" onclick="changeVideo(-1)"><i class="fas fa-backward"></i></button>
+                    <button class="c-btn" onclick="toggleVideo()" id="playBtn"><i class="fas fa-play"></i></button>
+                    <button class="c-btn" onclick="changeVideo(1)"><i class="fas fa-forward"></i></button>
+                </div>
+                <div style="margin-top: 15px; border-top: 1px solid rgba(0,255,0,0.2); padding-top: 10px; cursor: pointer;" onclick="toggleLike()">
+                    <i id="heart-icon" class="fas fa-heart" style="font-size: 22px;"></i>
+                    <span id="like-num" style="color: #0f0; margin-left: 5px;">350</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="p3">
+            <div class="cyber-panel" data-label="Contact Me">
+                <input type="text" id="uName" placeholder="Ismingiz">
+                <textarea id="uMsg" placeholder="Xabaringiz..."></textarea>
+                <button class="send-btn" onclick="alert('Yuborildi!')">YUBORISH</button>
+            </div>
+        </div>
+
+        <div class="page" id="p4">
+            <h3 style="color:#0f0; position:absolute; top:20px; width:100%; text-align:center; z-index:1001; font-family: monospace;">SYSTEM: DEEP SPACE EXPLORATION</h3>
+            <p style="color:#0f0; position:absolute; bottom:30px; width:100%; text-align:center; z-index:1001; font-size: 12px;">Qo'lingiz bilan yulduzlarni boshqaring</p>
+        </div>
     </div>
 
     <script>
-        /* ... (Video, Audio, Snow va boshqa JS kodlaringiz o'zgarishsiz qoladi) ... */
+        // VIDEO VA AUDIO SOZLAMALARI
+        const video = document.getElementById('mainVideo');
+        const videoSrc = document.getElementById('videoSrc');
+        const playBtn = document.getElementById('playBtn');
+        const videos = [
+            "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4",
+            "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260301_001120_168.mp4",
+            "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260302_180350_682.mp4",
+            "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260302_234650_212.mp4"
+        ];
+        let currentVid = 0;
 
-        // KOINOT LOGIKASI (THREE.JS YANGILANDI)
-        let scene, camera3d, renderer, stars, camActive = false;
-        let starGeo, starCount = 5000;
+        function toggleVideo() {
+            if (video.paused) { video.play(); playBtn.innerHTML = '<i class="fas fa-pause"></i>'; }
+            else { video.pause(); playBtn.innerHTML = '<i class="fas fa-play"></i>'; }
+        }
+        function changeVideo(dir) {
+            currentVid = (currentVid + dir + videos.length) % videos.length;
+            videoSrc.src = videos[currentVid];
+            video.load(); video.play();
+            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        }
+        function toggleLike() {
+            const h = document.getElementById('heart-icon');
+            h.classList.toggle('heart-active');
+        }
 
+        // QOR EFFEKTI
+        const sCanvas = document.getElementById('snow-canvas');
+        const sCtx = sCanvas.getContext('2d');
+        sCanvas.width = window.innerWidth; sCanvas.height = window.innerHeight;
+        let snow = [];
+        for(let i=0; i<100; i++) snow.push({x: Math.random()*sCanvas.width, y: Math.random()*sCanvas.height, r: Math.random()*2+1, s: Math.random()*1+0.5});
+        function drawSnow() {
+            sCtx.clearRect(0,0,sCanvas.width,sCanvas.height);
+            sCtx.fillStyle = "white";
+            snow.forEach(p => {
+                sCtx.beginPath(); sCtx.arc(p.x, p.y, p.r, 0, Math.PI*2); sCtx.fill();
+                p.y += p.s; if(p.y > sCanvas.height) p.y = -5;
+            });
+            requestAnimationFrame(drawSnow);
+        }
+        drawSnow();
+
+        // KOINOT (THREE.JS)
+        let scene, camera3d, renderer, stars, starGeo, camActive = false;
         function initKoinot() {
             scene = new THREE.Scene();
             camera3d = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 1, 1000);
-            camera3d.position.z = 1;
-            camera3d.rotation.x = Math.PI/2;
-
-            renderer = new THREE.WebGLRenderer({ antialias: true });
+            camera3d.position.z = 1; camera3d.rotation.x = Math.PI/2;
+            renderer = new THREE.WebGLRenderer();
             renderer.setSize(window.innerWidth, window.innerHeight);
-            document.getElementById('canvas-3d').innerHTML = ""; // Tozalash
+            document.getElementById('canvas-3d').innerHTML = "";
             document.getElementById('canvas-3d').appendChild(renderer.domElement);
-
             starGeo = new THREE.BufferGeometry();
-            let positions = new Float32Array(starCount * 3);
-            let velocities = [];
-
-            for(let i=0; i<starCount; i++) {
-                positions[i*3] = Math.random() * 600 - 300;
-                positions[i*3+1] = Math.random() * 600 - 300;
-                positions[i*3+2] = Math.random() * 600 - 300;
-                velocities.push(0.5 + Math.random());
-            }
-
+            let positions = new Float32Array(5000 * 3);
+            for(let i=0; i<15000; i++) positions[i] = Math.random() * 600 - 300;
             starGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            let starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.7, transparent: true });
-            stars = new THREE.Points(starGeo, starMaterial);
-            stars.userData = { velocities: velocities };
+            stars = new THREE.Points(starGeo, new THREE.PointsMaterial({color: 0xffffff, size: 0.7}));
             scene.add(stars);
         }
-
-        // HAND TRACKING (KOINOT UCHUN)
-        const hands = new Hands({locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`});
-        hands.setOptions({ maxNumHands: 1, modelComplexity: 1, minDetectionConfidence: 0.6 });
-
-        hands.onResults(res => {
-            if (res.multiHandLandmarks && res.multiHandLandmarks.length > 0) {
-                const lm = res.multiHandLandmarks[0];
-                
-                // Qo'l holatiga qarab burilish
-                stars.rotation.y = (lm[8].x - 0.5) * 2;
-                stars.rotation.z = (lm[8].y - 0.5) * 2;
-
-                // Masofa (Yaqinlashish effekti)
-                const dist = Math.sqrt(Math.pow(lm[4].x-lm[20].x, 2) + Math.pow(lm[4].y-lm[20].y, 2));
-                stars.userData.speed = dist * 5; 
-            } else {
-                stars.userData.speed = 0.2;
-            }
-        });
-
         function animateKoinot() {
             let positions = starGeo.attributes.position.array;
-            let speed = stars.userData.speed || 0.2;
-
-            for(let i=0; i<starCount; i++) {
-                positions[i*3+2] += speed; // Z o'qi bo'yicha yulduzlar uchib keladi
+            for(let i=0; i<5000; i++) {
+                positions[i*3+2] += (stars.userData.speed || 0.5);
                 if (positions[i*3+2] > 200) positions[i*3+2] = -200;
             }
             starGeo.attributes.position.needsUpdate = true;
-            stars.rotation.x += 0.002;
-            
             renderer.render(scene, camera3d);
             if(camActive) requestAnimationFrame(animateKoinot);
         }
 
-        // NAVIGATION YANGILANDI
+        // HAND TRACKING
+        const hands = new Hands({locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`});
+        hands.setOptions({ maxNumHands: 1, minDetectionConfidence: 0.6 });
+        hands.onResults(res => {
+            if (res.multiHandLandmarks && res.multiHandLandmarks.length > 0) {
+                const lm = res.multiHandLandmarks[0];
+                stars.rotation.y = (lm[8].x - 0.5) * 2;
+                const dist = Math.sqrt(Math.pow(lm[4].x-lm[20].x, 2) + Math.pow(lm[4].y-lm[20].y, 2));
+                stars.userData.speed = dist * 10;
+            }
+        });
+
+        const camera = new Camera(document.getElementById('input_video'), {
+            onFrame: async () => { await hands.send({image: document.getElementById('input_video')}); }
+        });
+
+        // NAVIGATSIYA
         function movePage(s) {
             let curr = document.querySelector('.page.active');
             let n = parseInt(curr.id.replace('p', '')) + s;
             if(n<1 || n>4) return;
             curr.classList.remove('active'); document.getElementById('p'+n).classList.add('active');
-            
             document.getElementById('prevBtn').style.display = (n==1)?'none':'block';
             document.getElementById('nextBtn').style.display = (n==4)?'none':'block';
-
             if(n === 4) {
                 document.getElementById('canvas-3d').style.display = 'block';
-                if(!camActive) { 
-                    initKoinot(); 
-                    const camAI = new Camera(document.getElementById('input_video'), { 
-                        onFrame: async () => { await hands.send({image: document.getElementById('input_video')}); }, 
-                        width: 640, height: 480 
-                    });
-                    camAI.start(); 
-                    camActive = true; 
-                    animateKoinot(); 
-                }
-            } else {
-                document.getElementById('canvas-3d').style.display = 'none';
-            }
+                if(!camActive) { initKoinot(); camera.start(); camActive = true; animateKoinot(); }
+            } else { document.getElementById('canvas-3d').style.display = 'none'; }
         }
+
+        setInterval(() => { document.getElementById('big-time').innerText = new Date().toLocaleTimeString(); }, 1000);
     </script>
 </body>
 </html>
