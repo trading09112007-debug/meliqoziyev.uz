@@ -205,7 +205,8 @@
             document.getElementById('prevBtn').style.display = (n==1)?'none':'block';
             document.getElementById('nextBtn').style.display = (n==4)?'none':'block';
             if(n === 4) { snowVisible = false; document.getElementById('canvas-3d').style.display = 'block'; if(!camActive) { initSolarSystem(); camAI.start(); camActive = true; animateSolar(); } }
-            else { snowVisible = true; document.getElementById('canvas-3d').style.display = 'none'; }      
- </script>
+            else { snowVisible = true; document.getElementById('canvas-3d').style.display = 'none'; }
+        }
+    </script>
 </body>
 </html>
