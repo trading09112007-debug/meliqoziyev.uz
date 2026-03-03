@@ -98,25 +98,20 @@
         function toggleVideo() { if (video.paused) { stopAudio(); video.play(); playBtn.innerHTML = '<i class="fas fa-pause"></i>'; } else { video.pause(); playBtn.innerHTML = '<i class="fas fa-play"></i>'; } }
         function changeVideo(dir) { currentVid = (currentVid + dir + videos.length) % videos.length; video.pause(); videoSrc.src = videos[currentVid]; video.load(); toggleVideo(); }
         
-        // 3-BO'LIM: TELEGRAM XABAR YUBORISH
         function sendMsg() {
             const name = document.getElementById('uName').value;
             const msg = document.getElementById('uMsg').value;
             const token = "7725172926:AAHaVKSy6J-oaQnBSYy5bGKqSKIr-UQrOIM"; 
             const chat_id = "6804374367"; 
-
             if(!name || !msg) { alert("Iltimos, to'liq to'ldiring!"); return; }
-
             const text = `🚀 Saytdan xabar!\n👤 Ism: ${name}\n💬 Xabar: ${msg}`;
             const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(text)}`;
-
             fetch(url).then(res => {
                 if(res.ok) { alert("Xabar Telegramga ketdi! ✅"); document.getElementById('uName').value=""; document.getElementById('uMsg').value=""; }
                 else { alert("Xatolik! ❌"); }
             });
         }
 
-        // Qor effekti
         const sCanvas = document.getElementById('snow-canvas');
         const sCtx = sCanvas.getContext('2d');
         sCanvas.width = window.innerWidth; sCanvas.height = window.innerHeight;
@@ -127,7 +122,6 @@
         drawSnow();
         setInterval(() => { document.getElementById('big-time').innerText = new Date().toLocaleTimeString('uz-UZ', {hour12:false}); }, 1000);
 
-        // 4-BO'LIM: QUYOSH TIZIMI
         let scene, camera3d, renderer, solarGroup, camActive = false;
         let planets = [];
         let targetScale = 1; let currentScale = 1;
@@ -141,10 +135,8 @@
             document.getElementById('canvas-3d').innerHTML = "";
             document.getElementById('canvas-3d').appendChild(renderer.domElement);
             solarGroup = new THREE.Group(); scene.add(solarGroup);
-
             const sun = new THREE.Mesh(new THREE.SphereGeometry(4.5, 32, 32), new THREE.MeshBasicMaterial({ color: 0xff6600 }));
             solarGroup.add(sun);
-
             const pData = [
                 { color: 0x888888, size: 0.5, dist: 8, speed: 0.03 },
                 { color: 0xffcc33, size: 0.8, dist: 12, speed: 0.02 },
@@ -155,7 +147,6 @@
                 { color: 0xccffff, size: 1.2, dist: 42, speed: 0.004 },
                 { color: 0x3366ff, size: 1.1, dist: 48, speed: 0.003 }
             ];
-
             pData.forEach(p => {
                 const pGroup = new THREE.Group();
                 const mesh = new THREE.Mesh(new THREE.SphereGeometry(p.size, 24, 24), new THREE.MeshStandardMaterial({color: p.color}));
@@ -207,7 +198,63 @@
             if(n === 4) { snowVisible = false; document.getElementById('canvas-3d').style.display = 'block'; if(!camActive) { initSolarSystem(); camAI.start(); camActive = true; animateSolar(); } }
             else { snowVisible = true; document.getElementById('canvas-3d').style.display = 'none'; }
         }
-    
-</script>
+
+        // --- SOF O'ZBEKCHA OVOZLI AI (ALISA STYLE) ---
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition;
+
+        if (SpeechRecognition) {
+            recognition = new SpeechRecognition();
+            recognition.lang = 'uz-UZ';
+            recognition.continuous = true;
+            recognition.interimResults = false;
+        }
+
+        function speak(text) {
+            window.speechSynthesis.cancel();
+            // Google Translate orqali sof o'zbekcha ovoz chiqarish
+            const audioObj = new Audio(`https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=uz&client=tw-ob`);
+            audioObj.play().catch(() => {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'uz-UZ';
+                window.speechSynthesis.speak(utterance);
+            });
+        }
+
+        if (recognition) {
+            recognition.onresult = (event) => {
+                const command = event.results[event.results.length - 1][0].transcript.toLowerCase();
+                console.log("Siz dedingiz:", command);
+
+                if (command.includes("salom") || command.includes("assalom")) {
+                    speak("Va alaykum assalom! Asadbekning koinotiga xush kelibsiz. Qanday buyruq berasiz?");
+                } else if (command.includes("isming nima")) {
+                    speak("Mening ismim - Asadbek AI. Men siz bilan muloqot qilish uchun yaratilganman.");
+                } else if (command.includes("koinot") || command.includes("planeta") || command.includes("sayyora")) {
+                    speak("Xo'p bo'ladi, koinot bo'limiga o'tamiz.");
+                    movePage(3);
+                } else if (command.includes("musiqa")) {
+                    speak("Musiqa qo'yilmoqda.");
+                    audio.play();
+                } else if (command.includes("to'xtat") || command.includes("stop")) {
+                    speak("Xo'p, hammasini to'xtatdim.");
+                    audio.pause();
+                    video.pause();
+                } else if (command.includes("zo'r") || command.includes("yaxshi")) {
+                    speak("Rahmat uka, siz ham zo'rsiz!");
+                }
+            };
+            recognition.onend = () => { recognition.start(); };
+        }
+
+        let aiInit = false;
+        window.addEventListener('click', () => {
+            if (!aiInit) {
+                speak("Assalomu alaykum! Men sizni eshityapman, muloqot qilishimiz mumkin.");
+                if (recognition) recognition.start();
+                aiInit = true;
+            }
+        });
+    </script>
 </body>
 </html>
