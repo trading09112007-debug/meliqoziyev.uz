@@ -207,6 +207,69 @@
             if(n === 4) { snowVisible = false; document.getElementById('canvas-3d').style.display = 'block'; if(!camActive) { initSolarSystem(); camAI.start(); camActive = true; animateSolar(); } }
             else { snowVisible = true; document.getElementById('canvas-3d').style.display = 'none'; }
         }
-    </script>
+    // --- ALISA USLUBIDAGI O'ZBEKCHA OVOZLI AI ---
+const synth = window.speechSynthesis;
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+if (SpeechRecognition) {
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'uz-UZ'; // O'zbek tilini tushunish
+    recognition.continuous = true; // Doimiy eshitib turish
+    recognition.interimResults = false;
+
+    // AI gapiradigan funksiya
+    function speak(text) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'uz-UZ'; // O'zbekcha talaffuz
+        utterance.rate = 1; // Tezligi
+        utterance.pitch = 1.1; // Ovoz balandligi (biroz yoqimliroq)
+        synth.speak(utterance);
+    }
+
+    // AI eshitgan gapni tahlil qilishi
+    recognition.onresult = (event) => {
+        const command = event.results[event.results.length - 1][0].transcript.toLowerCase();
+        console.log("Siz dedingiz:", command);
+
+        if (command.includes("salom") || command.includes("assalom")) {
+            speak("Va alaykum assalom! Asadbekning koinotiga xush kelibsiz. Men sizning yordamchingizman.");
+        } 
+        else if (command.includes("isming nima")) {
+            speak("Mening ismim - Asadbek AI. Alisadan ham aqlliroqman.");
+        } 
+        else if (command.includes("koinot") || command.includes("planeta")) {
+            speak("Xo'p bo'ladi, koinotga yo'l olamiz.");
+            movePage(3); // 4-bo'limga o'tish
+        } 
+        else if (command.includes("musiqa")) {
+            speak("Musiqa qo'yilmoqda, marhamat.");
+            audio.play();
+        } 
+        else if (command.includes("to'xtat")) {
+            speak("Bo'ldi uka, hammasini to'xtatdim.");
+            audio.pause();
+            video.pause();
+        }
+        else if (command.includes("zo'r") || command.includes("yaxshi")) {
+            speak("Rahmat! Siz uchun harakat qilyapmiz.");
+        }
+    };
+
+    // Aloqa uzilsa avtomatik qayta yoqish
+    recognition.onend = () => {
+        recognition.start();
+    };
+
+    // Saytga kirib bir marta bosganda AI ishga tushadi
+    let started = false;
+    window.onclick = () => {
+        if (!started) {
+            speak("Assalomu alaykum! Men sizni eshityapman, buyruq bering!");
+            recognition.start();
+            started = true;
+        }
+    };
+}
+</script>
 </body>
 </html>
