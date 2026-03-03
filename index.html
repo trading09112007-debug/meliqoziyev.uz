@@ -195,39 +195,25 @@
             else { snowVisible = true; document.getElementById('canvas-3d').style.display = 'none'; }
         }
 
-        // --- FINAL AI SYSTEM ---
-        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-        let ai = null;
-        if(SpeechRec) { ai = new SpeechRec(); ai.lang = 'uz-UZ'; ai.continuous = true; }
-
-        function speak(txt) {
+        // --- SALOMLASHISH TIZIMI (HECH QAYSI KODGA TEGMAGAN HOLDA) ---
+        function gapir(matn) {
             window.speechSynthesis.cancel();
-            const msg = new SpeechSynthesisUtterance(txt);
-            msg.lang = 'ru-RU'; // O'zbekcha matnni ruscha ovoz bilan o'qish (aniq chiqadi)
-            msg.rate = 0.9;
-            window.speechSynthesis.speak(msg);
+            const audioObj = new Audio(`https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(matn)}&tl=uz&client=tw-ob`);
+            audioObj.play().catch(() => {
+                const msg = new SpeechSynthesisUtterance(matn);
+                msg.lang = 'uz-UZ';
+                window.speechSynthesis.speak(msg);
+            });
         }
 
-        if(ai) {
-            ai.onresult = (e) => {
-                const cmd = e.results[e.results.length-1][0].transcript.toLowerCase();
-                if(cmd.includes("salom")) speak("Va alaykum assalom! Xush kelibsiz.");
-                else if(cmd.includes("isming")) speak("Ismim Asadbek AI.");
-                else if(cmd.includes("planeta") || cmd.includes("koinot")) { speak("Koinotga o'tamiz."); movePage(1); movePage(1); movePage(1); }
-                else if(cmd.includes("musiqa")) { speak("Musiqa qo'yildi."); audio.play(); }
-                else if(cmd.includes("to'xtat")) { speak("Xo'p."); audio.pause(); video.pause(); }
-            };
-            ai.onend = () => ai.start();
-        }
-
-        let first = true;
-        window.onclick = () => {
-            if(first) {
-                speak("Assalomu alaykum! Men sizni eshityapman.");
-                if(ai) ai.start();
-                first = false;
+        let salomBerildi = false;
+        window.addEventListener('click', () => {
+            if (!salomBerildi) {
+                const text = "Assalomu alaykum! Asadbekning raqamli koinotiga xush kelibsiz. Bu yerda siz texnologiya va koinot uyg'unligini ko'rishingiz mumkin. Marhamat, tanishib chiqing!";
+                gapir(text);
+                salomBerildi = true;
             }
-        };
+        });
     </script>
 </body>
 </html>
