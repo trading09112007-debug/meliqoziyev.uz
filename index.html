@@ -2,8 +2,7 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asadbek | meliqoziyev.uz</title>
+    <title>Asadbek | Masterpiece</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
@@ -13,14 +12,13 @@
         body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; }
         canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; }
         #snow-canvas { z-index: 1; pointer-events: none; } 
-        #canvas-3d { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; display: none; }
+        #canvas-3d { position: absolute; z-index: 5; display: none; }
         #jjk-video { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 90; display: none; transform: scaleX(-1); object-fit: cover; }
-        #jjk-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 91; display: none; transform: scaleX(-1); pointer-events: none; }
         #main-content { height: 100vh; width: 100%; position: relative; z-index: 100; }
         .page { position: absolute; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
         .active { display: flex; }
-        .cyber-panel { border: 1px solid #0f0; background: rgba(0, 0, 0, 0.85); padding: 15px; border-radius: 15px; width: 100%; max-width: 340px; margin: 10px 0; position: relative; }
-        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 1000; text-shadow: 0 0 15px #0f0; }
+        .cyber-panel { border: 1px solid #0f0; background: rgba(0, 0, 0, 0.85); padding: 15px; border-radius: 15px; width: 100%; max-width: 340px; margin: 10px 0; }
+        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 1000; }
         #nextBtn { right: 10px; } #prevBtn { left: 10px; display: none; }
         @keyframes shake { 0%, 100% { transform: translate(0); } 10%, 30%, 50%, 70%, 90% { transform: translate(-5px, 0); } 20%, 40%, 60%, 80% { transform: translate(5px, 0); } }
     </style>
@@ -28,7 +26,6 @@
 <body>
     <canvas id="snow-canvas"></canvas>
     <video id="jjk-video" autoplay playsinline></video>
-    <canvas id="jjk-canvas"></canvas>
     <div id="canvas-3d"></div>
 
     <div id="main-content">
@@ -42,21 +39,24 @@
         <div class="page" id="p2"><div class="cyber-panel">MUSIC & VIDEO</div></div>
         <div class="page" id="p3"><div class="cyber-panel">CONTACT</div></div>
         <div class="page" id="p4"><h3 style="color:#0f0;">SOLAR SYSTEM</h3></div>
-        <div class="page" id="p5"></div>
+        <div class="page" id="p5"><h3 style="color:#a0f; font-size:30px;">KAMERA VA OVOZ FAOL</h3></div>
     </div>
 
     <script>
         let cur = 1, voiceReady = false;
+        
+        // 1. OVOZNI TANISH
         const rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
         rec.continuous = true; rec.lang = 'en-US';
         rec.onresult = (e) => {
             const t = e.results[e.results.length-1][0].transcript.toLowerCase();
-            if(t.includes("ryoiki") || t.includes("infinite") || t.includes("shrine")) { 
+            if(t.includes("ryoiki") || t.includes("tenkai") || t.includes("shrine")) { 
                 voiceReady = true; 
                 setTimeout(() => { voiceReady = false; }, 5000); 
             }
         };
 
+        // 2. QO'L HARAKATI
         const hands = new Hands({locateFile: f => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${f}`});
         hands.onResults(res => {
             if(cur === 5 && voiceReady && res.multiHandLandmarks?.length > 0) {
@@ -68,7 +68,10 @@
             }
         });
 
-        const cam = new Camera(document.getElementById('jjk-video'), { onFrame: async () => await hands.send({image: document.getElementById('jjk-video')}), width: 1280, height: 720 });
+        const cam = new Camera(document.getElementById('jjk-video'), { 
+            onFrame: async () => await hands.send({image: document.getElementById('jjk-video')}), 
+            width: 1280, height: 720 
+        });
 
         function movePage(s) {
             document.getElementById('p'+cur).classList.remove('active');
@@ -77,9 +80,13 @@
             document.getElementById('prevBtn').style.display = (cur==1)?'none':'block';
             document.getElementById('nextBtn').style.display = (cur==5)?'none':'block';
             
-            if(cur === 5) { cam.start(); rec.start(); document.getElementById('jjk-video').style.display = 'block'; } 
-            else { cam.stop(); rec.stop(); document.getElementById('jjk-video').style.display = 'none'; }
-            
+            if(cur === 5) {
+                document.getElementById('jjk-video').style.display = 'block';
+                cam.start().then(() => rec.start()); // Kamera va Ovozni ketma-ket yoqish
+            } else {
+                document.getElementById('jjk-video').style.display = 'none';
+                cam.stop(); rec.stop();
+            }
             document.getElementById('canvas-3d').style.display = (cur === 4) ? 'block' : 'none';
         }
     </script>
