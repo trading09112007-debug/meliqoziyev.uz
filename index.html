@@ -1,58 +1,13 @@
 <!DOCTYPE html>
-<html lang="uz">
-<head>
-    <meta charset="UTF-8">
-    <title>JJK Ultimate Skills</title>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
-    <style>
-        body { margin: 0; background: #000; overflow: hidden; }
-        #video-element { position: fixed; width: 100%; height: 100vh; transform: scaleX(-1); object-fit: cover; opacity: 0.3; }
-        #effect-zone { position: fixed; width: 200px; height: 200px; border-radius: 50%; pointer-events: none; z-index: 10; transition: 0.1s; }
-        .slash { position: absolute; width: 100vw; height: 10px; background: red; transform: rotate(45deg); display: none; }
-    </style>
-</head>
+<html>
 <body>
-    <video id="video-element" autoplay playsinline></video>
-    <div id="effect-zone"></div>
-    <div id="slash" class="slash"></div>
-
+    <video id="v" autoplay playsinline style="width: 100%; height: 100vh; transform: scaleX(-1);"></video>
     <script>
-        const zone = document.getElementById('effect-zone');
-        const slash = document.getElementById('slash');
-        const video = document.getElementById('video-element');
-
-        const hands = new Hands({locateFile: f => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${f}`});
-        
-        hands.onResults(res => {
-            if (res.multiHandLandmarks?.length > 0) {
-                const lm = res.multiHandLandmarks[0];
-                const x = (1 - lm[0].x) * window.innerWidth;
-                const y = lm[0].y * window.innerHeight;
-                
-                zone.style.left = (x - 100) + 'px';
-                zone.style.top = (y - 100) + 'px';
-
-                // Qobiliyatlarni aniqlash
-                const isFist = Math.hypot(lm[4].x - lm[8].x, lm[4].y - lm[8].y) < 0.1;
-                const isOpen = !isFist;
-
-                // 1. GOJO: MUSHT (Blue)
-                if (isFist) {
-                    zone.style.background = "radial-gradient(circle, #00f, transparent)";
-                    slash.style.display = 'none';
-                } 
-                // 2. SUKUNA: KAFT (Dismantle Slash)
-                else if (isOpen) {
-                    zone.style.background = "radial-gradient(circle, #f00, transparent)";
-                    slash.style.display = 'block';
-                    slash.style.top = y + 'px';
-                }
-            }
-        });
-
-        const camera = new Camera(video, { onFrame: async () => await hands.send({image: video}), width: 1280, height: 720 });
-        camera.start();
+        const v = document.getElementById('v');
+        // Kamerani majburiy so'rash
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => { v.srcObject = stream; })
+            .catch(err => { alert("Kamera ishlamadi: " + err); });
     </script>
 </body>
 </html>
