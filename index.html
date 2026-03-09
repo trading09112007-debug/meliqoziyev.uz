@@ -2,29 +2,29 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <title>Asadbek | Masterpiece</title>
+    <title>Asadbek | Jujutsu Sorcerer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; }
+        body { background-color: #000; color: #fff; font-family: sans-serif; overflow: hidden; height: 100vh; }
         canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; }
-        #snow-canvas { z-index: 1; pointer-events: none; } 
-        #canvas-3d { position: absolute; z-index: 5; display: none; }
         #jjk-video { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 90; display: none; transform: scaleX(-1); object-fit: cover; }
+        #effect-orb { position: fixed; z-index: 95; pointer-events: none; border-radius: 50%; filter: blur(60px); transition: transform 0.05s linear; display: none; }
         #main-content { height: 100vh; width: 100%; position: relative; z-index: 100; }
         .page { position: absolute; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
         .active { display: flex; }
         .cyber-panel { border: 1px solid #0f0; background: rgba(0, 0, 0, 0.85); padding: 15px; border-radius: 15px; width: 100%; max-width: 340px; margin: 10px 0; }
         .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 1000; }
         #nextBtn { right: 10px; } #prevBtn { left: 10px; display: none; }
-        @keyframes shake { 0%, 100% { transform: translate(0); } 10%, 30%, 50%, 70%, 90% { transform: translate(-5px, 0); } 20%, 40%, 60%, 80% { transform: translate(5px, 0); } }
+        @keyframes shake { 0%, 100% { transform: translate(0); } 25% { transform: translate(-10px, -10px); } 75% { transform: translate(10px, 10px); } }
     </style>
 </head>
 <body>
     <canvas id="snow-canvas"></canvas>
+    <div id="effect-orb"></div>
     <video id="jjk-video" autoplay playsinline></video>
     <div id="canvas-3d"></div>
 
@@ -39,33 +39,39 @@
         <div class="page" id="p2"><div class="cyber-panel">MUSIC & VIDEO</div></div>
         <div class="page" id="p3"><div class="cyber-panel">CONTACT</div></div>
         <div class="page" id="p4"><h3 style="color:#0f0;">SOLAR SYSTEM</h3></div>
-        <div class="page" id="p5"><h3 style="color:#a0f; font-size:30px;">KAMERA VA OVOZ FAOL</h3></div>
+        <div class="page" id="p5"><h3 style="color:#0f0;">DOMAIN EXPANSION READY</h3></div>
     </div>
 
     <script>
-        let cur = 1, voiceReady = false;
-        
-        // 1. OVOZNI TANISH
-        const rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-        rec.continuous = true; rec.lang = 'en-US';
-        rec.onresult = (e) => {
-            const t = e.results[e.results.length-1][0].transcript.toLowerCase();
-            if(t.includes("ryoiki") || t.includes("tenkai") || t.includes("shrine")) { 
-                voiceReady = true; 
-                setTimeout(() => { voiceReady = false; }, 5000); 
-            }
-        };
-
-        // 2. QO'L HARAKATI
+        let cur = 1;
+        const orb = document.getElementById('effect-orb');
         const hands = new Hands({locateFile: f => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${f}`});
+        
         hands.onResults(res => {
-            if(cur === 5 && voiceReady && res.multiHandLandmarks?.length > 0) {
+            if(cur === 5 && res.multiHandLandmarks?.length > 0) {
                 const lm = res.multiHandLandmarks[0];
-                if(Math.hypot(lm[8].x - lm[12].x, lm[8].y - lm[12].y) < 0.03) {
-                    document.body.style.animation = "shake 0.3s infinite";
-                    setTimeout(() => { document.body.style.animation = ""; voiceReady = false; }, 3000);
+                const x = lm[0].x * window.innerWidth;
+                const y = lm[0].y * window.innerHeight;
+                
+                orb.style.display = 'block';
+                orb.style.left = (x - 100) + 'px';
+                orb.style.top = (y - 100) + 'px';
+                orb.style.width = "200px"; orb.style.height = "200px";
+
+                const dist812 = Math.hypot(lm[8].x - lm[12].x, lm[8].y - lm[12].y);
+                const dist48 = Math.hypot(lm[4].x - lm[8].x, lm[4].y - lm[8].y);
+
+                if(dist812 < 0.03) { // GOJO
+                    orb.style.background = "radial-gradient(circle, #a0f, transparent)";
+                    document.body.style.animation = "shake 0.2s infinite";
+                } else if(dist48 < 0.05) { // SUKUNA
+                    orb.style.background = "radial-gradient(circle, #f00, transparent)";
+                    document.body.style.animation = "shake 0.1s infinite";
+                } else {
+                    orb.style.background = "transparent";
+                    document.body.style.animation = "";
                 }
-            }
+            } else { orb.style.display = 'none'; }
         });
 
         const cam = new Camera(document.getElementById('jjk-video'), { 
@@ -80,14 +86,8 @@
             document.getElementById('prevBtn').style.display = (cur==1)?'none':'block';
             document.getElementById('nextBtn').style.display = (cur==5)?'none':'block';
             
-            if(cur === 5) {
-                document.getElementById('jjk-video').style.display = 'block';
-                cam.start().then(() => rec.start()); // Kamera va Ovozni ketma-ket yoqish
-            } else {
-                document.getElementById('jjk-video').style.display = 'none';
-                cam.stop(); rec.stop();
-            }
-            document.getElementById('canvas-3d').style.display = (cur === 4) ? 'block' : 'none';
+            if(cur === 5) { document.getElementById('jjk-video').style.display = 'block'; cam.start(); } 
+            else { document.getElementById('jjk-video').style.display = 'none'; cam.stop(); orb.style.display = 'none'; }
         }
     </script>
 </body>
