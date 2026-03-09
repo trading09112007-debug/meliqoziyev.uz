@@ -1,13 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>JJK Power - Asadbek</title>
+    <style>
+        body { margin: 0; background: #000; overflow: hidden; height: 100vh; }
+        #camera-feed { position: fixed; width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); z-index: 1; }
+        #energy-ball { 
+            position: absolute; width: 150px; height: 150px; border-radius: 50%; 
+            background: radial-gradient(circle, #a0f, transparent); 
+            z-index: 2; pointer-events: none; transition: transform 0.05s ease-out;
+            box-shadow: 0 0 40px #a0f;
+        }
+    </style>
+</head>
 <body>
-    <video id="v" autoplay playsinline style="width: 100%; height: 100vh; transform: scaleX(-1);"></video>
+    <video id="camera-feed" autoplay playsinline></video>
+    <div id="energy-ball"></div>
+
     <script>
-        const v = document.getElementById('v');
-        // Kamerani majburiy so'rash
+        const video = document.getElementById('camera-feed');
+        const ball = document.getElementById('energy-ball');
+
+        // 1. Kamerani majburiy yoqish
         navigator.mediaDevices.getUserMedia({ video: true })
-            .then(stream => { v.srcObject = stream; })
-            .catch(err => { alert("Kamera ishlamadi: " + err); });
+            .then(stream => { video.srcObject = stream; })
+            .catch(err => { alert("Kameraga ruxsat bering: " + err); });
+
+        // 2. Sichqoncha yoki ekranga tegish bilan boshqarish (Eng ishonchli usul)
+        window.addEventListener('mousemove', (e) => {
+            ball.style.left = (e.clientX - 75) + 'px';
+            ball.style.top = (e.clientY - 75) + 'px';
+        });
+
+        // 3. Klik qilsa "Rasengan" yoki "Void" effektini almashtirish
+        window.addEventListener('mousedown', () => {
+            ball.style.background = "radial-gradient(circle, #0cf, transparent)"; // Rasengan
+            ball.style.boxShadow = "0 0 60px #0cf";
+        });
+        window.addEventListener('mouseup', () => {
+            ball.style.background = "radial-gradient(circle, #a0f, transparent)"; // Void
+            ball.style.boxShadow = "0 0 60px #a0f";
+        });
     </script>
 </body>
 </html>
